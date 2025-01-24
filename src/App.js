@@ -3,6 +3,8 @@ import HeaderLayout from "./components/navbar";
 import HomePage from "./pages/homepage";
 import HistoryPage from "./pages/history";
 import MagazinePage from './pages/Magazine';
+import Footer from './components/footer';
+import MajorActivities from './pages/services';
 
 function App() {
   return (
@@ -14,7 +16,9 @@ function App() {
           <Route path="/home" element={<HomePage />} />
           <Route path="/history" element={<HistoryPage />} />
           <Route path="/magazine" element={<MagazinePage/>} />
+          <Route path="/activities" element={<MajorActivities/>} />
         </Routes>
+        <Footer/>
       </div>
     </BrowserRouter>
   );

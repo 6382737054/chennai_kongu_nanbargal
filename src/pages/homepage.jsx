@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const HomePage = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -8,6 +9,29 @@ const HomePage = () => {
     "/Images/hero2.png",
     "/Images/hero3.png",
   ];
+
+  // Advertisement data
+  const advertisements = [
+    {
+      id: 1,
+      image: "/Images/annualissues_1.gif",
+      link: "/magazine",
+      alt: "Advertisement Banner 1"
+    },
+    {
+      id: 2,
+      image: "/Images/add_3.png",
+      link: "https://kongunanbargalsangam.org/pdf/Part%201.pdf",
+      alt: "Advertisement Banner 2"
+    },
+    {
+      id: 3,
+      image: "/Images/monthlyissue_1.gif",
+      link: "/magazine",
+      alt: "Advertisement Banner 3"
+    }
+  ];
+
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev === carouselImages.length - 1 ? 0 : prev + 1));
@@ -30,9 +54,11 @@ const HomePage = () => {
           <p className="mb-6">
             The motive is to promote friendship and brotherhood, offer educational and career guidance to the youth, provide matrimonial assistance, render service to the needy and work for the improvement of the society at large.
           </p>
-          <button className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors">
-            Read More
-          </button>
+          <Link to="/history">
+            <button className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors">
+              Read More
+            </button>
+          </Link>
         </div>
       </div>
 
@@ -66,8 +92,6 @@ const HomePage = () => {
         </button>
       </div>
 
-
-
       {/* Services Section */}
       <div className="bg-white py-16">
         <div className="container mx-auto px-4">
@@ -77,6 +101,7 @@ const HomePage = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             <div className="group bg-white rounded-lg overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300">
               <div className="w-full h-48 overflow-hidden">
+
                 <img 
                   src="/Images/history_img.png" 
                   alt="History & Culture" 
@@ -88,9 +113,11 @@ const HomePage = () => {
                 <p className="text-gray-600 text-sm leading-relaxed h-24">
                   Great men of our Kongu community had realized this, way back in the 1960s and laid the foundation for this service organization.
                 </p>
+                <Link to="/history">
                 <button className="mt-4 w-full bg-white border-2 border-green-600 text-green-600 px-4 py-2 rounded-lg hover:bg-green-600 hover:text-white transition-colors font-medium text-sm">
                   Read More →
                 </button>
+                </Link>
               </div>
             </div>
 
@@ -107,9 +134,13 @@ const HomePage = () => {
                 <p className="text-gray-600 text-sm leading-relaxed h-24">
                   Running "Kongu Nadu Illam" accommodating girls for short stay who comes to Chennai for Projects, Special Coaching.
                 </p>
+                <Link to="/activities">
                 <button className="mt-4 w-full bg-white border-2 border-green-600 text-green-600 px-4 py-2 rounded-lg hover:bg-green-600 hover:text-white transition-colors font-medium text-sm">
                   Read More →
+                
                 </button>
+                </Link>
+                
               </div>
             </div>
 
@@ -131,6 +162,38 @@ const HomePage = () => {
                 </button>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Advertisement Section */}
+      <div className="bg-gray-50 py-16">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center text-gray-800 mb-4">Quick Visits</h2>
+          <div className="w-24 h-1 bg-green-600 mx-auto mb-12"></div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {advertisements.map((ad) => (
+              <a
+                key={ad.id}
+                href={ad.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block group"
+              >
+                <div className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+                  <div className="relative h-48">
+                    <img 
+                      src={ad.image}
+                      alt={ad.alt}
+                      className="w-full h-full object-contain"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-transparent group-hover:bg-black/5 transition-colors duration-300" />
+                  </div>
+                </div>
+              </a>
+            ))}
           </div>
         </div>
       </div>
