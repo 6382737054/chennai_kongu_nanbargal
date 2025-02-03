@@ -1,151 +1,131 @@
-import React, { useState, useEffect } from 'react';
-import { Menu, X, Clock, Phone, Mail } from 'lucide-react';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Menu, Phone, Mail, X } from 'lucide-react';
 
-const HeaderLayout = () => {
-  const [currentDateTime, setCurrentDateTime] = useState(new Date());
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
   const [activeItem, setActiveItem] = useState('Home');
-  const [isScrolled, setIsScrolled] = useState(false);
-  const location = useLocation();
 
-  const menuItems = [
-    { name: 'Home', path: '/' },
-    { name: 'History', path: '/history' },
-    { name: 'Magazine', path: '/magazine' },
-    { name: 'Gallery/Events', path: '/gallery' },
-    { name: 'Contact Us', path: '/contact' }
-  ];
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentDateTime(new Date());
-    }, 1000);
-
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 100);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      clearInterval(timer);
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
-
-  useEffect(() => {
-    const currentPath = location.pathname;
-    const currentMenu = menuItems.find(item => item.path === currentPath)?.name || 'Home';
-    setActiveItem(currentMenu);
-  }, [location]);
+  const menuItems = ['Home', 'History', 'Magazine', 'Gallery', 'Contact Us'];
 
   return (
-    <header className="relative z-50">
-      {/* Top Bar */}
-      <div className="bg-gradient-to-r from-green-700 to-green-600">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col lg:flex-row justify-between items-center py-2 text-white/90 text-sm">
-            <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-6 mb-2 lg:mb-0">
-              <a href="tel:+919876543210" className="flex items-center hover:text-white transition-colors whitespace-nowrap">
-                <Phone className="w-4 h-4 mr-2" />
-                <span>+91 98765 43210</span>
-              </a>
-              <a href="mailto:info@kongunanbargalsangam.com" className="flex items-center hover:text-white transition-colors">
-                <Mail className="w-4 h-4 mr-2" />
-                <span className="hidden sm:inline">info@kongunanbargalsangam.com</span>
-                <span className="sm:hidden">Email Us</span>
-              </a>
-            </div>
-            <div className="flex items-center whitespace-nowrap">
-              <Clock className="w-4 h-4 mr-2" />
-              {currentDateTime.toLocaleString('en-IN', { 
-                hour: '2-digit', 
-                minute: '2-digit',
-                second: '2-digit',
-                hour12: true 
-              })}
-            </div>
-          </div>
+    <nav className="w-full bg-gradient-to-r from-blue-50 via-blue-100 to-blue-50 shadow-lg">
+      {/* Top contact bar */}
+      <div className="hidden md:flex justify-end items-center px-6 py-1 bg-gradient-to-r from-blue-600 to-blue-800 text-white">
+        <div className="flex items-center space-x-4">
+          <span className="flex items-center">
+            <Phone size={16} className="mr-2" />
+            <a href="tel:+919876543210" className="hover:text-blue-200 transition-colors">+91 98765 43210</a>
+          </span>
+          <span className="flex items-center">
+            <Mail size={16} className="mr-2" />
+            <a href="mailto:info@chennaikongu.org" className="hover:text-blue-200 transition-colors">info@chennaikongu.org</a>
+          </span>
         </div>
       </div>
 
-      {/* Main Header */}
-      <div className={`bg-white transition-shadow duration-300 ${isScrolled ? 'shadow-lg' : ''}`}>
-        <div className="container mx-auto px-4">
-          {/* Logo Section */}
-          <div className="flex justify-center py-6">
-            <div className="text-center">
-              <div className="relative">
-                <img
-                  src="/Images/logo.png"
-                  alt="Logo"
-                  className="h-24 sm:h-32 w-auto mx-auto transform transition-transform duration-300 hover:scale-105"
-                />
-                <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-green-600 to-green-500"></div>
+      {/* Main navbar */}
+      <div className="container mx-auto px-4">
+        {/* Desktop View - Main Content Section */}
+        <div className="hidden md:block">
+          <div className="flex justify-center items-center py-2">
+            <div className="flex items-center justify-center gap-8">
+              <img
+                src="/Images/logo1.png"
+                alt="Left Logo"
+                className="h-28 w-auto"
+              />
+              
+              <div className="text-center px-4">
+                <h1 className="text-2xl font-bold text-blue-900">சென்னை கொங்கு நண்பர்கள் சங்கம்</h1>
+                <p className="text-blue-700">Chennai Kongu Friends Association</p>
               </div>
-              <h1 className="mt-6 text-xl sm:text-2xl font-bold bg-gradient-to-r from-green-700 to-green-500 bg-clip-text text-transparent">
-                சென்னை கொங்கு நண்பர்கள் சங்கம்
-              </h1>
+
+              <img
+                src="/Images/logo1.png"
+                alt="Right Logo"
+                className="h-28 w-auto"
+              />
             </div>
           </div>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:block border-t border-gray-100">
-            <ul className="flex justify-center flex-wrap">
+          {/* Desktop Navigation Menu */}
+          <div className="flex justify-center py-3">
+            <div className="flex space-x-8">
               {menuItems.map((item) => (
-                <li key={item.name}>
-                  <Link
-                    to={item.path}
-                    className={`block px-4 py-6 text-sm font-medium transition-all relative group whitespace-nowrap
-                      ${activeItem === item.name 
-                        ? 'text-green-600' 
-                        : 'text-gray-600 hover:text-green-600'
-                      }`}
+                <div key={item} className="relative group">
+                  <a
+                    href={`#${item.toLowerCase()}`}
+                    onClick={() => setActiveItem(item)}
+                    className={`px-3 py-2 text-sm font-medium transition-colors ${
+                      activeItem === item ? 'text-blue-600' : 'text-blue-900 hover:text-blue-600'
+                    }`}
                   >
-                    {item.name}
-                    <span className={`absolute bottom-0 left-0 w-full h-0.5 bg-green-600 transform origin-left transition-transform duration-300
-                      ${activeItem === item.name ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}`} 
-                    />
-                  </Link>
-                </li>
+                    {item}
+                    <span className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-in-out" />
+                  </a>
+                </div>
               ))}
-            </ul>
-          </nav>
+            </div>
+          </div>
+        </div>
 
-          {/* Mobile Navigation */}
-          <div className="md:hidden border-t border-gray-100">
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="w-full px-4 py-4 flex items-center justify-between text-gray-700 hover:text-green-600 transition-colors"
-            >
-              <span className="font-medium">Menu</span>
-              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
+        {/* Mobile View Header */}
+        <div className="md:hidden flex items-center justify-between py-4">
+          <div className="flex items-center space-x-2">
+            <img
+              src="/Images/logo1.png"
+              alt="Left Logo"
+              className="h-16 w-auto"
+            />
+            <div className="text-center">
+              <h1 className="text-lg font-bold text-blue-900">சென்னை கொங்கு நண்பர்கள் சங்கம்</h1>
+              <p className="text-sm text-blue-700">Chennai Kongu Friends Association</p>
+            </div>
+          </div>
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="p-2 rounded-md text-blue-900 hover:bg-blue-100 transition-colors"
+          >
+            {isOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
 
-            <div className={`overflow-hidden transition-all duration-300 ${isMenuOpen ? 'max-h-96' : 'max-h-0'}`}>
-              <ul className="bg-gray-50 rounded-lg my-2">
-                {menuItems.map((item) => (
-                  <li key={item.name}>
-                    <Link
-                      to={item.path}
-                      onClick={() => setIsMenuOpen(false)}
-                      className={`block px-6 py-4 text-sm transition-all border-l-4
-                        ${activeItem === item.name
-                          ? 'bg-green-50 text-green-600 border-green-600'
-                          : 'text-gray-600 hover:text-green-600 border-transparent hover:border-green-600 hover:bg-green-50'
-                        }`}
-                    >
-                      {item.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+        {/* Mobile Navigation */}
+        <div className={`md:hidden ${isOpen ? 'block' : 'hidden'}`}>
+          <div className="px-2 pt-2 pb-3 space-y-1 bg-white rounded-lg shadow-lg">
+            {menuItems.map((item) => (
+              <a
+                key={item}
+                href={`#${item.toLowerCase()}`}
+                onClick={() => {
+                  setActiveItem(item);
+                  setIsOpen(false);
+                }}
+                className={`block px-3 py-2 rounded-md text-base font-medium transition-colors ${
+                  activeItem === item
+                    ? 'bg-blue-100 text-blue-600'
+                    : 'text-blue-900 hover:bg-blue-50'
+                }`}
+              >
+                {item}
+              </a>
+            ))}
+            {/* Mobile contact information */}
+            <div className="mt-4 space-y-2 border-t border-gray-200 pt-2">
+              <a href="tel:+919876543210" className="flex items-center text-blue-900 px-3 py-2 hover:bg-blue-50 rounded-md transition-colors">
+                <Phone size={16} className="mr-2" />
+                +91 98765 43210
+              </a>
+              <a href="mailto:info@chennaikongu.org" className="flex items-center text-blue-900 px-3 py-2 hover:bg-blue-50 rounded-md transition-colors">
+                <Mail size={16} className="mr-2" />
+                info@chennaikongu.org
+              </a>
             </div>
           </div>
         </div>
       </div>
-    </header>
+    </nav>
   );
 };
 
-export default HeaderLayout;
+export default Navbar;

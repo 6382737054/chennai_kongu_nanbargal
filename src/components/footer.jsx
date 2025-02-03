@@ -1,78 +1,70 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { ExternalLink } from 'lucide-react';
+import { MapPin, Mail, Phone } from 'lucide-react';
 
 const Footer = () => {
-  const menuItems = [
-    { name: 'Home', path: '/' },
-    { name: 'History', path: '/history' },
-    { name: 'Magazine', path: '/magazine' },
-    { name: 'Gallery/Events', path: '/gallery' },
-    { name: 'Contact Us', path: '/contact' }
-  ];
-
   return (
-    <footer>
+    <footer className="bg-gradient-to-b from-blue-50 to-blue-100">
       {/* Main Footer Content */}
-      <div className="bg-green-50/80">
-        <div className="container mx-auto px-4 py-16">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-            {/* Logo and Description */}
-            <div className="space-y-6">
-              <div className="flex items-center space-x-4">
-                <div className="bg-white p-3 rounded-xl shadow-sm">
-                  <img
-                    src="/Images/logo.png"
-                    alt="Kongu Nanbargal Sangam Logo"
-                    className="w-24 h-24 object-contain"
-                  />
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold text-green-600">
-                    Kongu Nanbargal Sangam
-                  </h3>
-                  <div className="h-1 w-12 bg-green-600 mt-2"></div>
-                </div>
-              </div>
-              <p className="text-gray-600 leading-relaxed">
-                A vibrant community of 4,200+ members united in promoting friendship, 
-                brotherhood, and societal development through cultural excellence.
-              </p>
+      <div className="container mx-auto px-6 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+          {/* Organization Info */}
+          <div className="space-y-6">
+            <div className="flex items-center space-x-4">
+              <img 
+                src="/Images/logo1.png"
+                alt="Kongu Nanbargal Sangam"
+                className="h-16 w-auto"
+              />
+              <h3 className="text-xl font-light text-blue-900">
+                Kongu Nanbargal Sangam
+              </h3>
             </div>
+            <p className="text-gray-600 leading-relaxed pr-4">
+              A vibrant community of 4,200+ members united in promoting friendship, brotherhood, and societal development through cultural excellence.
+            </p>
+          </div>
 
-            {/* Quick Links */}
-            <div className="lg:mx-auto">
-              <h4 className="text-xl font-bold text-green-600 mb-6">
-                Quick Links
-                <div className="h-1 w-12 bg-green-600 mt-2"></div>
-              </h4>
-              <ul className="space-y-3">
-                {menuItems.map((item) => (
-                  <li key={item.name}>
-                    <Link
-                      to={item.path}
-                      className="text-gray-600 hover:text-green-600 transition-colors flex items-center group"
-                    >
-                      <span className="h-1 w-0 bg-green-600 mr-0 group-hover:w-3 group-hover:mr-2 transition-all duration-300"></span>
-                      {item.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
+          {/* Quick Links */}
+          <div>
+            <h3 className="text-lg font-medium text-blue-900 mb-6 relative">
+              Quick Links
+              <span className="absolute -bottom-2 left-0 w-12 h-0.5 bg-blue-600/30 rounded-full"></span>
+            </h3>
+            <nav className="space-y-3">
+              {['Home', 'History', 'Magazine', 'Gallery/Events', 'Contact Us'].map((item) => (
+                <a
+                  key={item}
+                  href={`#${item.toLowerCase()}`}
+                  className="block text-gray-600 hover:text-blue-700 transition-colors duration-300"
+                >
+                  {item}
+                </a>
+              ))}
+            </nav>
+          </div>
 
-            {/* Contact Information */}
-            <div>
-              <h4 className="text-xl font-bold text-green-600 mb-6">
-                Get in Touch
-                <div className="h-1 w-12 bg-green-600 mt-2"></div>
-              </h4>
-              <div className="space-y-4 text-gray-600">
-                <p className="leading-relaxed">
+          {/* Contact Information */}
+          <div>
+            <h3 className="text-lg font-medium text-blue-900 mb-6 relative">
+              Get in Touch
+              <span className="absolute -bottom-2 left-0 w-12 h-0.5 bg-blue-600/30 rounded-full"></span>
+            </h3>
+            <div className="space-y-4">
+              <div className="flex items-start space-x-3">
+                <MapPin className="w-5 h-5 text-blue-700 mt-1" />
+                <p className="text-gray-600">
                   123 Community Center,<br />
                   Chennai, Tamil Nadu 600001
                 </p>
-                <p>info@kongusangam.com</p>
+              </div>
+              <div className="flex items-center space-x-3">
+                <Mail className="w-5 h-5 text-blue-700" />
+                <a 
+                  href="mailto:info@kongusangam.com" 
+                  className="text-gray-600 hover:text-blue-700 transition-colors duration-300"
+                >
+                  info@kongusangam.com
+                </a>
               </div>
             </div>
           </div>
@@ -80,24 +72,21 @@ const Footer = () => {
       </div>
 
       {/* Bottom Bar */}
-      <div className="bg-green-600 text-white">
-        <div className="container mx-auto px-4 py-4">
+      <div className="bg-gradient-to-r from-blue-600 to-blue-700">
+        <div className="container mx-auto px-6 py-4">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-2 md:space-y-0">
-            <p className="text-sm">
-              © {new Date().getFullYear()} Kongu Nanbargal Sangam. All rights reserved.
+            <p className="text-white/90 text-sm">
+              © 2025 Kongu Nanbargal Sangam. All rights reserved.
             </p>
-            <a
-              href="https://klabsindia.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center text-sm hover:text-white/90 transition-colors group"
-            >
-              Designed by 
-              <span className="font-semibold ml-1 group-hover:underline">
+            <p className="text-white/80 text-sm">
+              Designed by{' '}
+              <a 
+                href="#klabs" 
+                className="text-white hover:text-blue-100 transition-colors duration-300"
+              >
                 Klabs India
-              </span>
-              <ExternalLink className="w-4 h-4 ml-1 opacity-0 group-hover:opacity-100 transition-opacity" />
-            </a>
+              </a>
+            </p>
           </div>
         </div>
       </div>
