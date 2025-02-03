@@ -51,7 +51,7 @@ const MajorActivities = () => {
             </div>
             <div className="rounded-xl overflow-hidden shadow-lg w-[600px] h-[400px] mx-auto group">
               <img 
-                src="/Images/illam.jpg" 
+                src="/Images/kongu_building.png" 
                 alt="Kongu Nadu Illam" 
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
@@ -62,7 +62,7 @@ const MajorActivities = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="rounded-xl overflow-hidden shadow-lg w-[600px] h-[400px] mx-auto order-2 lg:order-1 group">
               <img 
-                src="/Images/magazine.jpg" 
+                src="/Images/hostel1.png" 
                 alt="Seithi Madal Magazine" 
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
@@ -123,7 +123,7 @@ const MajorActivities = () => {
             </div>
             <div className="rounded-xl overflow-hidden shadow-lg w-[600px] h-[400px] mx-auto group">
               <img 
-                src="/Images/awards.jpg" 
+                src="/Images/img_3.jpg" 
                 alt="Annual Awards Ceremony" 
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
@@ -166,7 +166,7 @@ const MajorActivities = () => {
             </div>
             <div className="rounded-xl overflow-hidden shadow-lg w-[600px] h-[400px] mx-auto group">
               <img 
-                src="/Images/education.jpg" 
+                src="/Images/img_4.png" 
                 alt="Educational Support" 
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
