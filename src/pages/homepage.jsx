@@ -31,13 +31,13 @@ const WelcomeModal = ({ isOpen, onClose }) => {
           </div>
 
           {/* Bottom Section - 30% height */}
-          <div className="h-[30%] flex flex-col items-center justify-center space-y-4 p-6 bg-gradient-to-b from-blue-50 to-white">
-            <h2 className="text-2xl font-light text-blue-900 text-center">
+          <div className="h-[30%] flex flex-col items-center justify-center space-y-4 p-6 bg-gradient-to-b from-green-50 to-white">
+            <h2 className="text-2xl font-light text-green-900 text-center">
               Download Our Latest Magazine
             </h2>
             <button 
               onClick={() => window.open('#download-link', '_blank')}
-              className="flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-full hover:from-blue-700 hover:to-blue-800 transition-all duration-300 shadow-lg hover:shadow-xl group"
+              className="flex items-center px-6 py-3 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-full hover:from-green-700 hover:to-green-800 transition-all duration-300 shadow-lg hover:shadow-xl group"
             >
               <Download className="w-5 h-5 mr-2 transform group-hover:-translate-y-0.5 transition-transform" />
               <span className="font-light tracking-wide">Download Magazine</span>
@@ -66,8 +66,8 @@ const HomePage = () => {
       <HeroSection />
       <ServicesSection />
       <WelcomeModal 
-        isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)} 
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
       />
     </div>
   );

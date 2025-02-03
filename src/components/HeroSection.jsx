@@ -24,12 +24,12 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <div className="bg-gradient-to-b from-blue-50/50 via-white to-white">
+    <div className="bg-gradient-to-b from-green-50/50 via-white to-white">
       {/* Welcome Text Section */}
       <div className="max-w-6xl mx-auto px-6 pt-16 pb-12">
         <div className="text-center">
-          <h1 className="text-4xl font-light text-blue-950 mb-10 tracking-wide">
-            Welcome to <span className="font-semibold bg-gradient-to-r from-blue-600 to-blue-800 text-transparent bg-clip-text">Kongu Nanbargal Sangam</span>...
+          <h1 className="text-4xl font-light text-green-950 mb-10 tracking-wide">
+            Welcome to <span className="font-semibold bg-gradient-to-r from-green-600 to-green-700 text-transparent bg-clip-text">Kongu Nanbargal Sangam</span>...
           </h1>
           
           <div className="space-y-6 text-gray-700 text-lg font-light leading-relaxed">
@@ -38,7 +38,7 @@ const HeroSection = () => {
             </p>
             
             <p className="tracking-wide">
-              The word, <span className="font-medium text-blue-800">"KONGU NANBARGAL"</span> implies Kind, Outgoing, Noble, Good-natured, Unbeatable friends and Kongu Nanbargal Sangam takes pride in asserting that it is a society of almost 4200 such members.
+              The word, <span className="font-medium text-green-700">"KONGU NANBARGAL"</span> implies Kind, Outgoing, Noble, Good-natured, Unbeatable friends and Kongu Nanbargal Sangam takes pride in asserting that it is a society of almost 4200 such members.
             </p>
             
             <p className="tracking-wide">
@@ -46,9 +46,9 @@ const HeroSection = () => {
             </p>
           </div>
           
-          <button className="mt-10 px-8 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-full hover:from-blue-700 hover:to-blue-800 transition-all duration-300 group relative overflow-hidden shadow-lg shadow-blue-100">
+          <button className="mt-10 px-8 py-3 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-full hover:from-green-700 hover:to-green-800 transition-all duration-300 group relative overflow-hidden shadow-lg shadow-green-100">
             <span className="relative z-10 font-light tracking-wider text-lg">Read More</span>
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-700 to-blue-800 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-green-700 to-green-800 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
           </button>
         </div>
       </div>
@@ -57,7 +57,7 @@ const HeroSection = () => {
       <div className="pb-16 px-4">
         <div className="relative w-[70%] h-[400px] mx-auto">
           {/* Carousel Container */}
-          <div className="relative overflow-hidden h-full rounded-xl shadow-[0_8px_35px_rgb(59,130,246,0.1)] ring-1 ring-blue-100">
+          <div className="relative overflow-hidden h-full rounded-xl shadow-[0_8px_35px_rgb(34,197,94,0.1)] ring-1 ring-green-100">
             <div 
               className="flex transition-transform duration-700 ease-out h-full"
               style={{ transform: `translateX(-${currentSlide * 100}%)` }}
@@ -81,8 +81,8 @@ const HeroSection = () => {
                   onClick={() => setCurrentSlide(index)}
                   className={`transition-all duration-300 rounded-full
                     ${currentSlide === index 
-                      ? 'w-8 h-2 bg-blue-600' 
-                      : 'w-2 h-2 bg-blue-200 hover:bg-blue-300'
+                      ? 'w-8 h-2 bg-green-600' 
+                      : 'w-2 h-2 bg-green-200 hover:bg-green-300'
                     }`}
                   aria-label={`Go to slide ${index + 1}`}
                 />
@@ -91,8 +91,8 @@ const HeroSection = () => {
           </div>
 
           {/* Side Decorative Elements */}
-          <div className="absolute -left-4 top-1/2 -translate-y-1/2 w-8 h-40 bg-gradient-to-r from-blue-50/80 to-transparent"></div>
-          <div className="absolute -right-4 top-1/2 -translate-y-1/2 w-8 h-40 bg-gradient-to-l from-blue-50/80 to-transparent"></div>
+          <div className="absolute -left-4 top-1/2 -translate-y-1/2 w-8 h-40 bg-gradient-to-r from-green-50/80 to-transparent"></div>
+          <div className="absolute -right-4 top-1/2 -translate-y-1/2 w-8 h-40 bg-gradient-to-l from-green-50/80 to-transparent"></div>
         </div>
       </div>
     </div>
