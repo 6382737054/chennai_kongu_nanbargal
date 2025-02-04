@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu, Phone, Mail, X } from 'lucide-react';
+import { Menu, Phone, Mail, X, Target } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 
 const Navbar = () => {
@@ -8,12 +8,17 @@ const Navbar = () => {
  const [activeItem, setActiveItem] = useState('Home');
 
  const menuItems = [
-   { name: 'Home', path: '/' },
-   { name: 'History', path: '/history' },
-   { name: 'Magazine', path: '/magazine' },
-   { name: 'Gallery', path: '/gallery' },
-   { name: 'Contact Us', path: '/contact' }
- ];
+  { name: 'Home', path: '/' },
+  { name: 'History', path: '/history' },
+  { name: 'Magazine', path: '/magazine' },
+  { name: 'Gallery', path: '/gallery' },
+  { name: 'Contact Us', path: '/contact' },
+  { 
+      name: 'Matrimony', 
+      path: 'http://test.kammavarsangam.com',
+      target: '_blank'
+  }
+];
 
  return (
    <nav className="w-full bg-gradient-to-b from-green-100 to-green-50 border-b border-green-200 shadow-md">

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { X, Download } from 'lucide-react';
 import HeroSection from '../components/HeroSection';
 import ServicesSection from '../components/services';
+import PartnersShowcase from '../components/ad';
 
 const WelcomeModal = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
@@ -69,7 +70,9 @@ const HomePage = () => {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
       />
+          <PartnersShowcase/>
     </div>
+
   );
 };
 

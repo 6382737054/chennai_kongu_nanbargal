@@ -43,7 +43,7 @@ const PartnersShowcase = () => {
         {/* Title Section */}
         <div className="text-center mb-12">
           <h2 className="text-3xl font-light text-green-900 mb-3">
-            Our Partners
+            Our Members
           </h2>
           <div className="flex items-center justify-center gap-3">
             <div className="h-px w-12 bg-green-200"></div>
