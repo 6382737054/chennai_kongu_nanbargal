@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Calendar, ChevronDown, ExternalLink, Clock, ArrowRight } from 'lucide-react';
 
 const MonthlyMagazineArchive = () => {
-  const [selectedYear, setSelectedYear] = useState(null);
+  const [selectedYear, setSelectedYear] = useState(2018);
   const [selectedMonth, setSelectedMonth] = useState(null);
 
   const monthlyArchives = {
