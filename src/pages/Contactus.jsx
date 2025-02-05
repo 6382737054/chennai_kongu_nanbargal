@@ -25,7 +25,7 @@ const ContactPage = () => {
       address: "72, peters Road, Royapettah, Chennai - 600 014. Tamil Nadu. India.",
       phones: ["91 - 44 - 2835 1744", "9381545451", "9080461503"],
       emails: ["chennaikongu@gmail.com", "konguchennai@yahoo.com"],
-      image: "/Images/contact/guest.jpg",
+      image: "/Images/his2.png",
        qrCode: "/Images/KNI_QR.jpg"
     }
   ];
