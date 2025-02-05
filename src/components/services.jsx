@@ -8,14 +8,14 @@ const ServicesSection = () => {
       subtitle: "Kongu Community",
       image: "/Images/history_img.png",
       description: "Great men of our Kongu community had realized this, way back in the 1960s and laid the foundation for this service organization to help others in all possible ways.",
-      link: "#history"
+      link: "/history"
     },
     {
       title: "Services",
       subtitle: "Kongu Services",
       image: "/Images/farm.png",
       description: "Running \"Kongu Nadu Illam\" which is accommodating about 30 girls for a short stay who comes to Chennai for Projects, Special Coaching for C.A., I.A.S, Training...",
-      link: "#services"
+      link: "/history"
     },
     {
       title: "Career Guidance",
