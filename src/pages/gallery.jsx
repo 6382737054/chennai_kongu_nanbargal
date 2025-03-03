@@ -242,25 +242,7 @@ const GallerySection = ({ section, images, onImageClick, onBack }) => {
               </button>
             </div>
             
-            {/* Search input */}
-            <div className="relative w-full sm:w-64">
-              <input
-                type="text"
-                placeholder="Search images..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm"
-              />
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-              {searchTerm && (
-                <button 
-                  onClick={() => setSearchTerm('')}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                >
-                  <X size={14} />
-                </button>
-              )}
-            </div>
+           
           </div>
         </div>
       </div>
@@ -348,115 +330,108 @@ const GalleryPage = () => {
   const [selectedSection, setSelectedSection] = useState(null);
   const [modalImages, setModalImages] = useState([]);
   const [initialIndex, setInitialIndex] = useState(0);
+// Gallery data with categories and images
+const galleryData = {
+  "2024 AGM": {
+    "coverImage": "/Images/Gallery/agm/1.jpg",
+    "images": [
+      { "url": "/Images/Gallery/agm/1.jpg" },
+      { "url": "/Images/Gallery/agm/2.jpg" },
+      { "url": "/Images/Gallery/agm/3.jpg" },
+      { "url": "/Images/Gallery/agm/4.jpg" },
+      { "url": "/Images/Gallery/agm/5.jpg" },
+      { "url": "/Images/Gallery/agm/6.jpg" },
+   
+    ]
+  },
+  "Sports Meet 2015": {
+    "coverImage": "/Images/Gallery/sports2015/cover.jpg",
+    "images": [
+      { "url": "/Images/Gallery/sports2015/1.jpg" },
+      { "url": "/Images/Gallery/sports2015/2.jpg" },
+      { "url": "/Images/Gallery/sports2015/3.jpg" },
+      { "url": "/Images/Gallery/sports2015/4.jpg" },
+      { "url": "/Images/Gallery/sports2015/5.jpg" },
+      { "url": "/Images/Gallery/sports2015/6.jpg" },
 
-  // Gallery data with categories and images
-  const galleryData = {
-    "2024 AGM": {
-      "coverImage": "/Images/Gallery/agm/1.jpg",
-      "images": [
-        { "url": "/Images/Gallery/agm/1.jpg", "caption": "AGM Welcome Address" },
-        { "url": "/Images/Gallery/agm/2.jpg", "caption": "President's Speech" },
-        { "url": "/Images/Gallery/agm/3.jpg", "caption": "Committee Members" },
-        { "url": "/Images/Gallery/agm/4.jpg", "caption": "Annual Report Presentation" },
-        { "url": "/Images/Gallery/agm/5.jpg", "caption": "Member Discussion" },
-        { "url": "/Images/Gallery/agm/6.jpg", "caption": "Award Ceremony" },
-        { "url": "/Images/Gallery/agm/7.jpg", "caption": "Group Photo" },
-        { "url": "/Images/Gallery/agm/8.jpg", "caption": "Cultural Performance" },
-        { "url": "/Images/Gallery/agm/9.jpg", "caption": "Member Interaction" },
-        { "url": "/Images/Gallery/agm/10.jpg", "caption": "Vote of Thanks" }
-      ]
-    },
-    "Sports Meet 2015": {
-      "coverImage": "/Images/Gallery/sports2015/cover.jpg",
-      "images": [
-        { "url": "/Images/Gallery/sports2015/1.jpg", "caption": "Opening Ceremony" },
-        { "url": "/Images/Gallery/sports2015/2.jpg", "caption": "Cricket Match" },
-        { "url": "/Images/Gallery/sports2015/3.jpg", "caption": "Running Race" },
-        { "url": "/Images/Gallery/sports2015/4.jpg", "caption": "Volleyball Tournament" },
-        { "url": "/Images/Gallery/sports2015/5.jpg", "caption": "Kabaddi Match" },
-        { "url": "/Images/Gallery/sports2015/6.jpg", "caption": "Children's Games" },
-        { "url": "/Images/Gallery/sports2015/7.jpg", "caption": "Prize Distribution" },
-        { "url": "/Images/Gallery/sports2015/8.jpg", "caption": "Team Champions" },
-        { "url": "/Images/Gallery/sports2015/9.jpg", "caption": "Individual Awards" },
-        { "url": "/Images/Gallery/sports2015/10.jpg", "caption": "Closing Ceremony" }
-      ]
-    },
-    "Kudumba Vizha 2018": {
-      "coverImage": "/Images/Gallery/kudumba2018/cover.jpg",
-      "images": [
-        { "url": "/Images/Gallery/kudumba2018/1.jpg", "caption": "Family Gathering" },
-        { "url": "/Images/Gallery/kudumba2018/2.jpg", "caption": "Special Performance" },
-        { "url": "/Images/Gallery/kudumba2018/3.jpg", "caption": "Kids Activities" },
-        { "url": "/Images/Gallery/kudumba2018/4.jpg", "caption": "Cultural Program" },
-        { "url": "/Images/Gallery/kudumba2018/5.jpg", "caption": "Traditional Games" },
-        { "url": "/Images/Gallery/kudumba2018/6.jpg", "caption": "Family Recognition" },
-        { "url": "/Images/Gallery/kudumba2018/7.jpg", "caption": "Group Activities" },
-        { "url": "/Images/Gallery/kudumba2018/8.jpg", "caption": "Senior Members Felicitation" },
-        { "url": "/Images/Gallery/kudumba2018/9.jpg", "caption": "Community Lunch" },
-        { "url": "/Images/Gallery/kudumba2018/10.jpg", "caption": "Family Photo Session" }
-      ]
-    },
-    "Republic Day 2025": {
-      "coverImage": "/Images/Gallery/republic2025/cover.jpg",
-      "images": [
-        { "url": "/Images/Gallery/republic2025/1.jpg", "caption": "Flag Hoisting" },
-        { "url": "/Images/Gallery/republic2025/2.jpg", "caption": "National Anthem" },
-        { "url": "/Images/Gallery/republic2025/3.jpg", "caption": "President's Address" },
-        { "url": "/Images/Gallery/republic2025/4.jpg", "caption": "Cultural Performances" },
-        { "url": "/Images/Gallery/republic2025/5.jpg", "caption": "Children's Patriotic Songs" },
-        { "url": "/Images/Gallery/republic2025/6.jpg", "caption": "Community Service Initiative" },
-        { "url": "/Images/Gallery/republic2025/7.jpg", "caption": "Freedom Fighters Tribute" },
-        { "url": "/Images/Gallery/republic2025/8.jpg", "caption": "Sweets Distribution" },
-        { "url": "/Images/Gallery/republic2025/9.jpg", "caption": "Community Gathering" },
-        { "url": "/Images/Gallery/republic2025/10.jpg", "caption": "Group Photo" }
-      ]
-    },
-    "Dheeran Chinnamalai Birthday": {
-      "coverImage": "/Images/Gallery/birthday/cover.jpg",
-      "images": [
-        { "url": "/Images/Gallery/birthday/1.jpg", "caption": "Statue Garlanding" },
-        { "url": "/Images/Gallery/birthday/2.jpg", "caption": "Tribute Ceremony" },
-        { "url": "/Images/Gallery/birthday/3.jpg", "caption": "Historical Presentation" },
-        { "url": "/Images/Gallery/birthday/4.jpg", "caption": "Cultural Program" },
-        { "url": "/Images/Gallery/birthday/5.jpg", "caption": "Traditional Performance" },
-        { "url": "/Images/Gallery/birthday/6.jpg", "caption": "Book Release" },
-        { "url": "/Images/Gallery/birthday/7.jpg", "caption": "Speech on Dheeran's Legacy" },
-        { "url": "/Images/Gallery/birthday/8.jpg", "caption": "Children's Performance" },
-        { "url": "/Images/Gallery/birthday/9.jpg", "caption": "Community Participation" },
-        { "url": "/Images/Gallery/birthday/10.jpg", "caption": "Celebration Closing" }
-      ]
-    },
-    "Special Meeting 26/11/2017": {
-      "coverImage": "/Images/Gallery/meeting2017/cover.jpg",
-      "images": [
-        { "url": "/Images/Gallery/meeting2017/1.jpg", "caption": "Inaugural Address" },
-        { "url": "/Images/Gallery/meeting2017/2.jpg", "caption": "Special Guest Speech" },
-        { "url": "/Images/Gallery/meeting2017/3.jpg", "caption": "Committee Meeting" },
-        { "url": "/Images/Gallery/meeting2017/4.jpg", "caption": "Member Discussion" },
-        { "url": "/Images/Gallery/meeting2017/5.jpg", "caption": "Resolution Passing" },
-        { "url": "/Images/Gallery/meeting2017/6.jpg", "caption": "Project Planning" },
-        { "url": "/Images/Gallery/meeting2017/7.jpg", "caption": "Community Issues Discussion" },
-        { "url": "/Images/Gallery/meeting2017/8.jpg", "caption": "Future Plans Presentation" },
-        { "url": "/Images/Gallery/meeting2017/9.jpg", "caption": "Member Participation" },
-        { "url": "/Images/Gallery/meeting2017/10.jpg", "caption": "Meeting Conclusion" }
-      ]
-    },
-    "Dheeran Chinnamalai Memorial 2017": {
-      "coverImage": "/Images/Gallery/memorial2017/cover.jpg",
-      "images": [
-        { "url": "/Images/Gallery/memorial2017/1.jpg", "caption": "Memorial Service" },
-        { "url": "/Images/Gallery/memorial2017/2.jpg", "caption": "Tribute Ceremony" },
-        { "url": "/Images/Gallery/memorial2017/3.jpg", "caption": "Floral Offerings" },
-        { "url": "/Images/Gallery/memorial2017/4.jpg", "caption": "Traditional Honors" },
-        { "url": "/Images/Gallery/memorial2017/5.jpg", "caption": "Memorial Speech" },
-        { "url": "/Images/Gallery/memorial2017/6.jpg", "caption": "Historical Presentation" },
-        { "url": "/Images/Gallery/memorial2017/7.jpg", "caption": "Community Gathering" },
-        { "url": "/Images/Gallery/memorial2017/8.jpg", "caption": "Youth Participation" },
-        { "url": "/Images/Gallery/memorial2017/9.jpg", "caption": "Cultural Performance" },
-        { "url": "/Images/Gallery/memorial2017/10.jpg", "caption": "Closing Ceremony" }
-      ]
-    }
-  };
+    ]
+  },
+  "Kudumba Vizha 2018": {
+    "coverImage": "/Images/Gallery/kudumba2018/cover.jpg",
+    "images": [
+      { "url": "/Images/Gallery/kudumba2018/1.jpg" },
+      { "url": "/Images/Gallery/kudumba2018/2.jpg" },
+      { "url": "/Images/Gallery/kudumba2018/3.jpg" },
+      { "url": "/Images/Gallery/kudumba2018/4.jpg" },
+      { "url": "/Images/Gallery/kudumba2018/5.jpg" },
+      { "url": "/Images/Gallery/kudumba2018/6.jpg" },
+      { "url": "/Images/Gallery/kudumba2018/7.jpg" },
+      { "url": "/Images/Gallery/kudumba2018/8.jpg" },
+      { "url": "/Images/Gallery/kudumba2018/9.jpg" },
+      { "url": "/Images/Gallery/kudumba2018/10.jpg" }
+    ]
+  },
+  "Republic Day 2025": {
+    "coverImage": "/Images/Gallery/republic2025/cover.jpg",
+    "images": [
+      { "url": "/Images/Gallery/republic2025/1.jpg" },
+      { "url": "/Images/Gallery/republic2025/2.jpg" },
+      { "url": "/Images/Gallery/republic2025/3.jpg" },
+      { "url": "/Images/Gallery/republic2025/4.jpg" },
+      { "url": "/Images/Gallery/republic2025/5.jpg" },
+      { "url": "/Images/Gallery/republic2025/6.jpg" },
+      { "url": "/Images/Gallery/republic2025/7.jpg" },
+      { "url": "/Images/Gallery/republic2025/8.jpg" },
+      { "url": "/Images/Gallery/republic2025/9.jpg" },
+      { "url": "/Images/Gallery/republic2025/10.jpg" }
+    ]
+  },
+  "Dheeran Chinnamalai Birthday": {
+    "coverImage": "/Images/Gallery/birthday/cover.jpg",
+    "images": [
+      { "url": "/Images/Gallery/birthday/1.jpg" },
+      { "url": "/Images/Gallery/birthday/2.jpg" },
+      { "url": "/Images/Gallery/birthday/3.jpg" },
+      { "url": "/Images/Gallery/birthday/4.jpg" },
+      { "url": "/Images/Gallery/birthday/5.jpg" },
+      { "url": "/Images/Gallery/birthday/6.jpg" },
+      { "url": "/Images/Gallery/birthday/7.jpg" },
+      { "url": "/Images/Gallery/birthday/8.jpg" },
+      { "url": "/Images/Gallery/birthday/9.jpg" },
+      { "url": "/Images/Gallery/birthday/10.jpg" }
+    ]
+  },
+  "Special Meeting 26/11/2017": {
+    "coverImage": "/Images/Gallery/meeting2017/cover.jpg",
+    "images": [
+      { "url": "/Images/Gallery/meeting2017/1.jpg" },
+      { "url": "/Images/Gallery/meeting2017/2.jpg" },
+      { "url": "/Images/Gallery/meeting2017/3.jpg" },
+      { "url": "/Images/Gallery/meeting2017/4.jpg" },
+      { "url": "/Images/Gallery/meeting2017/5.jpg" },
+      { "url": "/Images/Gallery/meeting2017/6.jpg" },
+      { "url": "/Images/Gallery/meeting2017/7.jpg" },
+      { "url": "/Images/Gallery/meeting2017/8.jpg" },
+      { "url": "/Images/Gallery/meeting2017/9.jpg" },
+      { "url": "/Images/Gallery/meeting2017/10.jpg" }
+    ]
+  },
+  "Dheeran Chinnamalai Memorial 2017": {
+    "coverImage": "/Images/Gallery/memorial2017/cover.jpg",
+    "images": [
+      { "url": "/Images/Gallery/memorial2017/1.jpg" },
+      { "url": "/Images/Gallery/memorial2017/2.jpg" },
+      { "url": "/Images/Gallery/memorial2017/3.jpg" },
+      { "url": "/Images/Gallery/memorial2017/4.jpg" },
+      { "url": "/Images/Gallery/memorial2017/5.jpg" },
+      { "url": "/Images/Gallery/memorial2017/6.jpg" },
+      { "url": "/Images/Gallery/memorial2017/7.jpg" },
+      { "url": "/Images/Gallery/memorial2017/8.jpg" },
+      { "url": "/Images/Gallery/memorial2017/9.jpg" },
+      { "url": "/Images/Gallery/memorial2017/10.jpg" }
+    ]
+  }
+};
   const openSection = (section) => {
     setSelectedSection(section);
   };

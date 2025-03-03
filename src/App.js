@@ -7,10 +7,12 @@ import Footer from './components/footer';
 import MajorActivities from './pages/services';
 import ContactPage from './pages/Contactus';
 import GalleryPage from './pages/gallery';
+import { LanguageProvider } from './contexts/LanguageContext';
 
 function App() {
   return (
     <BrowserRouter>
+        <LanguageProvider>
       <div>
         <HeaderLayout />
         <Routes>
@@ -24,7 +26,9 @@ function App() {
         </Routes>
         <Footer/>
       </div>
+      </LanguageProvider>
     </BrowserRouter>
+
   );
 }
 
