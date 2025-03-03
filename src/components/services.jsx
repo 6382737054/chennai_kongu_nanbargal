@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, BookOpen, Building, Briefcase } from 'lucide-react';
 
 const ServicesSection = () => {
   const services = [
@@ -8,81 +8,106 @@ const ServicesSection = () => {
       subtitle: "Kongu Community",
       image: "/Images/history_img.png",
       description: "Great men of our Kongu community had realized this, way back in the 1960s and laid the foundation for this service organization to help others in all possible ways.",
-      link: "/history"
+      link: "/history",
+      icon: BookOpen
     },
     {
       title: "Services",
       subtitle: "Kongu Services",
       image: "/Images/farm.png",
       description: "Running \"Kongu Nadu Illam\" which is accommodating about 30 girls for a short stay who comes to Chennai for Projects, Special Coaching for C.A., I.A.S, Training...",
-      link: "/history"
+      link: "/history",
+      icon: Building
     },
     {
       title: "Career Guidance",
       subtitle: "வேலை வாய்ப்புக்கு வழிகாட்டல்",
       image: "/Images/job.png",
       description: "கொங்கு வேளாளர் இளைஞர்களுக்கான வேலை வாய்ப்புக்கு வழிகாட்டல்",
-      link: "#career"
+      link: "#career",
+      icon: Briefcase
     }
   ];
 
   return (
-    <div className="bg-gradient-to-b from-white to-green-50/30 py-20">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {services.map((service, index) => (
-            <div
-              key={index}
-              className="group relative bg-white rounded-2xl overflow-hidden shadow-[0_8px_30px_rgb(34,197,94,0.1)] hover:shadow-[0_8px_30px_rgb(34,197,94,0.2)] transition-all duration-500"
-            >
-              {/* Image Container */}
-              <div className="relative h-64 overflow-hidden">
-                <img
-                  src={service.image}
-                  alt={service.title}
-                  className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
-                />
-                {/* Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-white/10 group-hover:to-green-900/20 transition-all duration-500" />
-              </div>
+<section className="bg-gradient-to-b from-white to-green-50 py-10 sm:py-14">
+      <div className="container mx-auto px-4">
+        <div className="max-w-7xl mx-auto">
+          {/* Section Header */}
+          <div className="text-center mb-8 sm:mb-10">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
+              Our <span className="text-green-600">Services</span>
+            </h2>
+            <div className="h-1 w-24 bg-green-500/30 mx-auto mb-6"></div>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Serving our community through various initiatives aimed at education, 
+              culture preservation, and career development
+            </p>
+          </div>
 
-              {/* Content */}
-              <div className="p-6">
-                {/* Title with decorative line */}
-                <div className="relative">
-                  <h3 className="text-2xl font-light text-green-900 mb-2">
-                    {service.title}
-                  </h3>
-                  <div className="h-0.5 w-12 bg-green-600/30 rounded-full mb-4" />
-                </div>
-
-                {/* Subtitle */}
-                <h4 className="text-lg font-medium text-green-800 mb-3">
-                  {service.subtitle}
-                </h4>
-
-                {/* Description */}
-                <p className="text-gray-600 leading-relaxed mb-6">
-                  {service.description}
-                </p>
-
-                {/* Read More Link */}
-                <a
-                  href={service.link}
-                  className="inline-flex items-center text-green-600 hover:text-green-700 transition-colors group/link"
+          {/* Services Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {services.map((service, index) => {
+              const Icon = service.icon;
+              return (
+                <div
+                  key={index}
+                  className="group relative bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-500 border border-green-100 flex flex-col h-full transform hover:-translate-y-1"
                 >
-                  <span className="font-light">More...</span>
-                  <ArrowRight size={16} className="ml-1 transform group-hover/link:translate-x-1 transition-transform" />
-                </a>
-              </div>
+                  {/* Icon Badge */}
+                  <div className="absolute top-4 right-4 z-10 bg-white/90 backdrop-blur-sm w-10 h-10 rounded-full shadow-md flex items-center justify-center">
+                    <Icon className="w-5 h-5 text-green-600" />
+                  </div>
+                  
+                  {/* Image Container */}
+                  <div className="relative h-56 overflow-hidden">
+                    <img
+                      src={service.image}
+                      alt={service.title}
+                      className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 ease-in-out"
+                    />
+                    {/* Gradient Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    
+                    {/* Hidden title that appears on hover */}
+                    <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+                      <span className="inline-block text-white font-medium bg-green-600/90 px-3 py-1 rounded-full text-sm backdrop-blur-sm">
+                        {service.subtitle}
+                      </span>
+                    </div>
+                  </div>
 
-              {/* Decorative side border */}
-              <div className="absolute left-0 top-0 w-1 h-full bg-gradient-to-b from-green-500/20 via-green-600/20 to-green-500/20 transform scale-y-0 group-hover:scale-y-100 transition-transform duration-500" />
-            </div>
-          ))}
+                  {/* Content */}
+                  <div className="p-6 flex-grow flex flex-col">
+                    {/* Title */}
+                    <h3 className="text-xl font-semibold text-gray-800 mb-2 group-hover:text-green-700 transition-colors">
+                      {service.title}
+                    </h3>
+
+                    {/* Description */}
+                    <p className="text-gray-600 leading-relaxed mb-6 flex-grow">
+                      {service.description}
+                    </p>
+
+                    {/* Read More Link */}
+                    <a
+                      href={service.link}
+                      className="inline-flex items-center text-green-600 hover:text-green-700 transition-colors mt-auto group/link"
+                    >
+                      <span className="font-medium">Learn More</span>
+                      <ArrowRight size={16} className="ml-1 transform group-hover/link:translate-x-1 transition-transform" />
+                    </a>
+                  </div>
+
+                  {/* Decorative accent */}
+                  <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-green-400 to-green-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

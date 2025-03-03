@@ -1,152 +1,212 @@
-import React, { useState } from 'react';
-import { Menu, Phone, Mail, X, Target } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Menu, Phone, Mail, ChevronDown, X, ExternalLink, Home, Book, BookOpen, Image, MessageSquare, Heart } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 
 const Navbar = () => {
- const [isOpen, setIsOpen] = useState(false);
- const location = useLocation();
- const [activeItem, setActiveItem] = useState('Home');
+  const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
 
- const menuItems = [
-  { name: 'Home', path: '/' },
-  { name: 'History', path: '/history' },
-  { name: 'Magazine', path: '/magazine' },
-  { name: 'Gallery', path: '/gallery' },
-  { name: 'Contact Us', path: '/contact' },
-  { 
+  // Handle scroll effect
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 20) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  const menuItems = [
+    { name: 'Home', path: '/', icon: Home },
+    { name: 'History', path: '/history', icon: Book },
+    { name: 'Magazine', path: '/magazine', icon: BookOpen },
+    { name: 'Gallery', path: '/gallery', icon: Image },
+    { name: 'Contact Us', path: '/contact', icon: MessageSquare },
+    { 
       name: 'Matrimony', 
       path: 'http://test.kammavarsangam.com',
-      target: '_blank'
-  }
-];
+      isExternal: true,
+      icon: Heart
+    }
+  ];
 
- return (
-   <nav className="w-full bg-gradient-to-b from-green-100 to-green-50 border-b border-green-200 shadow-md">
-     {/* Top contact bar */}
-     <div className="hidden md:flex justify-end items-center px-6 py-1.5 bg-gradient-to-r from-green-700 to-green-800 text-white">
-       <div className="flex items-center space-x-4">
-         <span className="flex items-center">
-           <Phone size={16} className="mr-2" />
-           <a href="tel:+919876543210" className="hover:text-green-100 transition-colors">+91 98765 43210</a>
-         </span>
-         <span className="flex items-center">
-           <Mail size={16} className="mr-2" />
-           <a href="mailto:info@chennaikongu.org" className="hover:text-green-100 transition-colors">info@chennaikongu.org</a>
-         </span>
-       </div>
-     </div>
+  return (
+    <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'shadow-md' : ''}`}>
+      {/* Top contact bar */}
+      <div className="hidden md:flex justify-end items-center px-6 py-2 bg-green-800 text-white">
+        <div className="flex items-center space-x-6">
+          <a href="tel:+919876543210" className="flex items-center hover:text-green-200 transition-colors text-sm font-medium">
+            <Phone size={16} className="mr-2" />
+            +91 98765 43210
+          </a>
+          <a href="mailto:info@chennaikongu.org" className="flex items-center hover:text-green-200 transition-colors text-sm font-medium">
+            <Mail size={16} className="mr-2" />
+            info@chennaikongu.org
+          </a>
+        </div>
+      </div>
 
-     {/* Main navbar */}
-     <div className="container mx-auto px-4 bg-white/80 backdrop-blur-sm">
-       {/* Desktop View */}
-       <div className="hidden md:block">
-         <div className="flex justify-center items-center py-4 border-b border-green-100">
-           <div className="flex items-center justify-center gap-8">
-             <Link to="/">
-               <img
-                 src="/Images/logo1.png"
-                 alt="Left Logo"
-                 className="h-28 w-auto transform hover:scale-105 transition-transform duration-300"
-               />
-             </Link>
-             
-             <div className="text-center px-4">
-               <h1 className="text-2xl font-bold text-green-900">சென்னை கொங்கு நண்பர்கள் சங்கம்</h1>
-               <p className="text-green-700">Chennai Kongu Friends Association</p>
-             </div>
+      {/* Main navbar */}
+      <div className={`bg-green-50 backdrop-blur-sm transition-all duration-300 ${scrolled ? 'bg-opacity-95' : 'bg-opacity-90'}`}>
+        <div className="container mx-auto px-4">
+          {/* Desktop View */}
+          <div className="hidden md:block">
+            <div className="flex justify-center items-center py-4">
+              <div className="flex items-center justify-center gap-10">
+                <Link to="/" className="shrink-0">
+                  <img
+                    src="/Images/logo1.png"
+                    alt="Left Logo"
+                    className="h-20 w-auto transition-transform duration-300 hover:scale-105"
+                  />
+                </Link>
+                
+                <div className="text-center">
+                  <h1 className="text-2xl font-bold text-green-800 mb-1">சென்னை கொங்கு நண்பர்கள் சங்கம்</h1>
+                  <p className="text-green-700 font-medium">Chennai Kongu Friends Association</p>
+                </div>
 
-             <Link to="/">
-               <img
-                 src="/Images/logo1.png"
-                 alt="Right Logo"
-                 className="h-28 w-auto transform hover:scale-105 transition-transform duration-300"
-               />
-             </Link>
-           </div>
-         </div>
+                <Link to="/" className="shrink-0">
+                  <img
+                    src="/Images/logo1.png"
+                    alt="Right Logo"
+                    className="h-20 w-auto transition-transform duration-300 hover:scale-105"
+                  />
+                </Link>
+              </div>
+            </div>
 
-         {/* Desktop Navigation Menu */}
-         <div className="flex justify-center py-4 bg-green-50/50">
-           <div className="flex space-x-8">
-             {menuItems.map((item) => (
-               <div key={item.name} className="relative group">
-                 <Link
-                   to={item.path}
-                   onClick={() => setActiveItem(item.name)}
-                   className={`px-3 py-2 text-sm font-medium transition-colors ${
-                     location.pathname === item.path 
-                       ? 'text-green-700 font-semibold' 
-                       : 'text-green-600 hover:text-green-700'
-                   }`}
-                 >
-                   {item.name}
-                   <span className="absolute bottom-0 left-0 w-full h-0.5 bg-green-600/80 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
-                 </Link>
-               </div>
-             ))}
-           </div>
-         </div>
-       </div>
+            {/* Desktop Navigation Menu */}
+            <nav className={`flex justify-center py-3 border-t border-green-200 ${scrolled ? 'bg-green-100' : 'bg-green-100/80'}`}>
+              <ul className="flex items-center justify-center space-x-10">
+                {menuItems.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <li key={item.name} className="relative group">
+                      {item.isExternal ? (
+                        <a
+                          href={item.path}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center px-1 py-2 text-green-700 font-medium transition-all hover:text-green-800"
+                        >
+                          <Icon size={18} className="mr-2" />
+                          {item.name}
+                          <ExternalLink size={14} className="ml-1 opacity-70" />
+                        </a>
+                      ) : (
+                        <Link
+                          to={item.path}
+                          className={`flex items-center px-1 py-2 font-medium transition-all ${
+                            location.pathname === item.path 
+                              ? 'text-green-800 font-semibold' 
+                              : 'text-green-700 hover:text-green-800'
+                          }`}
+                        >
+                          <Icon size={18} className="mr-2" />
+                          {item.name}
+                        </Link>
+                      )}
+                      <span className={`absolute bottom-0 left-0 w-full h-0.5 bg-green-600 transform origin-left transition-transform duration-300 ${
+                        location.pathname === item.path ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
+                      }`} />
+                    </li>
+                  );
+                })}
+              </ul>
+            </nav>
+          </div>
 
-       {/* Mobile View Header */}
-       <div className="md:hidden flex items-center justify-between py-4">
-         <div className="flex items-center space-x-2">
-           <Link to="/">
-             <img
-               src="/Images/logo1.png"
-               alt="Left Logo"
-               className="h-16 w-auto"
-             />
-           </Link>
-           <div className="text-center">
-             <h1 className="text-lg font-bold text-green-900">சென்னை கொங்கு நண்பர்கள் சங்கம்</h1>
-             <p className="text-sm text-green-700">Chennai Kongu Friends Association</p>
-           </div>
-         </div>
-         <button
-           onClick={() => setIsOpen(!isOpen)}
-           className="p-2 rounded-md text-green-900 hover:bg-green-100 transition-colors"
-         >
-           {isOpen ? <X size={24} /> : <Menu size={24} />}
-         </button>
-       </div>
+          {/* Mobile View Header */}
+          <div className="md:hidden flex items-center justify-between py-3">
+            <Link to="/" className="flex items-center space-x-2">
+              <img
+                src="/Images/logo1.png"
+                alt="Logo"
+                className="h-14 w-auto"
+              />
+              <div className="text-left">
+                <h1 className="text-lg font-bold text-green-800">சென்னை கொங்கு நண்பர்கள் சங்கம்</h1>
+                <p className="text-xs text-green-700">Chennai Kongu Friends Association</p>
+              </div>
+            </Link>
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="p-2 rounded-md text-green-800 hover:bg-green-50 transition-colors"
+              aria-expanded={isOpen}
+              aria-label="Toggle navigation"
+            >
+              {isOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
 
-       {/* Mobile Navigation */}
-       <div className={`md:hidden ${isOpen ? 'block' : 'hidden'}`}>
-         <div className="px-2 pt-2 pb-3 space-y-1 bg-white/90 backdrop-blur-sm rounded-lg shadow-lg">
-           {menuItems.map((item) => (
-             <Link
-               key={item.name}
-               to={item.path}
-               onClick={() => {
-                 setActiveItem(item.name);
-                 setIsOpen(false);
-               }}
-               className={`block px-3 py-2 rounded-md text-base font-medium transition-colors ${
-                 location.pathname === item.path
-                   ? 'bg-green-100 text-green-700 font-semibold'
-                   : 'text-green-600 hover:bg-green-50 hover:text-green-700'
-               }`}
-             >
-               {item.name}
-             </Link>
-           ))}
-           {/* Mobile contact information */}
-           <div className="mt-4 space-y-2 border-t border-green-100 pt-2">
-             <a href="tel:+919876543210" className="flex items-center text-green-700 px-3 py-2 hover:bg-green-50 rounded-md transition-colors">
-               <Phone size={16} className="mr-2" />
-               +91 98765 43210
-             </a>
-             <a href="mailto:info@chennaikongu.org" className="flex items-center text-green-700 px-3 py-2 hover:bg-green-50 rounded-md transition-colors">
-               <Mail size={16} className="mr-2" />
-               info@chennaikongu.org
-             </a>
-           </div>
-         </div>
-       </div>
-     </div>
-   </nav>
- );
+          {/* Mobile Navigation */}
+          <div 
+            className={`md:hidden absolute left-0 right-0 bg-green-50 shadow-lg transition-all duration-300 ease-in-out overflow-hidden ${
+              isOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'
+            }`}
+          >
+            <nav className="container mx-auto px-4 py-3 space-y-1">
+              {menuItems.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <div key={item.name} className="border-b border-green-100 last:border-0">
+                    {item.isExternal ? (
+                      <a
+                        href={item.path}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center justify-between py-3 w-full text-green-700 hover:text-green-800"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        <div className="flex items-center">
+                          <Icon size={18} className="mr-3" />
+                          <span>{item.name}</span>
+                        </div>
+                        <ExternalLink size={16} className="opacity-70" />
+                      </a>
+                    ) : (
+                      <Link
+                        to={item.path}
+                        onClick={() => setIsOpen(false)}
+                        className={`flex items-center py-3 w-full ${
+                          location.pathname === item.path
+                            ? 'text-green-800 font-medium' 
+                            : 'text-green-700 hover:text-green-800'
+                        }`}
+                      >
+                        <Icon size={18} className="mr-3" />
+                        {item.name}
+                      </Link>
+                    )}
+                  </div>
+                );
+              })}
+              
+              {/* Mobile contact information */}
+              <div className="pt-2 space-y-2 border-t border-green-100">
+                <a href="tel:+919876543210" className="flex items-center text-green-700 py-2 hover:text-green-800">
+                  <Phone size={16} className="mr-3" />
+                  +91 98765 43210
+                </a>
+                <a href="mailto:info@chennaikongu.org" className="flex items-center text-green-700 py-2 hover:text-green-800">
+                  <Mail size={16} className="mr-3" />
+                  info@chennaikongu.org
+                </a>
+              </div>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </header>
+  );
 };
 
 export default Navbar;
