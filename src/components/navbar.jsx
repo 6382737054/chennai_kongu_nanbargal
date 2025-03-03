@@ -31,7 +31,7 @@ const Navbar = () => {
     { name: 'Contact Us', path: '/contact', icon: MessageSquare },
     { 
       name: 'Matrimony', 
-      path: 'http://test.kammavarsangam.com',
+      path: 'https://kongunanbargalsangam.org/matrimony/registration/register.aspx',
       isExternal: true,
       icon: Heart
     }

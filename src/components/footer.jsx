@@ -73,7 +73,7 @@ function Footer() {
               <ul className="space-y-3">
                 <li>
                   <a 
-                    href="http://test.kammavarsangam.com"
+                    href="https://kongunanbargalsangam.org/matrimony/registration/register.aspx"
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="text-gray-600 hover:text-green-700 hover:translate-x-1 flex items-center transition-all duration-300"
