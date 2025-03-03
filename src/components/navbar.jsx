@@ -6,24 +6,38 @@ import { useLanguage } from '../contexts/LanguageContext';
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const { language, toggleLanguage } = useLanguage(); // Using language context
+  const { language, toggleLanguage } = useLanguage();
   const location = useLocation();
 
-  // Handle scroll effect with enhanced sensitivity
+  // Handle scroll effect
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 10) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
+      setScrolled(window.scrollY > 10);
     };
 
     window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Handle outside click to close menu
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      // Close menu if click is outside the mobile menu
+      if (isOpen && !event.target.closest('.mobile-menu')) {
+        setIsOpen(false);
+      }
+    };
+
+    // Add event listener when menu is open
+    if (isOpen) {
+      document.addEventListener('mousedown', handleOutsideClick);
+    }
+
+    // Cleanup event listener
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+    };
+  }, [isOpen]);
 
   // Menu items with translations
   const menuItems = [
@@ -92,9 +106,14 @@ const Navbar = () => {
     }
   };
 
+  // Close menu on navigation or external click
+  const closeMenu = () => {
+    setIsOpen(false);
+  };
+
   return (
-    <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'shadow-lg' : ''}`}>
-      {/* Top announcement bar - Special premium touch */}
+    <header className={`fixed top-0 w-full z-30 transition-all duration-300 ${scrolled ? 'shadow-lg' : ''}`}>
+      {/* Top announcement bar */}
       <div className="bg-gradient-to-r from-amber-600 via-amber-500 to-amber-600 py-1.5 px-4">
         <div className="container mx-auto">
           <div className="flex items-center justify-center text-white text-sm">
@@ -191,14 +210,14 @@ const Navbar = () => {
               </Link>
             </div>
             
-            {/* Mobile menu toggle */}
+            {/* Simple Mobile menu toggle button */}
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="md:hidden p-2 rounded-lg text-green-800 hover:bg-green-50 transition-colors z-20"
+              className="md:hidden flex items-center justify-center p-2 rounded-lg bg-green-100 text-green-800 hover:bg-green-200 transition-colors z-40"
               aria-expanded={isOpen}
               aria-label="Toggle navigation"
             >
-              {isOpen ? <X size={24} strokeWidth={2.5} /> : <Menu size={24} strokeWidth={2.5} />}
+              {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
 
@@ -240,92 +259,101 @@ const Navbar = () => {
               })}
             </ul>
           </nav>
+        </div>
+      </div>
 
-          {/* Mobile Navigation Overlay */}
-          <div 
-            className={`md:hidden fixed inset-0 bg-green-900/90 backdrop-blur-lg z-10 transition-all duration-500 ${
-              isOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
-            }`}
-            onClick={() => setIsOpen(false)}
-          >
-            <div 
-              className="h-full max-w-md mx-auto bg-white shadow-2xl transform transition-transform duration-500 overflow-auto"
-              style={{ transform: isOpen ? 'translateX(0)' : 'translateX(-100%)' }}
-              onClick={(e) => e.stopPropagation()}
+      {/* MOBILE Menu - Full Page Overlay */}
+      {isOpen && (
+        <div className="md:hidden fixed inset-0 bg-white z-30 overflow-y-auto mobile-menu">
+          {/* Mobile Menu Header */}
+          <div className="bg-green-800 px-4 py-6 text-white relative">
+            {/* Close button added to mobile menu header */}
+            <button 
+              onClick={closeMenu}
+              className="absolute top-4 right-4 p-2 bg-white/20 hover:bg-white/30 rounded-full"
+              aria-label="Close menu"
             >
-              {/* Mobile Menu Header */}
-              <div className="bg-gradient-to-r from-green-800 to-green-700 px-6 py-8 text-white">
-                <h2 className="text-xl font-bold mb-1">{orgTitle[language].main}</h2>
-                <p className="text-sm text-green-100">{orgTitle[language].sub}</p>
-                
-                <button 
-                  onClick={toggleLanguage}
-                  className="mt-4 flex items-center space-x-2 bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg text-sm"
-                >
-                  <Globe size={16} />
-                  <span>{language === 'tamil' ? 'English' : 'தமிழ்'}</span>
-                </button>
-              </div>
-              
-              {/* Navigation Items */}
-              <nav className="py-4 px-2">
-                {currentMenuItems.map((item) => {
-                  const Icon = item.icon;
-                  return (
-                    <div key={item.name} className="mb-1 px-2">
-                      {item.isExternal ? (
-                        <a
-                          href={item.path}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center justify-between py-3 px-4 w-full text-gray-700 hover:text-green-700 hover:bg-green-50 rounded-lg transition-colors"
-                          onClick={() => setIsOpen(false)}
-                        >
-                          <div className="flex items-center">
-                            <Icon size={20} className="mr-4" />
-                            <span className="font-medium">{item.name}</span>
-                          </div>
-                          <ExternalLink size={16} className="opacity-70" />
-                        </a>
-                      ) : (
-                        <Link
-                          to={item.path}
-                          onClick={() => setIsOpen(false)}
-                          className={`flex items-center py-3 px-4 w-full rounded-lg ${
-                            location.pathname === item.path
-                              ? 'bg-green-50 text-green-700 font-medium' 
-                              : 'text-gray-700 hover:text-green-700 hover:bg-green-50'
-                          }`}
-                        >
-                          <Icon size={20} className="mr-4" />
-                          {item.name}
-                        </Link>
-                      )}
-                    </div>
-                  );
-                })}
-              </nav>
-              
-              {/* Mobile contact information */}
-              <div className="mt-4 px-6 py-6 border-t border-gray-100">
-                <h3 className="text-sm font-medium text-gray-500 mb-4">{contactInfo[language].announcement}</h3>
-                <div className="space-y-3">
-                  <a href="tel:+919876543210" className="flex items-center text-gray-700 hover:text-green-700 transition-colors">
-                    <Phone size={18} className="mr-3 text-green-600" />
-                    <span>+91 98765 43210</span>
-                  </a>
-                  <a href="mailto:info@chennaikongu.org" className="flex items-center text-gray-700 hover:text-green-700 transition-colors">
-                    <Mail size={18} className="mr-3 text-green-600" />
-                    <span>info@chennaikongu.org</span>
-                  </a>
+              <X size={24} />
+            </button>
+
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center">
+                <img src="/Images/logo1.png" alt="Logo" className="h-12 w-auto mr-3" />
+                <div>
+                  <h2 className="text-lg font-bold">{orgTitle[language].main}</h2>
+                  <p className="text-sm text-green-100">{orgTitle[language].sub}</p>
                 </div>
               </div>
             </div>
+            
+            <button 
+              onClick={toggleLanguage}
+              className="flex items-center space-x-2 bg-white/20 hover:bg-white/30 px-4 py-2 rounded-lg text-sm"
+            >
+              <Globe size={16} />
+              <span>{language === 'tamil' ? 'English' : 'தமிழ்'}</span>
+            </button>
+          </div>
+          
+          {/* Mobile Menu Items - Simplified */}
+          <nav className="py-4 px-4">
+            <ul className="space-y-1">
+              {currentMenuItems.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <li key={item.name}>
+                    {item.isExternal ? (
+                      <a
+                        href={item.path}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center justify-between py-4 px-4 w-full text-gray-800 border-b border-gray-100"
+                        onClick={closeMenu}
+                      >
+                        <div className="flex items-center">
+                          <Icon size={20} className="mr-4 text-green-600" />
+                          <span className="font-medium">{item.name}</span>
+                        </div>
+                        <ExternalLink size={16} className="opacity-70" />
+                      </a>
+                    ) : (
+                      <Link
+                      to={item.path}
+                      onClick={closeMenu}
+                      className={`flex items-center py-4 px-4 w-full border-b border-gray-100 ${
+                        location.pathname === item.path
+                          ? 'text-green-700 font-medium' 
+                          : 'text-gray-800'
+                      }`}
+                    >
+                      <Icon size={20} className="mr-4 text-green-600" />
+                      <span>{item.name}</span>
+                    </Link>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
+        
+        {/* Mobile contact information */}
+        <div className="px-6 py-6 bg-gray-50">
+          <h3 className="text-sm font-medium text-gray-500 mb-4">{contactInfo[language].announcement}</h3>
+          <div className="space-y-4">
+            <a href="tel:+919876543210" className="flex items-center text-gray-700">
+              <Phone size={18} className="mr-3 text-green-600" />
+              <span>+91 98765 43210</span>
+            </a>
+            <a href="mailto:info@chennaikongu.org" className="flex items-center text-gray-700">
+              <Mail size={18} className="mr-3 text-green-600" />
+              <span>info@chennaikongu.org</span>
+            </a>
           </div>
         </div>
       </div>
-    </header>
-  );
+    )}
+  </header>
+);
 };
 
 export default Navbar;
