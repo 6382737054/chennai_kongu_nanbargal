@@ -9,11 +9,14 @@ import PartnersShowcase from '../components/ad';
 const HistoryPage = () => {
   const { language } = useLanguage();
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [previousSlide, setPreviousSlide] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
   const [activeSection, setActiveSection] = useState('section1');
   const [menuOpen, setMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const menuRef = useRef(null);
   const headerRef = useRef(null);
+  const slidesRef = useRef([]);
 
   // Bilingual content
   const content = {
@@ -64,13 +67,28 @@ const HistoryPage = () => {
   // Get current content based on language
   const currentContent = content[language];
 
+  // Transition slide with proper animation
+  const transitionSlide = (index) => {
+    if (isAnimating) return;
+    
+    setPreviousSlide(currentSlide);
+    setCurrentSlide(index);
+    setIsAnimating(true);
+    
+    // Reset animation state after transition completes
+    setTimeout(() => {
+      setIsAnimating(false);
+    }, 700);
+  };
+
   // Handle slider auto-rotation
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % currentContent.pageBanners.length);
-    }, 6000);
+      const nextIndex = (currentSlide + 1) % currentContent.pageBanners.length;
+      transitionSlide(nextIndex);
+    }, 7000);
     return () => clearInterval(timer);
-  }, [currentContent.pageBanners.length]);
+  }, [currentSlide, currentContent.pageBanners.length, isAnimating]);
 
   // Handle click outside for dropdown menu
   useEffect(() => {
@@ -99,11 +117,13 @@ const HistoryPage = () => {
   }, []);
 
   const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % currentContent.pageBanners.length);
+    const nextIndex = (currentSlide + 1) % currentContent.pageBanners.length;
+    transitionSlide(nextIndex);
   };
 
   const prevSlide = () => {
-    setCurrentSlide((prev) => (prev === 0 ? currentContent.pageBanners.length - 1 : prev - 1));
+    const prevIndex = currentSlide === 0 ? currentContent.pageBanners.length - 1 : currentSlide - 1;
+    transitionSlide(prevIndex);
   };
 
   // Function to render the appropriate section content
@@ -125,8 +145,8 @@ const HistoryPage = () => {
 
   return (
     <div className="min-h-screen bg-white pt-16 md:pt-20">
-      {/* Hero Banner Section with Immersive Design */}
-      <div ref={headerRef} className="relative h-[50vh] md:h-[65vh] lg:h-[75vh] w-full overflow-hidden">
+      {/* Hero Banner Section with Improved Carousel */}
+      <div ref={headerRef} className="relative h-[60vh] md:h-[75vh] lg:h-[85vh] w-full overflow-hidden bg-gray-900">
         {/* Background Pattern */}
         <div className="absolute inset-0 bg-green-900/10 z-0">
           <div className="absolute inset-0" style={{
@@ -135,41 +155,47 @@ const HistoryPage = () => {
           }}></div>
         </div>
         
-        {/* Slides */}
-        <div 
-          className="absolute inset-0 flex transition-transform duration-1000 ease-out"
-          style={{ transform: `translateX(-${currentSlide * 100}%)` }}
-        >
+        {/* Slides with improved transition */}
+        <div className="absolute inset-0">
           {currentContent.pageBanners.map((banner, index) => (
-            <div key={index} className="w-full h-full flex-shrink-0 relative">
-              {/* Image with parallax effect */}
-              <div className="absolute inset-0">
+            <div 
+              key={index}
+              ref={el => slidesRef.current[index] = el}
+              className={`absolute inset-0 w-full h-full transition-all duration-700 ease-in-out ${
+                currentSlide === index 
+                  ? 'opacity-100 z-10' 
+                  : 'opacity-0 z-0'
+              }`}
+            >
+              {/* Image container with improved aspect ratio handling */}
+              <div className="absolute inset-0 overflow-hidden">
                 <img
                   src={banner.image}
                   alt={`History Banner ${index + 1}`}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover object-center"
                   style={{
-                    transform: currentSlide === index ? 'scale(1)' : 'scale(1.1)',
-                    transition: 'transform 7s ease-out'
+                    transform: currentSlide === index ? 'scale(1.05)' : 'scale(1.15)',
+                    transition: 'transform 7s ease-out, opacity 0.5s ease-in-out',
+                    opacity: currentSlide === index ? 1 : 0.8,
                   }}
                 />
-                {/* Enhanced Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-black/20 z-10"></div>
+                {/* Enhanced Gradient Overlay - softer transition */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20 z-10"></div>
               </div>
               
-              {/* Content */}
+              {/* Content with staggered animation */}
               <div className="absolute inset-0 flex items-center justify-center text-center p-6 z-20">
                 <div className="max-w-4xl mx-auto">
-                  <div className="mb-6 transform transition-all duration-700 delay-300" 
-                       style={{ 
-                         opacity: currentSlide === index ? 1 : 0,
-                         transform: currentSlide === index ? 'translateY(0)' : 'translateY(20px)'
-                       }}>
-                    <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 tracking-wide">
+                  <div className={`mb-6 transition-all duration-700 ${
+                    currentSlide === index 
+                      ? 'opacity-100 transform translate-y-0' 
+                      : 'opacity-0 transform translate-y-10'
+                  }`}>
+                    <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-4 tracking-wide leading-tight">
                       {banner.title}
                     </h1>
-                    <div className="h-1 w-20 md:w-24 bg-green-500 mx-auto mb-4"></div>
-                    <p className="text-white/90 text-sm md:text-lg max-w-2xl mx-auto">
+                    <div className="h-1 w-20 md:w-32 bg-green-500 mx-auto mb-6"></div>
+                    <p className="text-white/90 text-sm md:text-xl max-w-2xl mx-auto font-light">
                       {banner.subtitle}
                     </p>
                   </div>
@@ -179,14 +205,15 @@ const HistoryPage = () => {
           ))}
         </div>
 
-        {/* Navigation UI Elements */}
-        <div className="absolute inset-0 z-20 pointer-events-none">
+        {/* Navigation UI Elements - Enhanced for better visibility */}
+        <div className="absolute inset-0 z-30 pointer-events-none">
           <div className="h-full flex items-center justify-between px-4 sm:px-6 md:px-8">
             {/* Left Navigation Arrow */}
             <button 
               onClick={prevSlide}
-              className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-black/30 hover:bg-black/50 backdrop-blur-sm transition-all duration-300 flex items-center justify-center pointer-events-auto"
+              className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-black/40 hover:bg-black/60 backdrop-blur-sm transition-all duration-300 flex items-center justify-center pointer-events-auto transform hover:scale-105"
               aria-label="Previous slide"
+              disabled={isAnimating}
             >
               <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
             </button>
@@ -194,37 +221,37 @@ const HistoryPage = () => {
             {/* Right Navigation Arrow */}
             <button 
               onClick={nextSlide}
-              className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-black/30 hover:bg-black/50 backdrop-blur-sm transition-all duration-300 flex items-center justify-center pointer-events-auto"
+              className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-black/40 hover:bg-black/60 backdrop-blur-sm transition-all duration-300 flex items-center justify-center pointer-events-auto transform hover:scale-105"
               aria-label="Next slide"
+              disabled={isAnimating}
             >
               <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
             </button>
           </div>
         </div>
 
-        {/* Slide Indicators */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
+        {/* Improved Slide Indicators */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-3 z-30">
           {currentContent.pageBanners.map((_, index) => (
             <button
               key={index}
-              onClick={() => setCurrentSlide(index)}
+              onClick={() => !isAnimating && transitionSlide(index)}
               className={`rounded-full transition-all duration-300 ${
                 currentSlide === index 
-                  ? 'w-10 h-2 bg-green-500' 
-                  : 'w-2 h-2 bg-white/70 hover:bg-white'
+                  ? 'w-12 h-3 bg-green-500' 
+                  : 'w-3 h-3 bg-white/70 hover:bg-white'
               }`}
               aria-label={`Go to slide ${index + 1}`}
+              disabled={isAnimating}
             />
           ))}
         </div>
-
-    
       </div>
 
       {/* Section Navigation - Enhanced Sticky Header */}
       <div 
         className={`sticky z-20 transition-all duration-500 ${
-          isScrolled ? 'bg-white shadow-md' : 'bg-black/30 backdrop-blur-sm'
+          isScrolled ? 'bg-white shadow-md' : 'bg-black/40 backdrop-blur-sm'
         }`}
         style={{ top: navbarHeight }}
       >
