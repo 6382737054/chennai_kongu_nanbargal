@@ -8,7 +8,7 @@ const WelcomeModal = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
   
   return (
-    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-hidden">
       <div className="relative w-full max-w-[90%] sm:max-w-[80%] md:max-w-[70%] lg:max-w-[60%] xl:max-w-[50%] h-[80vh] sm:h-[70vh] bg-white rounded-2xl shadow-2xl overflow-hidden">
         {/* Close Button */}
         <button
@@ -21,7 +21,7 @@ const WelcomeModal = ({ isOpen, onClose }) => {
         {/* Content Container */}
         <div className="flex flex-col h-full">
           {/* Image Container */}
-          <div className="h-[60%] sm:h-[70%] bg-gray-50 relative flex items-center justify-center p-4">
+          <div className="h-[60%] sm:h-[70%] bg-gray-50 relative flex items-center justify-center p-4 overflow-hidden">
             <img
               src="Images/modal.png"
               alt="Magazine Cover"
@@ -54,27 +54,39 @@ const HomePage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   
   useEffect(() => {
+    // Add overflow-hidden to body when component mounts to prevent any potential issues
+    document.body.classList.add('overflow-x-hidden');
+    
     const timer = setTimeout(() => {
       setIsModalOpen(true);
     }, 1000);
     
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+      // Remove the class when component unmounts
+      document.body.classList.remove('overflow-x-hidden');
+    };
   }, []);
   
+  // Control body overflow when modal opens
+  useEffect(() => {
+    if (isModalOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isModalOpen]);
+  
   return (
-    <div className="min-h-screen bg-white pt-28">
-      {/* Adjust the spacing by wrapping components in divs with custom spacing */}
-      <div className="mb-8 sm:mb-10">
-        <HeroSection />
-      </div>
-      
-      <div className="mb-8 sm:mb-10">
-        <ServicesSection />
-      </div>
-      
-      <div>
-        <PartnersShowcase />
-      </div>
+    <div className="min-h-screen bg-white pt-28 overflow-hidden">
+      {/* Removed margin classes and overflow-x-hidden from individual wrappers */}
+      <HeroSection />
+      <ServicesSection />
+      <PartnersShowcase />
       
       <WelcomeModal
         isOpen={isModalOpen}

@@ -1,150 +1,255 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { useLanguage } from '../contexts/LanguageContext';
+import { ArrowRight, ChevronRight, ChevronLeft } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
-const HeroSection = () => {
+const LuxuryHeroSection = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
-
-  const slides = [
-    {
-      image: "/Images/hero1.png",
-      title: "Community & Togetherness",
+  const [isAnimating, setIsAnimating] = useState(false);
+  const sliderRef = useRef(null);
+  const { language } = useLanguage();
+  
+  // Content for both languages with updated CTA buttons and routes
+  const content = {
+    tamil: {
+      slides: [
+        {
+          image: "/Images/hero1.png",
+          eyebrow: "சிறப்பு சமூகம்",
+          title: "கொங்கு நண்பர்கள் சங்கம்",
+          subtitle: "பாரம்பரியம் | சமூகம் | எதிர்காலம்",
+          cta: "வரலாறு",
+          route: "/history"
+        },
+        {
+          image: "/Images/hero2.png",
+          eyebrow: "வரலாறு & பாரம்பரியம்",
+          title: "பாரம்பரியத்தை போற்றுதல்",
+          subtitle: "கலாச்சாரத்தை பாதுகாத்து அடுத்த தலைமுறைக்கு வழங்குதல்",
+          cta: "பத்திரிகை",
+          route: "/magazine"
+        },
+        {
+          image: "/Images/hero3.png",
+          eyebrow: "சமூக முன்னேற்றம்",
+          title: "சமூக சேவை",
+          subtitle: "4,200+ உறுப்பினர்களுடன், நாங்கள் சமூகத்தை வளர்க்க உறுதிபூண்டுள்ளோம்",
+          cta: "படத்தொகுப்பு",
+          route: "/gallery"
+        }
+      ]
     },
-    {
-      image: "/Images/hero2.png",
-      title: "Cultural Heritage",
-    },
-    {
-      image: "/Images/hero3.png",
-      title: "Enriching Lives",
+    english: {
+      slides: [
+        {
+          image: "/Images/hero1.png",
+          eyebrow: "DISTINGUISHED COMMUNITY",
+          title: "Kongu Nanbargal Sangam",
+          subtitle: "Preserving Heritage | Elevating Community | Building Future",
+          cta: "History",
+          route: "/history"
+        },
+        {
+          image: "/Images/hero2.png",
+          eyebrow: "HISTORY & HERITAGE",
+          title: "Celebrating Our Legacy",
+          subtitle: "Leading the way in preserving cultural heritage and passing it to our next generation.",
+          cta: "Magazine",
+          route: "/magazine"
+        },
+        {
+          image: "/Images/hero3.png",
+          eyebrow: "COMMUNITY ADVANCEMENT",
+          title: "Proud to Serve Society",
+          subtitle: "With 4,200+ members, we're dedicated to strengthening and enhancing our community.",
+          cta: "Gallery",
+          route: "/gallery"
+        }
+      ]
     }
-  ];
+  };
 
+  // Get current content based on language
+  const currentContent = content[language];
+
+  // Handle slide change
+  const changeSlide = (index) => {
+    if (isAnimating) return;
+    setIsAnimating(true);
+    setCurrentSlide(index);
+    setTimeout(() => {
+      setIsAnimating(false);
+    }, 1000);
+  };
+
+  // Auto rotate slides
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentSlide((prevSlide) => (prevSlide + 1) % slides.length);
-    }, 5000);
+      if (!isAnimating) {
+        const newIndex = (currentSlide + 1) % currentContent.slides.length;
+        changeSlide(newIndex);
+      }
+    }, 7000);
     return () => clearInterval(timer);
-  }, [slides.length]);
+  }, [currentSlide, isAnimating, currentContent.slides.length]);
 
+  // Next/Prev slide handlers
   const nextSlide = () => {
-    setCurrentSlide((prevSlide) => (prevSlide + 1) % slides.length);
+    const newIndex = (currentSlide + 1) % currentContent.slides.length;
+    changeSlide(newIndex);
   };
 
   const prevSlide = () => {
-    setCurrentSlide((prevSlide) => (prevSlide - 1 + slides.length) % slides.length);
+    const newIndex = (currentSlide - 1 + currentContent.slides.length) % currentContent.slides.length;
+    changeSlide(newIndex);
   };
 
   return (
-    <div className="bg-gradient-to-b from-green-100 to-green-50 pt-36">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Hero Carousel Section */}
-        <div className="relative mb-16">
-          <div className="relative overflow-hidden rounded-xl shadow-lg h-[500px]">
-            {/* Main Carousel */}
+    <section className="relative w-full overflow-hidden bg-black">
+      {/* Main Hero Slider */}
+      <div 
+        ref={sliderRef}
+        className="relative h-screen w-full"
+      >
+        {/* Slides Container */}
+        <div className="h-full">
+          {currentContent.slides.map((slide, index) => (
             <div 
-              className="flex h-full transition-transform duration-700 ease-out"
-              style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+              key={index}
+              className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ease-in-out ${
+                currentSlide === index ? 'opacity-100 z-10' : 'opacity-0 z-0'
+              }`}
             >
-              {slides.map((slide, index) => (
-                <div key={index} className="w-full h-full flex-shrink-0 relative">
-                  <img
-                    src={slide.image}
-                    alt={`${slide.title}`}
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-green-900/60 to-transparent">
-                    <div className="absolute bottom-8 left-8 right-8">
-                      <h2 className="text-white text-3xl font-semibold mb-2">{slide.title}</h2>
+              {/* Background Image with Overlay */}
+              <div className="absolute inset-0">
+                <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-black/30 z-10"></div>
+                <img 
+                  src={slide.image} 
+                  alt={slide.title}
+                  className="w-full h-full object-cover object-center transition-transform duration-10000 ease-out scale-110 transform-gpu"
+                  style={{
+                    transform: currentSlide === index ? 'scale(1)' : 'scale(1.1)',
+                    transition: 'transform 7s ease-out'
+                  }}
+                />
+              </div>
+
+              {/* Content Container */}
+              <div className="relative z-20 h-full flex items-center">
+                <div className="container mx-auto px-8 md:px-16 max-w-screen-xl">
+                  <div className="max-w-3xl">
+                    {/* Animated content elements */}
+                    <div 
+                      className={`overflow-hidden transition-transform duration-1000 delay-200 ${
+                        currentSlide === index ? 'transform-none' : 'translate-y-8 opacity-0'
+                      }`}
+                    >
+                      <span className="inline-block py-1 px-3 bg-green-500 text-xs font-bold tracking-widest text-black rounded-sm mb-5 transition-all duration-300">
+                        {slide.eyebrow}
+                      </span>
+                    </div>
+
+                    <div 
+                      className={`overflow-hidden transition-all duration-1000 delay-300 ${
+                        currentSlide === index ? 'transform-none' : 'translate-y-8 opacity-0'
+                      }`}
+                    >
+                      <h1 className={`${language === 'tamil' ? 'text-4xl md:text-5xl' : 'text-5xl md:text-7xl'} font-bold text-white mb-6 leading-tight`}>
+                        {slide.title}
+                      </h1>
+                    </div>
+
+                    <div 
+                      className={`overflow-hidden transition-all duration-1000 delay-400 ${
+                        currentSlide === index ? 'transform-none' : 'translate-y-8 opacity-0'
+                      }`}
+                    >
+                      <p className={`${language === 'tamil' ? 'text-lg' : 'text-xl'} text-white/80 mb-8 max-w-2xl`}>
+                        {slide.subtitle}
+                      </p>
+                    </div>
+
+                    <div 
+                      className={`transition-all duration-1000 delay-500 ${
+                        currentSlide === index ? 'opacity-100 transform-none' : 'opacity-0 translate-y-8'
+                      }`}
+                    >
+                      <Link 
+                        to={slide.route}
+                        className="group relative overflow-hidden bg-white text-black px-8 py-4 rounded-none hover:bg-green-500 transition-all duration-500 inline-flex items-center"
+                      >
+                        <span className="relative z-10 flex items-center gap-2 font-medium">
+                          {slide.cta}
+                          <ArrowRight size={18} className="transition-transform duration-300 group-hover:translate-x-1" />
+                        </span>
+                        <span className="absolute bottom-0 left-0 w-0 h-1 bg-green-500 group-hover:w-full transition-all duration-300"></span>
+                      </Link>
                     </div>
                   </div>
                 </div>
-              ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Navigation Controls */}
+        <div className="absolute bottom-12 left-0 w-full z-30 container mx-auto px-8 md:px-16 max-w-screen-xl">
+          <div className="flex justify-between items-center">
+            {/* Slide Counter */}
+            <div className="flex items-center gap-4">
+              <div className="text-white font-medium">
+                <span className="text-2xl">{(currentSlide + 1).toString().padStart(2, '0')}</span>
+                <span className="text-white/50 mx-2">/</span>
+                <span className="text-white/50 text-lg">{currentContent.slides.length.toString().padStart(2, '0')}</span>
+              </div>
+              
+              {/* Progress Bar */}
+              <div className="hidden md:flex w-32 h-[2px] bg-white/20 relative">
+                <div 
+                  className="absolute top-0 left-0 h-full bg-white transition-all duration-300"
+                  style={{ width: `${((currentSlide + 1) / currentContent.slides.length) * 100}%` }}
+                ></div>
+              </div>
             </div>
 
-            {/* Navigation Arrows */}
-            <button 
-              onClick={prevSlide} 
-              className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-all duration-300"
-              aria-label="Previous slide"
-            >
-              <ChevronLeft size={24} />
-            </button>
-            <button 
-              onClick={nextSlide} 
-              className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-white/30 transition-all duration-300"
-              aria-label="Next slide"
-            >
-              <ChevronRight size={24} />
-            </button>
-
-            {/* Navigation Dots */}
-            <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-2">
-              {slides.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentSlide(index)}
-                  className={`transition-all duration-300 rounded-full
-                    ${currentSlide === index 
-                      ? 'w-10 h-2 bg-green-600' 
-                      : 'w-2 h-2 bg-green-300 hover:bg-green-400'
+            {/* Dot Navigation */}
+            <div className="flex items-center gap-6">
+              <div className="flex gap-3">
+                {currentContent.slides.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => changeSlide(index)}
+                    className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                      currentSlide === index ? 'bg-white scale-100' : 'bg-white/30 scale-75 hover:scale-90 hover:bg-white/50'
                     }`}
-                  aria-label={`Go to slide ${index + 1}`}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
+                    aria-label={`Go to slide ${index + 1}`}
+                  />
+                ))}
+              </div>
 
-        {/* Welcome Text Section */}
-        <div className="py-12 px-4 bg-white/80 backdrop-blur-sm rounded-xl shadow-md border border-green-100">
-          <div className="text-center max-w-4xl mx-auto">
-            <h1 className="text-4xl font-medium text-green-800 mb-8">
-              Welcome to <span className="font-bold bg-gradient-to-r from-green-600 to-green-700 text-transparent bg-clip-text">Kongu Nanbargal Sangam</span>
-            </h1>
-            
-            <div className="space-y-6 text-gray-700 text-lg leading-relaxed">
-              <p>
-                Thiru. K.K.Ramesh has been unanimously elected president for this term & the sangam has been connected to the World Wide Web so that people all over the world can take advantage of the information provided through this website.
-              </p>
-              
-              <p>
-                The word, <span className="font-medium text-green-700">"KONGU NANBARGAL"</span> implies Kind, Outgoing, Noble, Good-natured, Unbeatable friends and Kongu Nanbargal Sangam takes pride in asserting that it is a society of almost 4200 such members.
-              </p>
-              
-              <p>
-                The motive is to promote friendship and brotherhood, offer educational and career guidance to the youth, provide matrimonial assistance, render service to the needy and work for the improvement of the society at large.
-              </p>
+              {/* Navigation arrows */}
+              <div className="flex gap-2">
+                <button 
+                  onClick={prevSlide}
+                  className="w-10 h-10 flex items-center justify-center rounded-full border border-white/20 text-white hover:bg-white/10 transition-colors"
+                  aria-label="Previous slide"
+                >
+                  <ChevronLeft size={20} />
+                </button>
+                <button 
+                  onClick={nextSlide}
+                  className="w-10 h-10 flex items-center justify-center rounded-full border border-white/20 text-white hover:bg-white/10 transition-colors"
+                  aria-label="Next slide"
+                >
+                  <ChevronRight size={20} />
+                </button>
+              </div>
             </div>
-            
-            <div className="mt-10">
-              <button className="px-8 py-3 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg hover:from-green-700 hover:to-green-800 transition-all duration-300 shadow-md hover:shadow-lg hover:translate-y-[-2px]">
-                <span className="font-medium tracking-wider">Read More</span>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Features Section */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 my-16">
-          <div className="bg-white rounded-lg shadow-md p-6 border-t-4 border-green-600 transform hover:translate-y-[-5px] transition-transform duration-300">
-            <h3 className="text-xl font-semibold text-green-800 mb-3">Community Support</h3>
-            <p className="text-gray-600">Providing support and guidance to our community members in various aspects of life and career.</p>
-          </div>
-          
-          <div className="bg-white rounded-lg shadow-md p-6 border-t-4 border-green-600 transform hover:translate-y-[-5px] transition-transform duration-300">
-            <h3 className="text-xl font-semibold text-green-800 mb-3">Cultural Heritage</h3>
-            <p className="text-gray-600">Preserving and promoting our rich cultural heritage and traditions for future generations.</p>
-          </div>
-          
-          <div className="bg-white rounded-lg shadow-md p-6 border-t-4 border-green-600 transform hover:translate-y-[-5px] transition-transform duration-300">
-            <h3 className="text-xl font-semibold text-green-800 mb-3">Social Responsibility</h3>
-            <p className="text-gray-600">Working towards the betterment of society through various social service initiatives and programs.</p>
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
-export default HeroSection;
+export default LuxuryHeroSection;

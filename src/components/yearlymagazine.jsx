@@ -45,7 +45,7 @@ const YearlyMagazineArchive = () => {
   const decades = groupByDecade();
 
   return (
-    <div className="min-h-screen bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-green-50 via-emerald-50 to-green-50">
+    <div className="min-h-screen bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-green-50 via-emerald-50 to-green-50 pt-16">
       <div className="max-w-7xl mx-auto px-4 py-24">
         {/* Premium Header */}
         <div className="relative mb-24">
@@ -55,9 +55,7 @@ const YearlyMagazineArchive = () => {
           </div>
           
           <div className="relative text-center space-y-8">
-            <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-green-100/50 backdrop-blur-sm p-4">
-              <BookOpen className="w-10 h-10 text-green-800" />
-            </div>
+         
             
             <div>
               <h1 className="text-6xl font-light text-green-950 mb-6 tracking-tight">
