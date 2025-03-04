@@ -1,44 +1,109 @@
-import React, { useState, useEffect } from 'react';
-import { ChevronLeft, ChevronRight, Clock, BookOpen, Award } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { ChevronLeft, ChevronRight, Clock, BookOpen, Award, ChevronDown, History } from 'lucide-react';
+import { useLanguage } from '../contexts/LanguageContext';
 import OurHistory from '../components/ourhistory';
 import KonguMamanigal from '../components/KonguMamanigal';
 import Sadhanayalargal from '../components/Sadhanayalargal';
 import PartnersShowcase from '../components/ad';
 
 const HistoryPage = () => {
+  const { language } = useLanguage();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [activeSection, setActiveSection] = useState('section1');
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const menuRef = useRef(null);
+  const headerRef = useRef(null);
 
-  const bannerImages = [
-    {
-      image: "/Images/history1.jpg",
-      title: "Our Rich Heritage"
+  // Bilingual content
+  const content = {
+    tamil: {
+      pageTitle: "எங்கள் பாரம்பரியம்",
+      pageBanners: [
+        {
+          image: "/Images/history1.jpg",
+          title: "எங்களது பாரம்பரியம் மற்றும் வரலாறு",
+          subtitle: "பாரம்பரியத்தை பாதுகாத்தல் | கலாச்சாரத்தை போற்றுதல்"
+        },
+        {
+          image: "/Images/history2.jpg",
+          title: "எங்கள் மரபைக் கொண்டாடுகிறோம்",
+          subtitle: "கொங்கு சமூகத்தின் பெருமைமிகு கதை"
+        }
+      ],
+      sections: [
+        { id: 'section1', title: 'வரலாறு', icon: Clock },
+        { id: 'section2', title: 'கொங்கு மாமணிகள்', icon: BookOpen },
+        { id: 'section3', title: 'சாதனையாளர்கள்', icon: Award }
+      ],
+      mobileMenuLabel: "பிரிவைத் தேர்ந்தெடுக்கவும்"
     },
-    {
-      image: "/Images/history2.jpg",
-      title: "Celebrating Our Legacy"
+    english: {
+      pageTitle: "Our Heritage",
+      pageBanners: [
+        {
+          image: "/Images/history1.jpg",
+          title: "Our Heritage and History",
+          subtitle: "Preserving Traditions | Honoring Culture"
+        },
+        {
+          image: "/Images/history2.jpg",
+          title: "Celebrating Our Legacy",
+          subtitle: "The Proud Story of Kongu Community"
+        }
+      ],
+      sections: [
+        { id: 'section1', title: 'History', icon: Clock },
+        { id: 'section2', title: 'Kongu Mamanigal', icon: BookOpen },
+        { id: 'section3', title: 'Sadhanayalargal', icon: Award }
+      ],
+      mobileMenuLabel: "Select Section"
     }
-  ];
+  };
 
-  const navigationSections = [
-    { id: 'section1', title: 'History', icon: Clock },
-    { id: 'section2', title: 'Kongu Mamanigal', icon: BookOpen },
-    { id: 'section3', title: 'Sadhanayalargal', icon: Award }
-  ];
+  // Get current content based on language
+  const currentContent = content[language];
 
+  // Handle slider auto-rotation
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % bannerImages.length);
-    }, 5000);
+      setCurrentSlide((prev) => (prev + 1) % currentContent.pageBanners.length);
+    }, 6000);
     return () => clearInterval(timer);
-  }, [bannerImages.length]);
+  }, [currentContent.pageBanners.length]);
+
+  // Handle click outside for dropdown menu
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setMenuOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  // Handle scroll effects for sticky header
+  useEffect(() => {
+    const handleScroll = () => {
+      const headerHeight = headerRef.current ? headerRef.current.offsetHeight : 400;
+      setIsScrolled(window.scrollY > headerHeight - 100);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % bannerImages.length);
+    setCurrentSlide((prev) => (prev + 1) % currentContent.pageBanners.length);
   };
 
   const prevSlide = () => {
-    setCurrentSlide((prev) => (prev === 0 ? bannerImages.length - 1 : prev - 1));
+    setCurrentSlide((prev) => (prev === 0 ? currentContent.pageBanners.length - 1 : prev - 1));
   };
 
   // Function to render the appropriate section content
@@ -55,108 +120,220 @@ const HistoryPage = () => {
     }
   };
 
+  // Calculate top position for section navigation based on main navbar height
+  const navbarHeight = "72px"; // This should match your main navbar height
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-green-50/80 to-white pt-20 md:pt-56">
-      {/* Banner Carousel */}
-      <div className="w-full px-3 sm:px-4 md:px-6 lg:px-8 mb-4 sm:mb-6">
-        <div className="relative w-full h-[250px] sm:h-[300px] md:h-[350px] lg:h-[450px] mx-auto overflow-hidden rounded-lg sm:rounded-xl shadow-md sm:shadow-lg">
-          {/* Slides */}
-          <div 
-            className="flex transition-transform duration-700 ease-out h-full"
-            style={{ transform: `translateX(-${currentSlide * 100}%)` }}
-          >
-            {bannerImages.map((banner, index) => (
-              <div key={index} className="w-full h-full flex-shrink-0 relative">
+    <div className="min-h-screen bg-white pt-16 md:pt-20">
+      {/* Hero Banner Section with Immersive Design */}
+      <div ref={headerRef} className="relative h-[50vh] md:h-[65vh] lg:h-[75vh] w-full overflow-hidden">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 bg-green-900/10 z-0">
+          <div className="absolute inset-0" style={{
+            backgroundImage: 'radial-gradient(circle, rgba(34,197,94,0.07) 1px, transparent 1px)',
+            backgroundSize: '30px 30px'
+          }}></div>
+        </div>
+        
+        {/* Slides */}
+        <div 
+          className="absolute inset-0 flex transition-transform duration-1000 ease-out"
+          style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+        >
+          {currentContent.pageBanners.map((banner, index) => (
+            <div key={index} className="w-full h-full flex-shrink-0 relative">
+              {/* Image with parallax effect */}
+              <div className="absolute inset-0">
                 <img
                   src={banner.image}
                   alt={`History Banner ${index + 1}`}
                   className="w-full h-full object-cover"
+                  style={{
+                    transform: currentSlide === index ? 'scale(1)' : 'scale(1.1)',
+                    transition: 'transform 7s ease-out'
+                  }}
                 />
-                {/* Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                
-                {/* Title */}
-                <div className="absolute bottom-4 sm:bottom-6 md:bottom-8 left-4 sm:left-6 md:left-8 right-4 sm:right-6 md:right-8">
-                  <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-1 sm:mb-2">
-                    {banner.title}
-                  </h1>
-                  <div className="h-1 w-12 sm:w-16 md:w-20 bg-green-500"></div>
+                {/* Enhanced Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-black/20 z-10"></div>
+              </div>
+              
+              {/* Content */}
+              <div className="absolute inset-0 flex items-center justify-center text-center p-6 z-20">
+                <div className="max-w-4xl mx-auto">
+                  <div className="mb-6 transform transition-all duration-700 delay-300" 
+                       style={{ 
+                         opacity: currentSlide === index ? 1 : 0,
+                         transform: currentSlide === index ? 'translateY(0)' : 'translateY(20px)'
+                       }}>
+                    <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 tracking-wide">
+                      {banner.title}
+                    </h1>
+                    <div className="h-1 w-20 md:w-24 bg-green-500 mx-auto mb-4"></div>
+                    <p className="text-white/90 text-sm md:text-lg max-w-2xl mx-auto">
+                      {banner.subtitle}
+                    </p>
+                  </div>
                 </div>
               </div>
-            ))}
+            </div>
+          ))}
+        </div>
+
+        {/* Navigation UI Elements */}
+        <div className="absolute inset-0 z-20 pointer-events-none">
+          <div className="h-full flex items-center justify-between px-4 sm:px-6 md:px-8">
+            {/* Left Navigation Arrow */}
+            <button 
+              onClick={prevSlide}
+              className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-black/30 hover:bg-black/50 backdrop-blur-sm transition-all duration-300 flex items-center justify-center pointer-events-auto"
+              aria-label="Previous slide"
+            >
+              <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+            </button>
+            
+            {/* Right Navigation Arrow */}
+            <button 
+              onClick={nextSlide}
+              className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-black/30 hover:bg-black/50 backdrop-blur-sm transition-all duration-300 flex items-center justify-center pointer-events-auto"
+              aria-label="Next slide"
+            >
+              <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+            </button>
           </div>
+        </div>
 
-          {/* Navigation Arrows */}
-          <button 
-            onClick={prevSlide}
-            className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/20 backdrop-blur-sm hover:bg-white/40 transition-all duration-300 flex items-center justify-center"
-            aria-label="Previous slide"
-          >
-            <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white" />
-          </button>
-          <button 
-            onClick={nextSlide}
-            className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/20 backdrop-blur-sm hover:bg-white/40 transition-all duration-300 flex items-center justify-center"
-            aria-label="Next slide"
-          >
-            <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-white" />
-          </button>
+        {/* Slide Indicators */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
+          {currentContent.pageBanners.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentSlide(index)}
+              className={`rounded-full transition-all duration-300 ${
+                currentSlide === index 
+                  ? 'w-10 h-2 bg-green-500' 
+                  : 'w-2 h-2 bg-white/70 hover:bg-white'
+              }`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
+        </div>
 
-          {/* Slide Indicators */}
-          <div className="absolute bottom-3 sm:bottom-4 md:bottom-6 right-3 sm:right-4 md:right-6 flex space-x-1.5 sm:space-x-2">
-            {bannerImages.map((_, index) => (
+    
+      </div>
+
+      {/* Section Navigation - Enhanced Sticky Header */}
+      <div 
+        className={`sticky z-20 transition-all duration-500 ${
+          isScrolled ? 'bg-white shadow-md' : 'bg-black/30 backdrop-blur-sm'
+        }`}
+        style={{ top: navbarHeight }}
+      >
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="flex items-center justify-between py-4">
+            {/* Section Title */}
+            <div className={`flex items-center gap-2 transition-opacity duration-500 ${
+              isScrolled ? 'text-gray-800' : 'text-white'
+            }`}>
+              <History className="w-5 h-5" />
+              <h2 className="text-lg font-medium">{currentContent.pageTitle}</h2>
+            </div>
+            
+            {/* Desktop Navigation */}
+            <div className="hidden md:block">
+              <nav className="flex">
+                {currentContent.sections.map((section, index) => {
+                  const Icon = section.icon;
+                  return (
+                    <button
+                      key={section.id}
+                      onClick={() => setActiveSection(section.id)}
+                      className={`relative px-5 py-2 mx-1 text-sm font-medium transition-all rounded-lg ${
+                        activeSection === section.id 
+                          ? 'text-white bg-green-600 shadow-md' 
+                          : isScrolled
+                            ? 'text-gray-700 hover:bg-gray-100'
+                            : 'text-white hover:bg-white/20'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2">
+                        <Icon className="w-4 h-4" />
+                        <span>{section.title}</span>
+                      </div>
+                    </button>
+                  );
+                })}
+              </nav>
+            </div>
+
+            {/* Mobile Dropdown Navigation */}
+            <div className="md:hidden relative" ref={menuRef}>
               <button
-                key={index}
-                onClick={() => setCurrentSlide(index)}
-                className={`rounded-full transition-all duration-300 ${
-                  currentSlide === index 
-                    ? 'w-6 sm:w-8 h-1.5 sm:h-2 bg-green-500' 
-                    : 'w-1.5 sm:w-2 h-1.5 sm:h-2 bg-white/70 hover:bg-white'
+                onClick={() => setMenuOpen(!menuOpen)}
+                className={`flex items-center justify-between px-4 py-2 rounded-lg transition-colors ${
+                  isScrolled 
+                    ? 'bg-gray-100 text-gray-800' 
+                    : 'bg-white/20 text-white'
                 }`}
-                aria-label={`Go to slide ${index + 1}`}
-              />
-            ))}
+              >
+                <div className="flex items-center gap-2">
+                  {(() => {
+                    const currentSection = currentContent.sections.find(s => s.id === activeSection);
+                    const Icon = currentSection.icon;
+                    return (
+                      <>
+                        <Icon className="w-4 h-4" />
+                        <span className="text-sm font-medium">{currentSection.title}</span>
+                      </>
+                    );
+                  })()}
+                  <ChevronDown className={`w-4 h-4 ml-2 transition-transform ${menuOpen ? 'rotate-180' : ''}`} />
+                </div>
+              </button>
+              
+              {menuOpen && (
+                <div className="absolute top-full left-0 right-0 mt-1 bg-white shadow-lg rounded-lg border border-gray-200 overflow-hidden z-40">
+                  {currentContent.sections.map((section) => {
+                    const Icon = section.icon;
+                    return (
+                      <button
+                        key={section.id}
+                        onClick={() => {
+                          setActiveSection(section.id);
+                          setMenuOpen(false);
+                        }}
+                        className={`w-full flex items-center gap-2 px-4 py-3 text-left ${
+                          activeSection === section.id 
+                            ? 'bg-green-50 text-green-700' 
+                            : 'text-gray-700 hover:bg-gray-50'
+                        }`}
+                      >
+                        <Icon className="w-4 h-4" />
+                        <span>{section.title}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Section Navigation */}
-      <div className="bg-white shadow-md mb-6 sm:mb-8 md:mb-10 sticky top-16 md:top-[76px] z-10">
-        <div className="w-full px-3 sm:px-4 md:px-6 mx-auto overflow-x-auto">
-          <nav className="flex justify-start md:justify-center py-3 md:py-4 min-w-full whitespace-nowrap">
-            {navigationSections.map((section) => {
-              const Icon = section.icon;
-              return (
-                <button
-                  key={section.id}
-                  onClick={() => setActiveSection(section.id)}
-                  className={`relative flex-shrink-0 px-3 sm:px-4 md:px-5 py-1.5 sm:py-2 mx-1.5 sm:mx-2 md:mx-3 text-xs sm:text-sm font-medium transition-all rounded-full ${
-                    activeSection === section.id 
-                      ? 'text-white bg-green-600 shadow-md' 
-                      : 'text-green-800 bg-green-50 hover:bg-green-100'
-                  }`}
-                >
-                  <div className="flex items-center gap-1 sm:gap-2">
-                    <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                    <span>{section.title}</span>
-                  </div>
-                </button>
-              );
-            })}
-          </nav>
-        </div>
-      </div>
-
-      {/* Content Section */}
-      <div className="w-full px-3 sm:px-4 md:px-6 lg:px-8 mb-8 sm:mb-10 md:mb-12">
-        <div className="bg-white rounded-lg sm:rounded-xl shadow-sm border border-green-100 p-4 sm:p-5 md:p-6">
-          {renderSectionContent()}
+      {/* Main Content Container */}
+      <div className="container mx-auto px-4 sm:px-6 py-10 md:py-16">
+        <div className="max-w-7xl mx-auto">
+          {/* Main Content Section */}
+          <div className="bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden mb-16">
+            {/* Tab Content */}
+            <div className="p-6 md:p-8 lg:p-10">
+              {renderSectionContent()}
+            </div>
+          </div>
         </div>
       </div>
       
-      <div className="mb-6 sm:mb-8 md:mb-10">
-        <PartnersShowcase />
-      </div>
+      {/* Partners Showcase */}
+      <PartnersShowcase />
     </div>
   );
 };
