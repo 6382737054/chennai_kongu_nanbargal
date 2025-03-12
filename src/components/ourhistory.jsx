@@ -22,6 +22,10 @@ const marqueeStyle = `
   display: flex;
   animation: marquee 80s linear infinite;
   padding-right: 24px;
+},
+.timeline-content {
+  min-height: 300px; /* Adjust this value based on your content */
+  transition: all 0.3s ease;
 }
 
 .photo-marquee-content {
@@ -232,7 +236,7 @@ const OurHistory = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-amber-50">
+<div className="min-h-screen bg-gradient-to-br from-emerald-50 to-orange-100">
       {/* Add marquee CSS via style tag */}
       <style dangerouslySetInnerHTML={{ __html: marqueeStyle }} />
       
@@ -308,24 +312,25 @@ const OurHistory = () => {
           </div>
 
           {/* Timeline Content Display */}
-          <div className="bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-500 border border-green-100">
-            <div className="px-6 py-8">
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-2xl font-bold text-gray-900">
-                  {timelineData[activeSection].title}
-                  <span className="ml-2 text-base font-normal text-gray-500">{timelineData[activeSection].period}</span>
-                </h3>
-                <div className={`w-12 h-12 rounded-full ${timelineData[activeSection].bgColor} flex items-center justify-center`}>
-                  {React.createElement(timelineData[activeSection].icon, { 
-                    className: `w-6 h-6 ${timelineData[activeSection].iconColor}` 
-                  })}
-                </div>
-              </div>
-              <p className="text-gray-700 leading-relaxed text-lg">
-                {timelineData[activeSection].content}
-              </p>
-            </div>
-          </div>
+{/* Timeline Content Display */}
+<div className="bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-500 border border-green-100">
+  <div className="px-6 py-8 timeline-content">
+    <div className="flex items-center justify-between mb-6">
+      <h3 className="text-2xl font-bold text-gray-900">
+        {timelineData[activeSection].title}
+        <span className="ml-2 text-base font-normal text-gray-500">{timelineData[activeSection].period}</span>
+      </h3>
+      <div className={`w-12 h-12 rounded-full ${timelineData[activeSection].bgColor} flex items-center justify-center`}>
+        {React.createElement(timelineData[activeSection].icon, { 
+          className: `w-6 h-6 ${timelineData[activeSection].iconColor}` 
+        })}
+      </div>
+    </div>
+    <p className="text-gray-700 leading-relaxed text-lg">
+      {timelineData[activeSection].content}
+    </p>
+  </div>
+</div>
         </section>
 
         {/* Key Milestones Section - Auto Scrolling Marquee */}
