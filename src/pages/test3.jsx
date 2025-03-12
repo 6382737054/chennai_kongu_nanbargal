@@ -272,33 +272,33 @@ const GallerySection = ({ section, sectionData, onImageClick, onBack }) => {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6">
       {/* Header with back button and search */}
-      <div className="mb-8 border-b border-emerald-100 pb-5">
+      <div className="mb-8 border-b border-gray-200 pb-5">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center">
             <button 
               onClick={onBack}
-              className="mr-4 text-emerald-600 hover:text-emerald-700 flex items-center text-sm font-medium group"
+              className="mr-4 text-green-600 hover:text-green-700 flex items-center text-sm font-medium group"
             >
-              <div className="bg-emerald-50 rounded-full p-1.5 group-hover:bg-emerald-100 transition-colors">
+              <div className="bg-green-50 rounded-full p-1.5 group-hover:bg-green-100 transition-colors">
                 <ChevronLeft className="w-5 h-5" />
               </div>
               <span className="ml-2">{currentContent.back}</span>
             </button>
-            <h2 className="text-xl sm:text-2xl font-bold text-emerald-800">{currentSectionTitle}</h2>
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-800">{currentSectionTitle}</h2>
           </div>
           
           <div className="flex items-center w-full sm:w-auto">
             {/* Search input */}
             <div className="relative flex-grow sm:w-64">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Search className="h-5 w-5 text-emerald-400" />
+                <Search className="h-5 w-5 text-gray-400" />
               </div>
               <input
                 type="text"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder={currentContent.searchPlaceholder}
-                className="block w-full pl-10 pr-3 py-2 border border-emerald-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-sm text-gray-700 placeholder-gray-400"
+                className="block w-full pl-10 pr-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 text-sm text-gray-700 placeholder-gray-400"
               />
               {searchTerm && (
                 <button
@@ -311,16 +311,16 @@ const GallerySection = ({ section, sectionData, onImageClick, onBack }) => {
             </div>
             
             {/* Layout toggle */}
-            <div className="hidden sm:flex items-center ml-4 bg-emerald-50 rounded-lg p-1">
+            <div className="hidden sm:flex items-center ml-4 bg-gray-100 rounded-lg p-1">
               <button 
                 onClick={() => setLayout('grid')}
-                className={`p-1.5 rounded-md ${layout === 'grid' ? 'bg-white shadow-sm text-emerald-600' : 'text-gray-500'}`}
+                className={`p-1.5 rounded-md ${layout === 'grid' ? 'bg-white shadow-sm text-green-600' : 'text-gray-500'}`}
               >
                 <Grid size={18} />
               </button>
               <button 
                 onClick={() => setLayout('list')}
-                className={`p-1.5 rounded-md ${layout === 'list' ? 'bg-white shadow-sm text-emerald-600' : 'text-gray-500'}`}
+                className={`p-1.5 rounded-md ${layout === 'list' ? 'bg-white shadow-sm text-green-600' : 'text-gray-500'}`}
               >
                 <Menu size={18} />
               </button>
@@ -331,27 +331,27 @@ const GallerySection = ({ section, sectionData, onImageClick, onBack }) => {
       
       {/* Results count */}
       <div className="mb-5 flex items-center text-sm text-gray-500">
-        <Camera className="w-4 h-4 mr-2 text-emerald-500" />
+        <Camera className="w-4 h-4 mr-2 text-green-500" />
         {filteredImages.length} {filteredImages.length === 1 ? currentContent.image : currentContent.images} 
         {searchTerm && (
           <span className="ml-1">
-            {currentContent.for} "<span className="font-medium text-emerald-700">{searchTerm}</span>"
+            {currentContent.for} "<span className="font-medium text-gray-700">{searchTerm}</span>"
           </span>
         )}
       </div>
       
       {/* Image grid */}
       {filteredImages.length === 0 ? (
-        <div className="bg-white rounded-xl shadow-sm border border-emerald-100 p-8 text-center my-10">
-          <div className="w-14 h-14 rounded-full bg-emerald-50 flex items-center justify-center mx-auto mb-4">
-            <Image className="w-7 h-7 text-emerald-400" />
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-8 text-center my-10">
+          <div className="w-14 h-14 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-4">
+            <Image className="w-7 h-7 text-gray-400" />
           </div>
           <h4 className="text-lg font-medium text-gray-700 mb-2">{currentContent.noImagesFound}</h4>
           <p className="text-gray-500 text-sm">{currentContent.tryAdjusting}</p>
           {searchTerm && (
             <button 
               onClick={() => setSearchTerm('')}
-              className="mt-5 px-4 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-sm rounded-lg transition-colors"
+              className="mt-5 px-4 py-2 bg-green-50 hover:bg-green-100 text-green-700 text-sm rounded-lg transition-colors"
             >
               {currentContent.clearSearch}
             </button>
@@ -364,7 +364,7 @@ const GallerySection = ({ section, sectionData, onImageClick, onBack }) => {
             <div 
               key={index}
               onClick={() => onImageClick(index)}
-              className="aspect-square overflow-hidden rounded-xl bg-gray-50 cursor-pointer group relative shadow-sm hover:shadow-md transition-all duration-300 border border-emerald-100"
+              className="aspect-square overflow-hidden rounded-xl bg-gray-50 cursor-pointer group relative shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100"
             >
               <img
                 src={image.url}
@@ -389,7 +389,7 @@ const GallerySection = ({ section, sectionData, onImageClick, onBack }) => {
             <div 
               key={index}
               onClick={() => onImageClick(index)}
-              className="flex items-center bg-white rounded-xl overflow-hidden cursor-pointer group shadow-sm hover:shadow-md transition-all duration-300 border border-emerald-100 hover:border-emerald-200"
+              className="flex items-center bg-white rounded-xl overflow-hidden cursor-pointer group shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100 hover:border-green-200"
             >
               <div className="w-24 h-24 sm:w-28 sm:h-28 flex-shrink-0 overflow-hidden">
                 <img
@@ -399,12 +399,12 @@ const GallerySection = ({ section, sectionData, onImageClick, onBack }) => {
                 />
               </div>
               <div className="p-4 flex-grow">
-                <p className="text-gray-800 text-sm font-medium line-clamp-1">
-                  {image.caption || `${currentContent.image} ${index + 1}`}
-                </p>
-              </div>
-              <div className="p-4 text-gray-400 group-hover:text-emerald-600 transition-colors">
-                <div className="bg-emerald-50 group-hover:bg-emerald-100 p-2 rounded-full transition-colors">
+  <p className="text-gray-800 text-sm font-medium line-clamp-1">
+    {image.caption || `${currentContent.image} ${index + 1}`}
+  </p>
+</div>
+              <div className="p-4 text-gray-400 group-hover:text-green-600 transition-colors">
+                <div className="bg-gray-50 group-hover:bg-green-50 p-2 rounded-full transition-colors">
                   <ZoomIn className="w-4 h-4" />
                 </div>
               </div>
@@ -454,7 +454,7 @@ const GalleryPage = () => {
   // Current content based on language
   const currentContent = content[language];
 
-  // Gallery data with categories and images - placeholder
+  // Gallery data with categories and images
   const galleryData = {
     "2024 AGM": {
       "coverImage": "/Images/Gallery/agm/1.jpg",
@@ -760,28 +760,28 @@ const GalleryPage = () => {
   // Get background color class based on index
   const getBgColorClass = (index) => {
     const colorClasses = [
-      'from-emerald-500 to-teal-600',
-      'from-teal-500 to-cyan-600',
-      'from-cyan-500 to-blue-600',
-      'from-blue-500 to-indigo-600',
-      'from-indigo-500 to-violet-600',
-      'from-violet-500 to-purple-600',
-      'from-purple-500 to-pink-600'
+      'from-green-500 to-emerald-600',
+      'from-teal-500 to-green-600',
+      'from-cyan-500 to-teal-600',
+      'from-blue-500 to-cyan-600',
+      'from-indigo-500 to-blue-600',
+      'from-purple-500 to-indigo-600',
+      'from-violet-500 to-purple-600'
     ];
     return colorClasses[index % colorClasses.length];
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-orange-100 pt-25 md:pt-44 pb-16 mt-10">
+    <div className="min-h-screen bg-gradient-to-b from-white to-green-50/30 pt-25 md:pt-44 pb-16 mt-16">
       {!selectedSection ? (
         // Gallery categories view
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-12 sm:mb-16">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-600 mb-4">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 mb-4">
               {currentContent.title}
             </h1>
-            <div className="h-1 w-24 sm:w-32 bg-gradient-to-r from-emerald-400 to-teal-500 mx-auto mb-6 rounded-full"></div>
-            <p className="text-gray-700 max-w-2xl mx-auto text-base sm:text-lg">
+            <div className="h-1 w-24 sm:w-32 bg-gradient-to-r from-green-400 to-green-600 mx-auto mb-6 rounded-full"></div>
+            <p className="text-gray-600 max-w-2xl mx-auto text-base sm:text-lg">
               {currentContent.subtitle}
             </p>
           </div>
@@ -792,7 +792,7 @@ const GalleryPage = () => {
               <div
                 key={section}
                 onClick={() => openSection(section)}
-                className="bg-white/90 backdrop-blur-sm rounded-xl shadow-md border border-emerald-100 overflow-hidden hover:shadow-lg hover:border-emerald-200 transition-all duration-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transform hover:-translate-y-1"
+                className="bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden hover:shadow-lg hover:border-green-200 transition-all duration-300 cursor-pointer focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transform hover:-translate-y-1"
                 tabIndex="0"
               >
                 {/* Card image with animated gradient overlay */}
@@ -808,7 +808,7 @@ const GalleryPage = () => {
                   {/* Hover overlay content */}
                   <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <div className="bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full">
-                      <span className="text-sm font-medium text-emerald-800 flex items-center">
+                      <span className="text-sm font-medium text-gray-800 flex items-center">
                         <ZoomIn className="w-4 h-4 mr-1.5" />
                         {currentContent.view}
                       </span>
@@ -818,15 +818,15 @@ const GalleryPage = () => {
                 
                 {/* Card content */}
                 <div className="p-4 sm:p-5">
-                  <h2 className="text-lg sm:text-xl font-semibold text-emerald-800 mb-2">
+                  <h2 className="text-lg sm:text-xl font-semibold text-gray-800 mb-2">
                     {getCurrentSectionTitle(section)}
                   </h2>
                   <div className="flex items-center justify-between">
                     <span className="flex items-center text-sm text-gray-500">
-                      <Camera className="w-4 h-4 mr-1.5 text-emerald-500" />
+                      <Camera className="w-4 h-4 mr-1.5 text-green-500" />
                       {data.images.length} {currentContent.photos}
                     </span>
-                    <span className="inline-flex items-center text-emerald-600 text-sm font-medium">
+                    <span className="inline-flex items-center text-green-600 text-sm font-medium">
                       {currentContent.view}
                       <ChevronRight className="w-4 h-4 ml-0.5" />
                     </span>
