@@ -273,7 +273,7 @@ const KonguMamanigal = () => {
           };
         
           return (
-            <div className="w-full px-4 py-16 bg-gray-50">
+            <div className="w-full px-4 py-16 bg-gray-50 mt-44">
               {/* Header Section */}
               <div className="text-center mb-16">
                 <div className="inline-flex items-center justify-center mb-4">
