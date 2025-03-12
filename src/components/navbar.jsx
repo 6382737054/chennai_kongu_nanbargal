@@ -34,18 +34,15 @@ const Navbar = () => {
   // Handle outside click to close menu
   useEffect(() => {
     const handleOutsideClick = (event) => {
-      // Close menu if click is outside the mobile menu
       if (isOpen && !event.target.closest('.mobile-menu')) {
         setIsOpen(false);
       }
     };
 
-    // Add event listener when menu is open
     if (isOpen) {
       document.addEventListener('mousedown', handleOutsideClick);
     }
 
-    // Cleanup event listener
     return () => {
       document.removeEventListener('mousedown', handleOutsideClick);
     };
@@ -124,13 +121,13 @@ const Navbar = () => {
   };
 
   return (
-    <header className="fixed top-0 w-full z-30 transition-all duration-300 overflow-x-hidden">
-      {/* Top announcement bar */}
-      <div className="bg-gradient-to-r from-amber-600 via-amber-500 to-amber-600 py-1.5 px-4">
+    <header className="fixed top-0 w-full z-50 bg-white">
+      {/* Top announcement bar - Solid background */}
+      <div className="bg-gradient-to-r from-amber-600 via-amber-500 to-amber-600 py-2 px-4">
         <div className="container mx-auto max-w-7xl">
-          <div className="flex items-center justify-center text-white text-sm">
-            <AlertCircle size={14} className="mr-2 flex-shrink-0" />
-            <span className="text-center truncate">
+          <div className="flex items-center justify-center text-white text-sm font-medium">
+            <AlertCircle size={16} className="mr-3 flex-shrink-0" />
+            <span className="text-center">
               {language === 'tamil' 
                 ? 'கொங்கு நண்பர்கள் சங்கத்திற்கு வருக ...'
                 : 'Welcome to Kongu Nanbargal Sangam...'}
@@ -139,101 +136,109 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Main navbar with combined contact info, logo and navigation */}
-      <div className={`bg-white transition-all duration-300 shadow-md ${
-        scrolled ? 'shadow-lg' : 'shadow-sm'
+      {/* Main navbar with solid background */}
+      <div className={`bg-white transition-all duration-300 ${
+        scrolled ? 'shadow-lg py-2' : 'shadow-md py-3'
       }`}>
-        <div className="container mx-auto max-w-7xl px-4">
-          <div className="flex items-center justify-between py-3">
+        <div className="container mx-auto max-w-7xl px-4 lg:px-6">
+          <div className="flex items-center justify-between">
             {/* Logo and title section */}
-            <div className="flex items-center space-x-3">
-              <Link to="/" className="flex-shrink-0 group relative">
+            <div className="flex items-center space-x-4">
+              <Link to="/" className="flex-shrink-0 group">
                 <img
                   src="/Images/logo1.png"
                   alt="Logo"
-                  className="h-12 w-auto md:h-16 transition-transform duration-300 group-hover:scale-105"
+                  className="h-14 w-auto md:h-16 transition-transform duration-300 group-hover:scale-105"
                 />
               </Link>
-              <div className="hidden sm:block overflow-hidden">
-                <h1 className="text-base md:text-lg font-bold text-green-800 truncate">
+              <div className="hidden sm:block pl-2 border-l-2 border-green-200">
+                <h1 className="text-base md:text-lg font-bold bg-gradient-to-r from-green-800 to-green-600 bg-clip-text text-transparent">
                   {orgTitle[language].main}
                 </h1>
-                <p className="text-xs md:text-sm text-green-700 truncate">{orgTitle[language].sub}</p>
+                <p className="text-xs md:text-sm text-green-700">{orgTitle[language].sub}</p>
               </div>
             </div>
 
             {/* Desktop contact info */}
             <div className="hidden md:flex items-center space-x-6">
-              <a href="tel:+919876543210" className="flex items-center text-green-700 hover:text-green-800 transition-colors text-sm">
-                <Phone size={14} className="mr-2 flex-shrink-0" />
-                <span className="truncate">{contactInfo[language].phone}: <span className="font-medium">+91 98765 43210</span></span>
+              <a href="tel:+919876543210" className="flex items-center text-green-700 hover:text-green-800 transition-colors text-sm group">
+                <div className="w-8 h-8 bg-green-50 rounded-full flex items-center justify-center mr-2 group-hover:bg-green-100 transition-colors">
+                  <Phone size={16} className="text-green-600" />
+                </div>
+                <span>{contactInfo[language].phone}: <span className="font-medium">+91 98765 43210</span></span>
               </a>
-              <a href="mailto:info@chennaikongu.org" className="flex items-center text-green-700 hover:text-green-800 transition-colors text-sm">
-                <Mail size={14} className="mr-2 flex-shrink-0" />
-                <span className="truncate">{contactInfo[language].email}: <span className="font-medium">info@chennaikongu.org</span></span>
+              <a href="mailto:info@chennaikongu.org" className="flex items-center text-green-700 hover:text-green-800 transition-colors text-sm group">
+                <div className="w-8 h-8 bg-green-50 rounded-full flex items-center justify-center mr-2 group-hover:bg-green-100 transition-colors">
+                  <Mail size={16} className="text-green-600" />
+                </div>
+                <span>{contactInfo[language].email}: <span className="font-medium">info@chennaikongu.org</span></span>
               </a>
               
               {/* Language Toggle */}
               <button 
                 onClick={toggleLanguage}
-                className="flex items-center space-x-2 bg-green-100 hover:bg-green-200 px-3 py-1.5 rounded-full text-sm text-green-800 transition-all duration-300"
+                className="flex items-center space-x-2 bg-green-50 hover:bg-green-100 px-4 py-2 rounded-full text-sm text-green-800 transition-all duration-300 border border-green-200"
               >
-                <Globe size={14} className="flex-shrink-0" />
-                <span>{language === 'tamil' ? 'English' : 'தமிழ்'}</span>
+                <Globe size={16} className="flex-shrink-0" />
+                <span className="font-medium">{language === 'tamil' ? 'English' : 'தமிழ்'}</span>
               </button>
             </div>
 
             {/* Mobile language toggle and menu button */}
-            <div className="flex items-center space-x-2 md:hidden">
+            <div className="flex items-center space-x-3 md:hidden">
               <button 
                 onClick={toggleLanguage}
-                className="flex items-center space-x-1 bg-green-100 hover:bg-green-200 px-2 py-1.5 rounded-full text-sm text-green-800"
+                className="flex items-center space-x-1 bg-green-50 hover:bg-green-100 px-3 py-2 rounded-full text-sm text-green-800 border border-green-200"
               >
-                <Globe size={14} className="flex-shrink-0" />
-                <span>{language === 'tamil' ? 'English' : 'தமிழ்'}</span>
+                <Globe size={16} className="flex-shrink-0" />
+                <span className="font-medium">{language === 'tamil' ? 'English' : 'தமிழ்'}</span>
               </button>
               
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="flex items-center justify-center p-2 rounded-lg bg-green-100 text-green-800 hover:bg-green-200 transition-colors"
+                className="flex items-center justify-center p-2 rounded-lg bg-green-50 text-green-800 hover:bg-green-100 transition-colors border border-green-200"
                 aria-expanded={isOpen}
                 aria-label="Toggle navigation"
               >
-                {isOpen ? <X size={20} /> : <Menu size={20} />}
+                {isOpen ? <X size={22} /> : <Menu size={22} />}
               </button>
             </div>
           </div>
 
-          {/* Desktop Navigation Menu - Now part of the main navbar */}
-          <nav className="hidden md:block py-2 border-t border-green-100">
-            <ul className="flex items-center justify-center flex-wrap">
+          {/* Desktop Navigation Menu - with solid background */}
+          <nav className="hidden md:block py-3 mt-3 border-t border-green-100 bg-white">
+            <ul className="flex items-center justify-center flex-wrap gap-1">
               {currentMenuItems.map((item) => {
                 const Icon = item.icon;
                 return (
-                  <li key={item.name} className="relative group px-1">
+                  <li key={item.name} className="relative group">
                     {item.isExternal ? (
                       <a
                         href={item.path}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center px-3 py-2 text-green-700 font-medium transition-all hover:text-green-800 rounded-lg hover:bg-green-50"
+                        className="flex items-center px-4 py-2 text-green-700 font-medium transition-all hover:text-green-800 rounded-lg hover:bg-green-50"
                       >
                         <Icon size={18} strokeWidth={2} className="mr-2 flex-shrink-0" />
-                        <span className="truncate">{item.name}</span>
-                        <ExternalLink size={14} className="ml-1 opacity-70 flex-shrink-0" />
+                        <span>{item.name}</span>
+                        <ExternalLink size={14} className="ml-2 opacity-70 flex-shrink-0" />
                       </a>
                     ) : (
                       <Link
                         to={item.path}
-                        className={`flex items-center px-3 py-2 font-medium transition-all rounded-lg ${
+                        className={`flex items-center px-4 py-2 font-medium transition-all rounded-lg ${
                           location.pathname === item.path 
-                            ? 'text-white bg-gradient-to-r from-green-600 to-green-700 shadow-md' 
+                            ? 'text-white bg-gradient-to-r from-green-700 to-green-600 shadow-md' 
                             : 'text-green-700 hover:text-green-800 hover:bg-green-50'
                         }`}
                       >
                         <Icon size={18} strokeWidth={2} className="mr-2 flex-shrink-0" />
-                        <span className="truncate">{item.name}</span>
+                        <span>{item.name}</span>
                       </Link>
+                    )}
+                    {/* Underline animation for active menu item */}
+                    {location.pathname === item.path && !item.isExternal && (
+                      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-2/3 h-0.5 bg-white rounded-full"></div>
                     )}
                   </li>
                 );
@@ -243,32 +248,32 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* MOBILE Menu - Full Page Overlay */}
+      {/* MOBILE Menu - Premium Full Page Overlay with solid background */}
       {isOpen && (
-        <div className="md:hidden fixed inset-0 bg-white z-30 overflow-y-auto overflow-x-hidden mobile-menu">
+        <div className="md:hidden fixed inset-0 bg-white z-50 overflow-y-auto overflow-x-hidden mobile-menu">
           {/* Mobile Menu Header */}
-          <div className="bg-green-800 px-4 py-6 text-white relative">
+          <div className="bg-gradient-to-r from-green-800 to-green-700 px-6 py-8 text-white relative">
             {/* Close button added to mobile menu header */}
             <button 
               onClick={closeMenu}
-              className="absolute top-4 right-4 p-2 bg-white/20 hover:bg-white/30 rounded-full"
+              className="absolute top-6 right-6 p-2 bg-white/20 hover:bg-white/30 rounded-full transition-colors"
               aria-label="Close menu"
             >
               <X size={24} />
             </button>
 
-            <div className="flex items-center mb-4">
-              <img src="/Images/logo1.png" alt="Logo" className="h-12 w-auto mr-3 flex-shrink-0" />
+            <div className="flex items-center">
+              <img src="/Images/logo1.png" alt="Logo" className="h-16 w-auto mr-4 flex-shrink-0" />
               <div className="overflow-hidden">
-                <h2 className="text-lg font-bold truncate max-w-[200px]">{orgTitle[language].main}</h2>
-                <p className="text-sm text-green-100 truncate max-w-[200px]">{orgTitle[language].sub}</p>
+                <h2 className="text-xl font-bold">{orgTitle[language].main}</h2>
+                <p className="text-sm text-green-100">{orgTitle[language].sub}</p>
               </div>
             </div>
           </div>
           
-          {/* Mobile Menu Items */}
-          <nav className="py-4 px-4">
-            <ul className="space-y-1">
+          {/* Mobile Menu Items - with solid background */}
+          <nav className="py-6 px-6 bg-white">
+            <ul className="space-y-0">
               {currentMenuItems.map((item) => {
                 const Icon = item.icon;
                 return (
@@ -278,12 +283,14 @@ const Navbar = () => {
                         href={item.path}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center justify-between py-3 px-4 w-full text-gray-800 border-b border-gray-100"
+                        className="flex items-center justify-between py-4 px-4 w-full text-gray-800 border-b border-gray-100 hover:bg-green-50 transition-colors"
                         onClick={closeMenu}
                       >
                         <div className="flex items-center overflow-hidden">
-                          <Icon size={20} className="mr-4 text-green-600 flex-shrink-0" />
-                          <span className="font-medium truncate">{item.name}</span>
+                          <div className="w-10 h-10 flex items-center justify-center bg-green-50 rounded-full mr-4">
+                            <Icon size={20} className="text-green-600 flex-shrink-0" />
+                          </div>
+                          <span className="font-medium">{item.name}</span>
                         </div>
                         <ExternalLink size={16} className="opacity-70 flex-shrink-0" />
                       </a>
@@ -291,14 +298,24 @@ const Navbar = () => {
                       <Link
                         to={item.path}
                         onClick={closeMenu}
-                        className={`flex items-center py-3 px-4 w-full border-b border-gray-100 ${
+                        className={`flex items-center py-4 px-4 w-full border-b border-gray-100 hover:bg-green-50 transition-colors ${
                           location.pathname === item.path
                             ? 'text-green-700 font-medium' 
                             : 'text-gray-800'
                         }`}
                       >
-                        <Icon size={20} className="mr-4 text-green-600 flex-shrink-0" />
-                        <span className="truncate">{item.name}</span>
+                        <div className={`w-10 h-10 flex items-center justify-center rounded-full mr-4 ${
+                          location.pathname === item.path
+                            ? 'bg-green-600' 
+                            : 'bg-green-50'
+                        }`}>
+                          <Icon size={20} className={`flex-shrink-0 ${
+                            location.pathname === item.path
+                              ? 'text-white' 
+                              : 'text-green-600'
+                          }`} />
+                        </div>
+                        <span className="font-medium">{item.name}</span>
                       </Link>
                     )}
                   </li>
@@ -307,17 +324,21 @@ const Navbar = () => {
             </ul>
           </nav>
         
-          {/* Mobile contact information */}
-          <div className="px-6 py-6 bg-gray-50">
-            <h3 className="text-sm font-medium text-gray-500 mb-4">{contactInfo[language].announcement}</h3>
-            <div className="space-y-4">
-              <a href="tel:+919876543210" className="flex items-center text-gray-700">
-                <Phone size={18} className="mr-3 text-green-600 flex-shrink-0" />
-                <span>+91 98765 43210</span>
+          {/* Mobile contact information - with solid background */}
+          <div className="px-6 py-8 bg-gray-50 mt-4">
+            <h3 className="text-sm font-semibold text-gray-500 mb-6 uppercase tracking-wider">{contactInfo[language].announcement}</h3>
+            <div className="space-y-6">
+              <a href="tel:+919876543210" className="flex items-center text-gray-700 hover:text-green-700 transition-colors">
+                <div className="w-10 h-10 flex items-center justify-center bg-white rounded-full shadow-sm mr-4">
+                  <Phone size={18} className="text-green-600 flex-shrink-0" />
+                </div>
+                <span className="font-medium">+91 98765 43210</span>
               </a>
-              <a href="mailto:info@chennaikongu.org" className="flex items-center text-gray-700">
-                <Mail size={18} className="mr-3 text-green-600 flex-shrink-0" />
-                <span>info@chennaikongu.org</span>
+              <a href="mailto:info@chennaikongu.org" className="flex items-center text-gray-700 hover:text-green-700 transition-colors">
+                <div className="w-10 h-10 flex items-center justify-center bg-white rounded-full shadow-sm mr-4">
+                  <Mail size={18} className="text-green-600 flex-shrink-0" />
+                </div>
+                <span className="font-medium">info@chennaikongu.org</span>
               </a>
             </div>
           </div>

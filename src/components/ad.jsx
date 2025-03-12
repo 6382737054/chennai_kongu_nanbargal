@@ -3,11 +3,10 @@ import { ChevronLeft, ChevronRight, Building } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 
 const PartnersShowcase = () => {
+  const { language } = useLanguage();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isHovering, setIsHovering] = useState(false);
-  const { language } = useLanguage();
 
-  // Bilingual content for the section headers
   const content = {
     tamil: {
       title: "மதிப்பிற்குரிய உறுப்பினர்கள் & பங்காளிகள்",
@@ -21,10 +20,8 @@ const PartnersShowcase = () => {
     }
   };
 
-  // Get current content based on language
   const currentContent = content[language];
 
-  // Logos only without text
   const partners = [
     {
       image: "/Images/sakthi.png",
@@ -37,11 +34,10 @@ const PartnersShowcase = () => {
     {
       image: "/Images/klabs.png",
       alt: "K Labs Logo"
-    },
+    }
   ];
 
   useEffect(() => {
-    // Only auto-advance if not hovering
     if (!isHovering) {
       const timer = setInterval(() => {
         setCurrentSlide((prev) => (prev + 1) % partners.length);
@@ -50,108 +46,93 @@ const PartnersShowcase = () => {
     }
   }, [isHovering, partners.length]);
 
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % partners.length);
-  };
-
-  const prevSlide = () => {
-    setCurrentSlide((prev) => 
-      prev === 0 ? partners.length - 1 : prev - 1
-    );
-  };
+  const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % partners.length);
+  const prevSlide = () => setCurrentSlide((prev) => prev === 0 ? partners.length - 1 : prev - 1);
 
   return (
-    <section className="py-16 relative overflow-hidden">
-      {/* Enhanced Background with More Visible Gradients */}
-      <div className="absolute inset-0 bg-gradient-to-b from-green-100 via-green-50 to-white"></div>
-      
-      {/* Decorative Background Elements */}
-      <div className="absolute top-0 left-0 w-full h-96 bg-gradient-to-b from-green-200/40 to-transparent"></div>
-      <div className="absolute -top-20 -right-20 w-96 h-96 rounded-full bg-green-200/30 blur-3xl"></div>
-      <div className="absolute bottom-40 -left-20 w-80 h-80 rounded-full bg-green-200/30 blur-3xl"></div>
-      
+    <section className="py-8 relative overflow-hidden bg-[linear-gradient(165deg,#f0f9ff_0%,#ffffff_100%)]">
+      {/* Premium background elements */}
+      <div className="absolute inset-0">
+        <div className="absolute top-0 right-0 w-full h-64 bg-gradient-to-b from-green-50/30 to-transparent"></div>
+        <div className="absolute -top-40 -right-40 w-96 h-96 rounded-full bg-gradient-to-br from-green-100/20 to-transparent blur-3xl"></div>
+        <div className="absolute -bottom-20 -left-20 w-80 h-80 rounded-full bg-gradient-to-tr from-green-100/20 to-transparent blur-3xl"></div>
+      </div>
+
       <div className="container mx-auto px-4 relative z-10">
-        {/* Bilingual Title Section */}
-        <div className="text-center mb-12">
-          <div className="relative flex items-center justify-center gap-3 mb-5">
-            <div className="h-px w-16 bg-gradient-to-r from-transparent to-green-400"></div>
-            <div className="w-12 h-12 rounded-full bg-green-50 border border-green-200 flex items-center justify-center shadow-md">
-              <Building className="w-6 h-6 text-green-600" />
+        {/* Elegant section header */}
+        <div className="text-center mb-6">
+          <div className="relative inline-flex items-center justify-center mb-4">
+            <div className="absolute inset-0 bg-gradient-to-r from-green-200/20 via-green-300/20 to-green-200/20 blur-sm rounded-full"></div>
+            <div className="relative bg-gradient-to-r from-green-50 to-white p-2 rounded-full shadow-sm border border-green-100/50">
+              <Building className="w-5 h-5 text-green-600" />
             </div>
-            <div className="h-px w-16 bg-gradient-to-l from-transparent to-green-400"></div>
           </div>
           
-          <h2 className="text-3xl font-bold text-gray-800 mb-5">
+          <h2 className="text-3xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent mb-2">
             {language === 'tamil' ? (
-              <>
-                மதிப்பிற்குரிய <span className="text-green-600">உறுப்பினர்கள்</span> & பங்காளிகள்
-              </>
+              <>மதிப்பிற்குரிய <span className="text-green-600">உறுப்பினர்கள்</span> & பங்காளிகள்</>
             ) : (
-              <>
-                Valued <span className="text-green-600">Members</span> & Partners
-              </>
+              <>Valued <span className="text-green-600">Members</span> & Partners</>
             )}
           </h2>
           
-          <div className="h-1 w-32 bg-gradient-to-r from-green-400/40 via-green-500/60 to-green-400/40 mx-auto mb-6 rounded-full"></div>
-          
-          <p className="text-gray-600 max-w-2xl mx-auto text-lg">
-            {currentContent.subtitle}
-          </p>
+          <div className="h-0.5 w-24 bg-gradient-to-r from-green-400/40 via-green-500 to-green-400/40 mx-auto"></div>
         </div>
 
-        {/* Logos-Only Carousel Section */}
+        {/* Premium carousel with specific dimensions */}
         <div 
-          className="relative max-w-4xl mx-auto group"
+          className="relative mx-auto group w-[700px]"
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
         >
-          {/* Main Carousel with Shadow and Border - Logos Only */}
-          <div className="relative overflow-hidden rounded-2xl shadow-xl mx-auto bg-white border border-green-100 h-64 md:h-72">
+          {/* Main carousel container with specific height */}
+          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-white to-green-50/50 shadow-[0_8px_30px_rgb(0,0,0,0.04)] backdrop-blur-sm border border-green-100/50 h-[200px]">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(74,222,128,0.03),transparent_70%)]"></div>
+            
             <div
-              className="flex h-full transition-transform duration-700 ease-out"
+              className="flex h-full transition-transform duration-700 ease-out relative"
               style={{ transform: `translateX(-${currentSlide * 100}%)` }}
             >
               {partners.map((partner, index) => (
-                <div key={index} className="w-full flex-shrink-0 h-full">
-                  <div className="flex items-center justify-center h-full p-6 md:p-12">
+                <div key={index} className="w-[700px] flex-shrink-0 h-full">
+                  <div className="flex items-center justify-center h-full p-4">
                     <img
                       src={partner.image}
                       alt={partner.alt}
-                      className="w-auto h-auto max-h-[160px] md:max-h-[200px] max-w-[80%] object-contain transition-transform duration-500 hover:scale-105"
+                      className="max-h-[180px] w-auto object-contain transition-transform duration-300 group-hover:scale-105"
                     />
                   </div>
                 </div>
               ))}
             </div>
 
-            {/* Navigation Buttons */}
+            {/* Navigation buttons */}
             <button
               onClick={prevSlide}
-              className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-green-50 border border-green-100"
+              className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/80 backdrop-blur-sm shadow-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-white border border-green-100/50"
               aria-label="Previous slide"
             >
-              <ChevronLeft className="w-5 h-5 text-green-800" />
+              <ChevronLeft className="w-4 h-4 text-green-800" />
             </button>
             <button
               onClick={nextSlide}
-              className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-green-50 border border-green-100"
+              className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/80 backdrop-blur-sm shadow-lg flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-white border border-green-100/50"
               aria-label="Next slide"
             >
-              <ChevronRight className="w-5 h-5 text-green-800" />
+              <ChevronRight className="w-4 h-4 text-green-800" />
             </button>
           </div>
 
-          {/* Progress Indicators */}
-          <div className="flex justify-center mt-8 gap-2">
+          {/* Progress indicators */}
+          <div className="flex justify-center mt-4 gap-2">
             {partners.map((_, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentSlide(index)}
                 className={`transition-all duration-300 rounded-full ${
                   currentSlide === index 
-                    ? 'w-12 h-2 bg-green-600 shadow-sm' 
-                    : 'w-2 h-2 bg-green-300 hover:bg-green-400'
+                    ? 'w-6 h-1 bg-gradient-to-r from-green-500 to-green-600' 
+                    : 'w-1 h-1 bg-green-200 hover:bg-green-300'
                 }`}
                 aria-label={`Go to slide ${index + 1}`}
               />

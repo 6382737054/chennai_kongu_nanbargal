@@ -3,6 +3,7 @@ import { X, Download } from 'lucide-react';
 import HeroSection from '../components/HeroSection';
 import ServicesSection from '../components/services';
 import PartnersShowcase from '../components/ad';
+import GlobalReachMap from '../components/GlobalReachMap';
 
 const WelcomeModal = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
@@ -87,6 +88,7 @@ const HomePage = () => {
       <HeroSection />
       <ServicesSection />
       <PartnersShowcase />
+      <GlobalReachMap/>
       
       <WelcomeModal
         isOpen={isModalOpen}
