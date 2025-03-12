@@ -1,14 +1,45 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
-import { Quote, CalendarDays, Users, Building, Award, BookOpen, Clock, Star } from 'lucide-react';
+import { 
+  CalendarDays, Users, Building, Award, BookOpen, 
+  Clock, Star, ChevronLeft, ChevronRight, Camera 
+} from 'lucide-react';
+
+// Add CSS keyframes for marquee animation
+const marqueeStyle = `
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+
+.marquee-container {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.marquee-content {
+  display: flex;
+  animation: marquee 80s linear infinite;
+  padding-right: 24px;
+}
+
+.photo-marquee-content {
+  display: flex;
+  animation: marquee 100s linear infinite;
+  padding-right: 24px;
+}
+`;
 
 const OurHistory = () => {
   const { language } = useLanguage();
+  const [activeSection, setActiveSection] = useState(0);
+  const timelineSectionsRef = useRef(null);
 
   // Bilingual content
   const content = {
     tamil: {
-      title: "கொங்கு நண்பர்கள் சங்கத்தின் வரலாறு - ஓர் எட்டுப்பார்வை",
+      title: "கொங்கு நண்பர்கள் சங்கத்தின் வரலாறு",
       subtitle: "பாரம்பரியம் · பரிணாமம் · முன்னேற்றம்",
       quote: "பிறருக்கு ஏதோ ஒரு வகையில் கொடுப்பதற்காக செலவிடப்படாவிட்டால், வாழ்க்கை வாழத்தகுதியானதல்ல",
       section1: "நமது கொங்கு சமூகத்தின் பெரியோர்கள் இதை 1960களில் உணர்ந்து, அனைத்து வழிகளிலும் மற்றவர்களுக்கு உதவும் இந்த சேவை அமைப்பிற்கு அடித்தளம் அமைத்தனர். தொடக்கத்திலிருந்தே, இது பெரும் முன்னேற்றங்களை அடைந்து சேவையின் பல்வேறு வழிகளில் ஈடுபடும் ஒரு புகழ்பெற்ற சமூகமாக வளர்ந்துள்ளது.",
@@ -19,7 +50,7 @@ const OurHistory = () => {
       section6: "திரு. கோவிந்தசாமி மற்றும் திரு. K.C. கலியண்ணன் தலைவர்களாகவும் திரு. E.R. ஈஸ்வரன் செயலாளராகவும் இருந்த 2001 முதல் பெரும் நடவடிக்கைகள் இருந்து வருகின்றன. தங்களுக்கும் நாட்டிற்கும் பெயர் பெற்ற நமது சமூகத்தின் மூத்தவர்களை கௌரவிக்க \"கொங்கு மாமணி\" விருது நிறுவப்பட்டது, \"ஆனந்தமாலை\" மற்றும் \"சந்தோஷமாலை\" கலாச்சார நிகழ்ச்சிகள் மூலம் நிதி திரட்டப்பட்டது மற்றும் வெள்ளி விழா இல்லத்தின் கட்டுமானம் நிறைவடைந்தது. பல மாணவர்கள், தனிநபர்கள் மற்றும் குடும்பங்கள் இரண்டு இல்லங்களிலும் தங்குமிட வசதிகளை அனுபவித்துள்ளனர் மற்றும் இன்றும் அனுபவித்து வருகின்றனர்."
     },
     english: {
-      title: "HISTORY OF KONGU NANBARGAL SANGAM - A GLIMPSE",
+      title: "HISTORY OF KONGU NANBARGAL SANGAM",
       subtitle: "Heritage · Evolution · Progress",
       quote: "Life is not worth living unless it is spent giving to others in some way",
       section1: "Great men of our Kongu community had realized this, way back in the 1960s and laid the foundation for this service organization to help others in all possible ways. Right from the start, it has taken huge strides and grown into a reputed society delving into various avenues of service.",
@@ -34,49 +65,43 @@ const OurHistory = () => {
   // Get current content based on language
   const currentContent = content[language];
 
-  // Timeline data
-  const timeline = [
+  // Timeline sections for horizontal scroll with improved translations
+  const timelineData = [
     {
-      year: "1961",
+      period: "1961-1968",
+      title: language === 'tamil' ? "அடித்தளம் மற்றும் தொடக்கம்" : "Foundation and Beginning",
       icon: Users,
-      title: language === 'tamil' ? "சங்கத்தின் தொடக்கம்" : "Foundation of the Sangam",
-      description: language === 'tamil' ? "திரு. K.M. செண்ணியப்பன் B.A. தலைமையில் தொடக்கம்" : "Initiated under leadership of Thiru. K.M. Chenniappan B.A.",
-      color: "emerald"
+      iconColor: "text-green-700",
+      bgColor: "bg-green-50",
+      borderColor: "border-green-700",
+      content: currentContent.section2
     },
     {
-      year: "1968",
+      period: "1968-1993",
+      title: language === 'tamil' ? "விரிவாக்கமும் வளர்ச்சியும்" : "Expansion and Growth",
       icon: Award,
-      title: language === 'tamil' ? "அருட்செல்வர் N.மகாலிங்கம் தலைமை" : "Leadership of N.Mahalingam",
-      description: language === 'tamil' ? "உறுப்பினர் எண்ணிக்கை பெருக்கம்" : "Significant increase in membership",
-      color: "teal"
+      iconColor: "text-amber-700",
+      bgColor: "bg-amber-50",
+      borderColor: "border-amber-700",
+      content: currentContent.section3
     },
     {
-      year: "1980s",
-      icon: Building,
-      title: language === 'tamil' ? "கொங்கு நாடு இல்லம் தொடக்கம்" : "Kongu Nadu Illam Initiative",
-      description: language === 'tamil' ? "மாணவர்களுக்கான தங்குமிட வசதி" : "Accommodation for students",
-      color: "cyan"
-    },
-    {
-      year: "1993-1996",
-      icon: Star,
+      period: "1993-1996",
       title: language === 'tamil' ? "திருப்புமுனை காலம்" : "Turning Point Period",
-      description: language === 'tamil' ? "சாதனையாளர் விருது நிறுவல்" : "Institution of Sadhanaiyalar Award",
-      color: "blue"
+      icon: Star,
+      iconColor: "text-orange-700",
+      bgColor: "bg-orange-50",
+      borderColor: "border-orange-700",
+      content: currentContent.section4
     },
     {
-      year: "1997-2000",
+      period: "1997-Present",
+      title: language === 'tamil' ? "தொடர் வளர்ச்சியும் சாதனைகளும்" : "Continued Growth and Achievements",
       icon: BookOpen,
-      title: language === 'tamil' ? "வளர்ச்சி மற்றும் விரிவாக்கம்" : "Growth and Expansion",
-      description: language === 'tamil' ? "செய்திமடல் இதழாக மாற்றம்" : "Newsletter transformed to magazine",
-      color: "indigo"
-    },
-    {
-      year: "2001-Present",
-      icon: Clock,
-      title: language === 'tamil' ? "தொடர் வளர்ச்சி" : "Continued Development",
-      description: language === 'tamil' ? "கொங்கு மாமணி விருது தொடக்கம்" : "Institution of Kongu Mamani Award",
-      color: "violet"
+      iconColor: "text-green-700",
+      bgColor: "bg-green-50",
+      borderColor: "border-green-700",
+      content: currentContent.section5 + " " + currentContent.section6
     }
   ];
 
@@ -101,318 +126,377 @@ const OurHistory = () => {
       name: "T.K. Subramanian",
       title: language === 'tamil' ? "செயலாளர்" : "Secretary",
       period: "1980s"
+    },
+    {
+      name: "K. Balasubramanian",
+      title: language === 'tamil' ? "செயலாளர்" : "Secretary",
+      period: "1993-1996"
+    },
+    {
+      name: "K.C. Kaliannan",
+      title: language === 'tamil' ? "செயலாளர்" : "Secretary",
+      period: "1997-2000"
     }
   ];
 
+  // Photo gallery - EXPANDED TO 16 IMAGES
+  const photoGallery = [
+    {
+      title: language === 'tamil' ? "வரலாற்று கூட்டம்" : "Historical Gathering",
+      year: "1968"
+    },
+    {
+      title: language === 'tamil' ? "கொங்கு நாடு இல்லம்" : "Kongu Nadu Illam",
+      year: "1993"
+    },
+    {
+      title: language === 'tamil' ? "விருது விழா" : "Award Ceremony",
+      year: "2001"
+    },
+    {
+      title: language === 'tamil' ? "திருவிழா கொண்டாட்டம்" : "Festival Celebrations",
+      year: "1975"
+    },
+    {
+      title: language === 'tamil' ? "அறக்கட்டளை துவக்கம்" : "Foundation Inauguration",
+      year: "1988"
+    },
+    {
+      title: language === 'tamil' ? "முதல் மாணவர் விடுதி" : "First Students Hostel",
+      year: "1995"
+    },
+    {
+      title: language === 'tamil' ? "வெள்ளி விழா கொண்டாட்டம்" : "Silver Jubilee Celebration",
+      year: "2000"
+    },
+    {
+      title: language === 'tamil' ? "கலாச்சார நிகழ்ச்சி" : "Cultural Program",
+      year: "2005"
+    },
+    {
+      title: language === 'tamil' ? "சஞ்சிகை வெளியீடு" : "Magazine Launch",
+      year: "1997"
+    },
+    {
+      title: language === 'tamil' ? "தீரன் சின்னமலை சிலை திறப்பு" : "Theeran Chinnamalai Statue Unveiling",
+      year: "1994"
+    },
+    {
+      title: language === 'tamil' ? "சிறப்பு கூட்டம்" : "Special Meeting",
+      year: "1987"
+    },
+    {
+      title: language === 'tamil' ? "குடும்ப சந்திப்பு" : "Family Gathering",
+      year: "2002"
+    },
+    {
+      title: language === 'tamil' ? "நிதி திரட்டும் நிகழ்ச்சி" : "Fundraising Event",
+      year: "1998"
+    },
+    {
+      title: language === 'tamil' ? "மூத்த தலைவர்கள் கௌரவிப்பு" : "Honoring Senior Leaders",
+      year: "2008"
+    },
+    {
+      title: language === 'tamil' ? "பொன் விழா திட்டமிடல்" : "Golden Jubilee Planning",
+      year: "2010"
+    },
+    {
+      title: language === 'tamil' ? "சமூக சேவை நிகழ்ச்சி" : "Community Service Event",
+      year: "2015"
+    }
+  ];
+
+  // Scroll timeline sections into view
+  const scrollToSection = (index) => {
+    setActiveSection(index);
+    
+    // Scroll timeline cards
+    if (timelineSectionsRef.current) {
+      const cards = timelineSectionsRef.current.querySelectorAll('button');
+      if (cards && cards[index]) {
+        cards[index].scrollIntoView({ behavior: 'smooth', inline: 'center' });
+      }
+    }
+  };
+
+  // Handle navigation buttons for timeline sections
+  const handlePrevSection = () => {
+    const newIndex = Math.max(0, activeSection - 1);
+    scrollToSection(newIndex);
+  };
+
+  const handleNextSection = () => {
+    const newIndex = Math.min(timelineData.length - 1, activeSection + 1);
+    scrollToSection(newIndex);
+  };
+
   return (
-    <div className="max-w-6xl mx-auto">
-      {/* Premium Hero Section with Decorative Elements */}
-      <div className="relative overflow-hidden bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl shadow-lg p-8 md:p-12 mb-16">
-        {/* Decorative background pattern */}
-        <div className="absolute inset-0 opacity-5">
-          <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
-            <defs>
-              <pattern id="history-pattern" width="60" height="60" patternUnits="userSpaceOnUse">
-                <path d="M0 30 L60 30 M30 0 L30 60" stroke="currentColor" strokeWidth="1" fill="none" />
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#history-pattern)" />
-          </svg>
-        </div>
-        
-        {/* Decorative accent elements */}
-        <div className="absolute top-0 right-0 w-32 h-32 md:w-48 md:h-48 bg-gradient-to-br from-green-200/20 to-emerald-300/20 rounded-bl-full"></div>
-        <div className="absolute bottom-0 left-0 w-24 h-24 md:w-40 md:h-40 bg-gradient-to-tr from-green-200/20 to-emerald-300/20 rounded-tr-full"></div>
-        
-        <div className="relative">
-          {/* Elegant Title Section */}
-          <div className="text-center">
-            <div className="mb-3 inline-block">
-              <span className="inline-block px-3 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full">
-                {language === 'tamil' ? "பாரம்பரியம்" : "Heritage"}
-              </span>
-            </div>
-            
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-4">
-              {currentContent.title}
-            </h1>
-            
-            <p className="text-sm md:text-base uppercase tracking-widest text-green-700 font-medium mb-6">
-              {currentContent.subtitle}
-            </p>
-            
-            <div className="flex items-center justify-center mb-8">
-              <div className="w-16 md:w-24 h-0.5 bg-gradient-to-r from-transparent to-green-500"></div>
-              <div className="mx-4 p-3 bg-white rounded-full shadow-md">
-                <Quote className="w-6 h-6 text-green-600" />
-              </div>
-              <div className="w-16 md:w-24 h-0.5 bg-gradient-to-l from-transparent to-green-500"></div>
-            </div>
-            
-            <div className="max-w-3xl mx-auto">
-              <p className="text-lg md:text-xl lg:text-2xl text-green-800 italic font-light">
-                "{currentContent.quote}"
-              </p>
-            </div>
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-amber-50">
+      {/* Add marquee CSS via style tag */}
+      <style dangerouslySetInnerHTML={{ __html: marqueeStyle }} />
+      
+      <div className="max-w-6xl mx-auto py-12 px-4 sm:px-6 mt-36">
+        {/* Hero Section */}
+        <section className="mb-16 text-center bg-white rounded-2xl shadow-sm p-8 border border-green-100">
+          <div className="inline-block px-3 py-1 rounded-full bg-green-100 text-green-800 text-sm font-medium mb-4">
+            {currentContent.subtitle}
           </div>
-        </div>
-      </div>
+          <h1 className="text-4xl font-bold text-gray-900 mb-6">{currentContent.title}</h1>
+          <div className="max-w-3xl mx-auto">
+            <blockquote className="text-xl italic text-gray-600 mb-8 p-4 border-l-4 border-green-300 bg-green-50 rounded">
+              "{currentContent.quote}"
+            </blockquote>
+            <p className="text-lg text-gray-700">{currentContent.section1}</p>
+          </div>
+        </section>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-16">
-        {/* Main Content Column */}
-        <div className="lg:col-span-8 space-y-10">
-          {/* Introduction with Premium Card Design */}
-          <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
-            <div className="h-2 bg-gradient-to-r from-green-400 to-emerald-500"></div>
-            <div className="p-8">
-              <h2 className="text-2xl font-bold text-gray-800 mb-6">
-                {language === 'tamil' ? "சங்கத்தின் வரலாறு" : "The Sangam's History"}
-              </h2>
-              <p className="text-lg leading-relaxed text-gray-700">
-                {currentContent.section1}
-              </p>
+        {/* Interactive Timeline Navigation */}
+        <section className="mb-16">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-2xl font-bold text-gray-900 flex items-center">
+              <CalendarDays className="w-6 h-6 mr-2 text-green-700" />
+              {language === 'tamil' ? "காலவரிசை" : "Timeline"}
+            </h2>
+            <div className="flex space-x-2">
+              <button 
+                onClick={handlePrevSection}
+                disabled={activeSection === 0}
+                className={`p-2 rounded-full ${activeSection === 0 ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'bg-green-100 text-green-700 hover:bg-green-200'}`}
+                aria-label={language === 'tamil' ? "முந்தைய பிரிவு" : "Previous section"}
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+              <button 
+                onClick={handleNextSection}
+                disabled={activeSection === timelineData.length - 1}
+                className={`p-2 rounded-full ${activeSection === timelineData.length - 1 ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'bg-green-100 text-green-700 hover:bg-green-200'}`}
+                aria-label={language === 'tamil' ? "அடுத்த பிரிவு" : "Next section"}
+              >
+                <ChevronRight className="w-5 h-5" />
+              </button>
             </div>
           </div>
 
-          {/* Timeline Sections with Premium Styling */}
-          <div className="space-y-8">
-            {/* Early Years */}
-            <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden transform transition-all hover:shadow-xl">
-              <div className="flex flex-col md:flex-row">
-                <div className="md:w-1/4 bg-gradient-to-br from-green-500 to-emerald-600 text-white p-6 flex flex-col justify-center items-center text-center">
-                  <span className="block text-3xl font-bold mb-2">1961-1968</span>
-                  <span className="text-sm uppercase tracking-wider font-medium text-green-100">
-                    {language === 'tamil' ? "ஆரம்ப ஆண்டுகள்" : "Early Years"}
-                  </span>
-                </div>
-                <div className="md:w-3/4 p-6 md:p-8">
-                  <h3 className="text-xl font-semibold text-green-800 mb-4 flex items-center">
-                    <Users className="w-5 h-5 mr-2 text-green-600" />
-                    {language === 'tamil' ? "அடித்தளம் மற்றும் தொடக்கம்" : "Foundation and Beginning"}
-                  </h3>
-                  <p className="leading-relaxed text-gray-700">
-                    {currentContent.section2}
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Growth Period */}
-            <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden transform transition-all hover:shadow-xl">
-              <div className="flex flex-col md:flex-row">
-                <div className="md:w-1/4 bg-gradient-to-br from-teal-500 to-cyan-600 text-white p-6 flex flex-col justify-center items-center text-center">
-                  <span className="block text-3xl font-bold mb-2">1968-1993</span>
-                  <span className="text-sm uppercase tracking-wider font-medium text-teal-100">
-                    {language === 'tamil' ? "வளர்ச்சிக் காலம்" : "Growth Period"}
-                  </span>
-                </div>
-                <div className="md:w-3/4 p-6 md:p-8">
-                  <h3 className="text-xl font-semibold text-teal-800 mb-4 flex items-center">
-                    <Award className="w-5 h-5 mr-2 text-teal-600" />
-                    {language === 'tamil' ? "விரிவாக்கமும் வளர்ச்சியும்" : "Expansion and Growth"}
-                  </h3>
-                  <p className="leading-relaxed text-gray-700">
-                    {currentContent.section3}
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Transformation */}
-            <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden transform transition-all hover:shadow-xl">
-              <div className="flex flex-col md:flex-row">
-                <div className="md:w-1/4 bg-gradient-to-br from-blue-500 to-indigo-600 text-white p-6 flex flex-col justify-center items-center text-center">
-                  <span className="block text-3xl font-bold mb-2">1993-1996</span>
-                  <span className="text-sm uppercase tracking-wider font-medium text-blue-100">
-                    {language === 'tamil' ? "மாற்றத்தின் காலம்" : "Transformation"}
-                  </span>
-                </div>
-                <div className="md:w-3/4 p-6 md:p-8">
-                  <h3 className="text-xl font-semibold text-blue-800 mb-4 flex items-center">
-                    <Star className="w-5 h-5 mr-2 text-blue-600" />
-                    {language === 'tamil' ? "திருப்புமுனை காலம்" : "Turning Point Period"}
-                  </h3>
-                  <p className="leading-relaxed text-gray-700">
-                    {currentContent.section4}
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Modern Era */}
-            <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden transform transition-all hover:shadow-xl">
-              <div className="flex flex-col md:flex-row">
-                <div className="md:w-1/4 bg-gradient-to-br from-indigo-500 to-purple-600 text-white p-6 flex flex-col justify-center items-center text-center">
-                  <span className="block text-3xl font-bold mb-2">1997-</span>
-                  <span className="text-sm uppercase tracking-wider font-medium text-indigo-100">
-                    {language === 'tamil' ? "நவீன காலம்" : "Modern Era"}
-                  </span>
-                </div>
-                <div className="md:w-3/4 p-6 md:p-8">
-                  <h3 className="text-xl font-semibold text-indigo-800 mb-4 flex items-center">
-                    <BookOpen className="w-5 h-5 mr-2 text-indigo-600" />
-                    {language === 'tamil' ? "தொடர் வளர்ச்சியும் சாதனைகளும்" : "Continued Growth and Achievements"}
-                  </h3>
-                  <div className="space-y-4">
-                    <p className="leading-relaxed text-gray-700">
-                      {currentContent.section5}
-                    </p>
-                    <p className="leading-relaxed text-gray-700">
-                      {currentContent.section6}
-                    </p>
+          {/* Timeline Pills */}
+          <div 
+            className="flex overflow-x-auto py-4 scrollbar-hide mb-8 gap-4"
+            ref={timelineSectionsRef}
+          >
+            {timelineData.map((item, index) => {
+              const Icon = item.icon;
+              return (
+                <button
+                  key={index}
+                  onClick={() => scrollToSection(index)}
+                  className={`flex-none px-4 py-3 rounded-lg flex items-center gap-3 transition-all ${
+                    activeSection === index 
+                      ? `${item.bgColor} ${item.borderColor} border-l-4 shadow-md`
+                      : 'bg-white border border-gray-200 hover:bg-gray-50'
+                  }`}
+                >
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center ${activeSection === index ? item.bgColor : 'bg-gray-100'}`}>
+                    <Icon className={`w-5 h-5 ${item.iconColor}`} />
                   </div>
+                  <div className="text-left">
+                    <span className="block font-medium text-gray-900">{item.period}</span>
+                    <span className="text-sm text-gray-500">{item.title}</span>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Timeline Content Display */}
+          <div className="bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-500 border border-green-100">
+            <div className="px-6 py-8">
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-2xl font-bold text-gray-900">
+                  {timelineData[activeSection].title}
+                  <span className="ml-2 text-base font-normal text-gray-500">{timelineData[activeSection].period}</span>
+                </h3>
+                <div className={`w-12 h-12 rounded-full ${timelineData[activeSection].bgColor} flex items-center justify-center`}>
+                  {React.createElement(timelineData[activeSection].icon, { 
+                    className: `w-6 h-6 ${timelineData[activeSection].iconColor}` 
+                  })}
                 </div>
               </div>
+              <p className="text-gray-700 leading-relaxed text-lg">
+                {timelineData[activeSection].content}
+              </p>
             </div>
           </div>
-        </div>
+        </section>
 
-        {/* Sidebar with Enhanced Premium Elements */}
-        <div className="lg:col-span-4 space-y-8">
-          {/* Elegant Timeline */}
-          <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-bold text-gray-800 flex items-center">
-                <CalendarDays className="w-5 h-5 mr-2 text-green-600" />
-                {language === 'tamil' ? "முக்கிய காலவரிசை" : "Key Timeline"}
-              </h3>
-              <div className="h-1 w-12 bg-green-500 rounded-full">              </div>
-            </div>
-            
-            <div className="space-y-6">
-              {timeline.map((item, index) => {
+        {/* Key Milestones Section - Auto Scrolling Marquee */}
+        <section className="mb-16 overflow-hidden bg-white rounded-xl p-6 shadow-sm border border-green-100">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+            <Clock className="w-6 h-6 mr-2 text-green-700" />
+            {language === 'tamil' ? "முக்கிய காலகட்டங்கள்" : "Key Milestones"}
+          </h2>
+          
+          <div className="marquee-container">
+            <div className="marquee-content">
+              {/* First set of timeline cards */}
+              {timelineData.map((item, index) => {
                 const Icon = item.icon;
-                const colorClasses = {
-                  emerald: "bg-emerald-100 text-emerald-600 ring-emerald-400/30",
-                  teal: "bg-teal-100 text-teal-600 ring-teal-400/30",
-                  cyan: "bg-cyan-100 text-cyan-600 ring-cyan-400/30",
-                  blue: "bg-blue-100 text-blue-600 ring-blue-400/30",
-                  indigo: "bg-indigo-100 text-indigo-600 ring-indigo-400/30",
-                  violet: "bg-violet-100 text-violet-600 ring-violet-400/30"
-                };
-                
                 return (
-                  <div key={index} className="flex">
-                    <div className="flex flex-col items-center mr-4">
-                      <div className={`w-10 h-10 rounded-full ${colorClasses[item.color]} flex items-center justify-center ring-4 z-10`}>
-                        <Icon className="w-5 h-5" />
+                  <div 
+                    key={index}
+                    className={`timeline-card flex-none w-80 rounded-xl shadow-md overflow-hidden border-t-4 ${item.borderColor} transition-transform mr-6 cursor-pointer hover:shadow-lg`}
+                    onClick={() => scrollToSection(index)}
+                  >
+                    <div className={`p-6 ${index === activeSection ? item.bgColor : 'bg-white'}`}>
+                      <div className="flex items-center justify-between mb-4">
+                        <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-800">
+                          {item.period}
+                        </span>
+                        <div className={`w-10 h-10 rounded-full flex items-center justify-center ${item.bgColor}`}>
+                          <Icon className={`w-5 h-5 ${item.iconColor}`} />
+                        </div>
                       </div>
-                      {index !== timeline.length - 1 && (
-                        <div className="w-0.5 h-full bg-gray-200 -mt-2"></div>
-                      )}
+                      <h3 className="text-xl font-bold text-gray-900 mb-3">{item.title}</h3>
+                      <p className="text-gray-600 line-clamp-3">{item.content.substring(0, 150)}...</p>
+                      <button 
+                        className={`mt-4 inline-flex items-center text-sm font-medium ${item.iconColor}`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          scrollToSection(index);
+                        }}
+                      >
+                        {language === 'tamil' ? "மேலும் படிக்க" : "Read more"}
+                        <ChevronRight className="w-4 h-4 ml-1" />
+                      </button>
                     </div>
-                    <div className="pt-1 pb-6">
-                      <span className="block text-sm font-bold text-gray-800 mb-1">{item.year}</span>
-                      <span className="block text-base font-medium text-gray-700 mb-1">{item.title}</span>
-                      <span className="block text-sm text-gray-500">{item.description}</span>
+                  </div>
+                );
+              })}
+
+              {/* Second set of timeline cards (duplicated for continuous loop) */}
+              {timelineData.map((item, index) => {
+                const Icon = item.icon;
+                return (
+                  <div 
+                    key={`repeat-${index}`}
+                    className={`timeline-card flex-none w-80 rounded-xl shadow-md overflow-hidden border-t-4 ${item.borderColor} transition-transform mr-6 cursor-pointer hover:shadow-lg`}
+                    onClick={() => scrollToSection(index)}
+                  >
+                    <div className={`p-6 ${index === activeSection ? item.bgColor : 'bg-white'}`}>
+                      <div className="flex items-center justify-between mb-4">
+                        <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-800">
+                          {item.period}
+                        </span>
+                        <div className={`w-10 h-10 rounded-full flex items-center justify-center ${item.bgColor}`}>
+                          <Icon className={`w-5 h-5 ${item.iconColor}`} />
+                        </div>
+                      </div>
+                      <h3 className="text-xl font-bold text-gray-900 mb-3">{item.title}</h3>
+                      <p className="text-gray-600 line-clamp-3">{item.content.substring(0, 150)}...</p>
+                      <button 
+                        className={`mt-4 inline-flex items-center text-sm font-medium ${item.iconColor}`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          scrollToSection(index);
+                        }}
+                      >
+                        {language === 'tamil' ? "மேலும் படிக்க" : "Read more"}
+                        <ChevronRight className="w-4 h-4 ml-1" />
+                      </button>
                     </div>
                   </div>
                 );
               })}
             </div>
           </div>
-
-          {/* Key Figures Section */}
-          <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-100">
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-bold text-gray-800 flex items-center">
-                <Users className="w-5 h-5 mr-2 text-green-600" />
-                {language === 'tamil' ? "முக்கிய தலைவர்கள்" : "Key Leaders"}
-              </h3>
-              <div className="h-1 w-12 bg-green-500 rounded-full"></div>
-            </div>
-            
-            <div className="space-y-4">
-              {keyFigures.map((figure, index) => (
-                <div key={index} className="flex items-center p-3 rounded-lg border border-gray-100 bg-gray-50 hover:bg-green-50 transition-colors">
-                  <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center mr-4 text-green-700 font-medium text-lg">
-                    {figure.name.charAt(0)}
-                  </div>
-                  <div>
-                    <h4 className="font-medium text-gray-800">{figure.name}</h4>
-                    <div className="flex items-center text-sm">
-                      <span className="text-gray-500">{figure.title}</span>
-                      <span className="mx-2 text-green-400">•</span>
-                      <span className="text-green-600 font-medium">{figure.period}</span>
+        </section>
+        
+        {/* Key Figures Section */}
+        <section className="mb-16">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+            <Users className="w-6 h-6 mr-2 text-green-700" />
+            {language === 'tamil' ? "முக்கிய தலைவர்கள்" : "Key Leaders"}
+          </h2>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {keyFigures.map((figure, index) => (
+              <div key={index} className="bg-white rounded-xl shadow-md overflow-hidden border border-green-100 hover:shadow-lg transition-shadow">
+                <div className="p-6">
+                  <div className="flex items-center space-x-4">
+                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center text-white text-xl font-bold">
+                      {figure.name.charAt(0)}
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold text-gray-900">{figure.name}</h3>
+                      <div className="flex items-center text-sm">
+                        <span className="text-gray-600">{figure.title}</span>
+                        <span className="mx-2 text-green-400">•</span>
+                        <span className="text-green-700 font-medium">{figure.period}</span>
+                      </div>
                     </div>
                   </div>
                 </div>
-              ))}
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Photo Gallery - Marquee */}
+        <section className="mb-16">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+            <Camera className="w-6 h-6 mr-2 text-green-700" />
+            {language === 'tamil' ? "புகைப்படங்கள்" : "Photos"}
+          </h2>
+          
+          <div className="bg-white rounded-xl shadow-lg overflow-hidden p-6 border border-green-100">
+            <div className="marquee-container">
+              <div className="photo-marquee-content">
+                {/* First set of photos */}
+                {photoGallery.map((photo, index) => (
+                  <div key={index} className="flex-none w-80 mr-6">
+                    <div className="bg-white rounded-xl shadow-md overflow-hidden group hover:shadow-lg transition-all">
+                      <div className="relative aspect-video">
+                        <img
+                   src={`/images/history/photo${index + 1}.jpg`}
+                          alt={photo.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                        <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
+                         
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+
+                {/* Second set of photos (duplicated for continuous loop) */}
+                {photoGallery.map((photo, index) => (
+                  <div key={`repeat-${index}`} className="flex-none w-80 mr-6">
+                    <div className="bg-white rounded-xl shadow-md overflow-hidden group hover:shadow-lg transition-all">
+                      <div className="relative aspect-video">
+                        <img
+                        src={`/Images/history/photo${(index % 16) + 1}.jpg`}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                        <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
+                         
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-
-          {/* Premium Image Gallery */}
-          <div className="space-y-6">
-            <h3 className="text-xl font-bold text-gray-800 flex items-center mb-4">
-              <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mr-2">
-                <BookOpen className="w-4 h-4 text-green-600" />
-              </div>
-              {language === 'tamil' ? "வரலாற்று தருணங்கள்" : "Historical Moments"}
-            </h3>
-            
-            {/* First Image */}
-            <div className="rounded-xl overflow-hidden shadow-lg border border-gray-100 bg-white p-3">
-              <div className="relative aspect-[4/3] group rounded-lg overflow-hidden">
-                <img
-                  src="/Images/VVI.jpg"
-                  alt="Historical Gathering"
-                  className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-green-900/80 via-green-900/40 to-transparent"></div>
-                <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
-                  <div className="inline-block px-2 py-1 bg-white/20 backdrop-blur-sm rounded-md text-xs font-medium mb-2">
-                    {language === 'tamil' ? "முக்கிய நிகழ்வு" : "Key Event"}
-                  </div>
-                  <h4 className="font-bold text-lg">
-                    {language === 'tamil' ? "வரலாற்று கூட்டம்" : "Historical Gathering"}
-                  </h4>
-                  <p className="text-sm text-white/90 mt-1">
-                    {language === 'tamil' ? "கொங்கு நண்பர்கள் சங்க முக்கிய கூட்டம்" : "Significant meeting of Kongu Nanbargal Sangam"}
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Second Image */}
-            <div className="rounded-xl overflow-hidden shadow-lg border border-gray-100 bg-white p-3">
-              <div className="relative aspect-[4/3] group rounded-lg overflow-hidden">
-                <img
-                  src="/Images/KNI.jpg"
-                  alt="Kongu Nadu Illam"
-                  className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-green-900/80 via-green-900/40 to-transparent"></div>
-                <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
-                  <div className="inline-block px-2 py-1 bg-white/20 backdrop-blur-sm rounded-md text-xs font-medium mb-2">
-                    {language === 'tamil' ? "கட்டிடம்" : "Building"}
-                  </div>
-                  <h4 className="font-bold text-lg">
-                    {language === 'tamil' ? "கொங்கு நாடு இல்லம்" : "Kongu Nadu Illam"}
-                  </h4>
-                  <p className="text-sm text-white/90 mt-1">
-                    {language === 'tamil' ? "மாணவர்களுக்கான தங்குமிட வசதி" : "Accommodation facility for students"}
-                  </p>
-                </div>
-              </div>
-            </div>
-            
+        </section>
       
-          </div>
-        </div>
-      </div>
-      
-      {/* Premium Footer Section */}
-      <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden mb-8">
-        <div className="h-1 w-full bg-gradient-to-r from-green-400 via-emerald-500 to-teal-500"></div>
-        <div className="p-8 text-center">
-          <h3 className="text-2xl font-bold text-gray-800 mb-4">
-            {language === 'tamil' ? "எங்கள் பாரம்பரியத்தைப் போற்றுவோம்" : "Celebrating Our Heritage"}
-          </h3>
-          <p className="text-gray-600 max-w-3xl mx-auto">
+        {/* Footer */}
+        <div className="mt-12 pb-8 text-center text-sm text-gray-600 bg-white rounded-lg p-4 shadow-sm border border-green-100">
+          <p>
             {language === 'tamil' 
-              ? "கொங்கு நண்பர்கள் சங்கம் கடந்த ஆறு தசாப்தங்களாக சமூக சேவை செய்து வருகிறது. எங்கள் பாரம்பரியத்தைக் கொண்டாடுவதன் மூலம், வருங்கால தலைமுறைகளுக்கு வழிகாட்டுகிறோம்."
-              : "Kongu Nanbargal Sangam has been serving the community for six decades. By celebrating our heritage, we guide future generations."
-            }
+              ? "கொங்கு நண்பர்கள் சங்கம் - பாரம்பரியத்தின் பாதுகாவலர்கள் © 2025" 
+              : "Kongu Nanbargal Sangam - Guardians of Heritage © 2025"}
           </p>
         </div>
       </div>

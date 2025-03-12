@@ -791,7 +791,7 @@ const Sadhanayalargal = () => {
   };
 
   return (
-    <div className="w-full px-4 py-12 bg-gray-50">
+    <div className="w-full px-4 py-12 bg-gray-50 mt-44">
       {/* Title Section with improved styling */}
       <div className="text-center mb-10">
         <div className="inline-flex items-center justify-center space-x-3 mb-4">

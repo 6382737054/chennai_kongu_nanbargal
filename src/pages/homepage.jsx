@@ -33,13 +33,13 @@ const WelcomeModal = ({ isOpen, onClose }) => {
           </div>
           
           {/* Bottom Section */}
-          <div className="h-[40%] sm:h-[30%] flex flex-col items-center justify-center space-y-3 sm:space-y-4 p-4 sm:p-6 bg-gradient-to-b from-green-50 to-white">
-            <h2 className="text-xl sm:text-2xl font-light text-green-900 text-center px-2">
+          <div className="h-[40%] sm:h-[30%] flex flex-col items-center justify-center space-y-3 sm:space-y-4 p-4 sm:p-6 bg-gradient-to-b from-amber-50 to-white">
+            <h2 className="text-xl sm:text-2xl font-light text-amber-900 text-center px-2">
               Download Our Latest Magazine
             </h2>
             <button 
               onClick={() => window.open('https://kongunanbargalsangam.org/pdf/Magazine_2025.pdf', '_blank')}
-              className="flex items-center px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-full hover:from-green-700 hover:to-green-800 transition-all duration-300 shadow-lg hover:shadow-xl group"
+              className="flex items-center px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-amber-600 to-amber-700 text-white rounded-full hover:from-amber-700 hover:to-amber-800 transition-all duration-300 shadow-lg hover:shadow-xl group"
             >
               <Download className="w-4 h-4 sm:w-5 sm:h-5 mr-2 transform group-hover:-translate-y-0.5 transition-transform" />
               <span className="font-light tracking-wide text-sm sm:text-base">Download Magazine</span>
@@ -58,12 +58,21 @@ const HomePage = () => {
     // Add overflow-hidden to body when component mounts to prevent any potential issues
     document.body.classList.add('overflow-x-hidden');
     
-    const timer = setTimeout(() => {
-      setIsModalOpen(true);
-    }, 1000);
+    // Check if modal has been shown in this browser session
+    const modalShownInSession = sessionStorage.getItem('modalShown');
+    
+    // If not shown in this session yet, show it
+    if (!modalShownInSession) {
+      const timer = setTimeout(() => {
+        setIsModalOpen(true);
+        // Mark that modal has been shown in this session
+        sessionStorage.setItem('modalShown', 'true');
+      }, 1000);
+      
+      return () => clearTimeout(timer);
+    }
     
     return () => {
-      clearTimeout(timer);
       // Remove the class when component unmounts
       document.body.classList.remove('overflow-x-hidden');
     };
@@ -83,8 +92,8 @@ const HomePage = () => {
   }, [isModalOpen]);
   
   return (
-    <div className="min-h-screen bg-white pt-28 overflow-hidden">
-      {/* Removed margin classes and overflow-x-hidden from individual wrappers */}
+    <div className="min-h-screen bg-white pt-16 md:pt-28 overflow-hidden">
+      {/* Reduced padding-top for mobile, kept original for md and up */}
       <HeroSection />
       <ServicesSection />
       <PartnersShowcase />
