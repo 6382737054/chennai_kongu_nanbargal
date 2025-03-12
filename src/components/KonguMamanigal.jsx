@@ -258,16 +258,16 @@ const KonguMamanigal = () => {
   const getGradientClass = (yearVal) => {
     const index = years.indexOf(yearVal);
     const gradientClasses = [
-      'from-orange-500 to-amber-600',
-      'from-amber-500 to-yellow-600',
-      'from-yellow-500 to-amber-600',
-      'from-lime-500 to-emerald-600',
-      'from-emerald-500 to-teal-600',
       'from-teal-500 to-cyan-600',
-      'from-cyan-500 to-sky-600',
-      'from-sky-500 to-blue-600',
-      'from-blue-500 to-indigo-600',
-      'from-indigo-500 to-violet-600'
+      'from-teal-500 to-cyan-600',
+      'from-teal-500 to-cyan-600',
+      'from-teal-500 to-cyan-600',
+      'from-teal-500 to-cyan-600',
+      'from-teal-500 to-cyan-600',
+      'from-teal-500 to-cyan-600',
+      'from-teal-500 to-cyan-600',
+      'from-teal-500 to-cyan-600',
+      'from-teal-500 to-cyan-600',
     ];
     return gradientClasses[index % gradientClasses.length];
   };

@@ -707,17 +707,17 @@ const Sadhanayalargal = () => {
   // Get background color based on year (cycling through colors)
   const getColorClass = (year) => {
     const colorOptions = [
-      'from-emerald-400 to-teal-500',
-      'from-teal-400 to-cyan-500',
-      'from-cyan-400 to-sky-500',
-      'from-sky-400 to-blue-500',
-      'from-blue-400 to-indigo-500',
-      'from-indigo-400 to-violet-500',
-      'from-violet-400 to-purple-500',
-      'from-purple-400 to-pink-500',
-      'from-pink-400 to-rose-500',
       'from-green-400 to-emerald-500',
-      'from-lime-400 to-green-500'
+      'from-green-400 to-emerald-500',
+      'from-green-400 to-emerald-500',
+      'from-green-400 to-emerald-500',
+      'from-green-400 to-emerald-500',
+      'from-green-400 to-emerald-500',
+      'from-green-400 to-emerald-500',
+      'from-green-400 to-emerald-500',
+      'from-green-400 to-emerald-500',
+      'from-green-400 to-emerald-500',
+      'from-green-400 to-emerald-500',
     ];
     
     const index = years.indexOf(year) % colorOptions.length;
