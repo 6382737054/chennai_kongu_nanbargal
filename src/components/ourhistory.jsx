@@ -456,7 +456,7 @@ const OurHistory = () => {
                     <div className="bg-white rounded-xl shadow-md overflow-hidden group hover:shadow-lg transition-all">
                       <div className="relative aspect-video">
                         <img
-                   src={`/images/history/photo${index + 1}.jpg`}
+                   src={`/Images/history/photo${index + 1}.jpg`}
                           alt={photo.title}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         />
