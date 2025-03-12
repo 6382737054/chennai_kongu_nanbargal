@@ -1,956 +1,189 @@
 import React, { useState } from 'react';
-import { ChevronDown, Award, Trophy, Medal, Calendar, Clock, Users } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { BookOpen, ExternalLink, ChevronRight, Calendar, ArrowRight } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 
-const Sadhanayalargal = () => {
-  const [selectedYear, setSelectedYear] = useState('2009');
+const YearlyMagazineArchive = () => {
   const { language } = useLanguage();
+  const [selectedDecade, setSelectedDecade] = useState(null);
+  const [hoveredYear, setHoveredYear] = useState(null);
 
-  const years = ['2009', '2008', '2007', '2006', '2005', '2004', '2003', '2002', '2001', '2000', '1999'];
+  const yearlyMagazines = [
+    { year: 2025, link: "https://kongunanbargalsangam.org/Maga_pdf_2025.html" },
+    { year: 2024, link: "https://kongunanbargalsangam.org/Maga_pdf_2024.html" },
+    { year: 2023, link: "https://kongunanbargalsangam.org/Magazine_pdf.html" },
+    { year: 2019, link: "https://kongunanbargalsangam.org/pdf/Book_2019.pdf" },
+    { year: 2018, link: "https://kongunanbargalsangam.org/pdf/Book_2018.pdf" },
+    { year: 2017, link: "https://kongunanbargalsangam.org/pdf/Book_2017.pdf" },
+    { year: 2016, link: "https://kongunanbargalsangam.org/pdf/2016.pdf" },
+    { year: 2014, link: "https://kongunanbargalsangam.org/pdf/2014.pdf" },
+    { year: 2013, link: "https://kongunanbargalsangam.org/pdf/2013.pdf" },
+    { year: 2012, link: "https://kongunanbargalsangam.org/pdf/2012.pdf" },
+    { year: 2011, link: "https://kongunanbargalsangam.org/pdf/2011.pdf" },
+    { year: 2009, link: "https://kongunanbargalsangam.org/pdf/2009.pdf" },
+    { year: 2008, link: "https://kongunanbargalsangam.org/pdf/2008.pdf" },
+    { year: 2007, link: "https://kongunanbargalsangam.org/pdf/2007.pdf" },
+    { year: 2006, link: "https://kongunanbargalsangam.org/pdf/2006.pdf" },
+    { year: 2005, link: "https://kongunanbargalsangam.org/pdf/2005.pdf" },
+    { year: 2004, link: "https://kongunanbargalsangam.org/pdf/2004.pdf" },
+    { year: 2003, link: "https://kongunanbargalsangam.org/pdf/2003.pdf" },
+  ];
 
-  // Bilingual content
-  const content = {
-    tamil: {
-      title: "சாதனையாளர்கள்",
-      subtitle: "பல்வேறு துறைகளில் சிறந்து விளங்கும் நமது சமூக உறுப்பினர்களின் சாதனைகளைப் போற்றுதல்",
-      awardRecipient: "விருது பெற்றவர்",
-      previous: "முந்தைய",
-      next: "அடுத்த",
-      fieldLabel: "துறை"
-    },
-    english: {
-      title: "Sadhanayalargal",
-      subtitle: "Honoring excellence and outstanding contributions by members of our community in various fields",
-      awardRecipient: "Award Recipient",
-      previous: "Previous",
-      next: "Next",
-      fieldLabel: "Field"
-    }
+  const tamilYears = {
+    2025: "2025",
+    2024: "2024",
+    2023: "2023",
+    2019: "2019",
+    2018: "2018",
+    2017: "2017",
+    2016: "2016",
+    2014: "2014",
+    2013: "2013",
+    2012: "2012",
+    2011: "2011",
+    2009: "2009",
+    2008: "2008",
+    2007: "2007",
+    2006: "2006",
+    2005: "2005",
+    2004: "2004",
+    2003: "2003"
   };
 
-  // Get current content based on language
-  const currentContent = content[language];
-
-  // Bilingual achievement data
-  const achievementData = {
-    "2009": [
-      {
-        name: language === 'tamil' ? "கவிஞர் சக்திகனல் (கே.பி. பழனிசாமி)" : "Kavigar Sakthikanal (K.P. Palanisamy)",
-        field: language === 'tamil' ? "இலக்கியத்தில் சிறந்த செயல்திறன்" : "Outstanding Performance in Literature"
-      },
-      {
-        name: language === 'tamil' ? "திரு. ஆர். நல்லதம்பி கவுண்டர்" : "Mr. R. Nallathambi Gounder",
-        field: language === 'tamil' ? "குறிப்பிடத்தக்க கிராம வணிகம்" : "Remarkable Village Business"
-      },
-      {
-        name: language === 'tamil' ? "திரு. பி.எம். கருப்பண்ணன்" : "Mr. P.M. Karupannan",
-        field: language === 'tamil' ? "சிறந்த கல்வியாளர்" : "Outstanding Educationalist"
-      },
-      {
-        name: language === 'tamil' ? "திரு. ஆர். பெருமாள்சாமி" : "Mr. R. Perumaalsamy",
-        field: language === 'tamil' ? "சிறந்த கல்வியாளர் மற்றும் விவசாயி" : "Outstanding Educationalist and Agriculturist"
-      },
-      {
-        name: language === 'tamil' ? "டாக்டர் ஆர். ருக்மணி" : "Dr. R. Rukhmani",
-        field: language === 'tamil' ? "சிறந்த பேராசிரியர்" : "Best Professor"
-      },
-      {
-        name: language === 'tamil' ? "டாக்டர் பி. செல்வராஜ்" : "Dr. P. Selvaraj",
-        field: language === 'tamil' ? "மருத்துவத் துறையில் சேவை" : "Service in Medical Field"
-      },
-      {
-        name: language === 'tamil' ? "திரு. எஸ். ராஜேந்திரன்" : "Mr. S. Rajendran",
-        field: language === 'tamil' ? "சிறந்த தொழிலதிபர் மற்றும் குறிப்பிடத்தக்க சமூக சேவை" : "Outstanding Industrialist and Remarkable Social Service"
-      },
-      {
-        name: language === 'tamil' ? "திரு. பி.எம். நாச்சிமுத்து கவுண்டர்" : "Mr. P.M. Naachimuthu Gounder",
-        field: language === 'tamil' ? "குறிப்பிடத்தக்க சமூக சேவை" : "Remarkable Social Service"
-      },
-      {
-        name: language === 'tamil' ? "டாக்டர் சி. சின்னசாமி" : "Dr. C. Chinnasamy",
-        field: language === 'tamil' ? "சிறந்த விவசாய விஞ்ஞானி" : "Outstanding Agricultural Scientist"
-      },
-      {
-        name: language === 'tamil' ? "திரு. சி. பொன்னுசாமி" : "Mr. C. Ponnusamy",
-        field: language === 'tamil' ? "குறிப்பிடத்தக்க சமூக சேவை" : "Remarkable Social Service"
-      },
-      {
-        name: language === 'tamil' ? "திரு. எஸ். ஜகதீசன்" : "Mr. S. Jagathesan",
-        field: language === 'tamil' ? "குறிப்பிடத்தக்க சமூக சேவை" : "Remarkable Social Service"
-      },
-      {
-        name: language === 'tamil' ? "திரு. அசோகன் முத்துசாமி" : "Mr. Asokan Muthusamy",
-        field: language === 'tamil' ? "குறிப்பிடத்தக்க சமூக சேவை" : "Remarkable Social Service"
-      },
-      {
-        name: language === 'tamil' ? "திரு. பி.வி. கல்யாண சுந்தரம்" : "Mr. P.V. Kalyana Sundaram",
-        field: language === 'tamil' ? "குறிப்பிடத்தக்க சமூக சேவை" : "Remarkable Social Service"
-      },
-      {
-        name: language === 'tamil' ? "திரு. பாயா கவுண்டர் (ஆர். கிருஷ்ணன்)" : "Mr. Paaya Gounder (a) R. Krishnan",
-        field: language === 'tamil' ? "குறிப்பிடத்தக்க சமூக சேவை" : "Remarkable Social Service"
-      },
-      {
-        name: language === 'tamil' ? "திரு. வி.எம். சிவநேசன்" : "Mr. V.M. Sivanesan",
-        field: language === 'tamil' ? "குறிப்பிடத்தக்க சமூக சேவை" : "Remarkable Social Service"
-      },
-      {
-        name: language === 'tamil' ? "திரு. குப்பனூர் பி. சிவானந்தம்" : "Mr. Kuppanoor P. Sivanandham",
-        field: language === 'tamil' ? "சிறந்த பொறியாளர் மற்றும் குறிப்பிடத்தக்க சமூக சேவை" : "Best Engineer and Remarkable Social Service"
+  const groupByDecade = () => {
+    const decades = {};
+    yearlyMagazines.forEach(magazine => {
+      const decade = Math.floor(magazine.year / 10) * 10;
+      if (!decades[decade]) {
+        decades[decade] = [];
       }
-    ],
-    "2008": [
-      {
-        name: language === 'tamil' ? "திரு. வி.கே. ராமசாமி" : "Mr. V.K. Ramasamy",
-        field: language === 'tamil' ? "சிறந்த விவசாயி மற்றும் குறிப்பிடத்தக்க சமூக சேவை" : "Outstanding Agriculturist and Remarkable Social Service"
-      },
-      {
-        name: language === 'tamil' ? "திரு. அட்லஸ் எம். நாச்சிமுத்து" : "Mr. Atlas M. Nachimuthu",
-        field: language === 'tamil' ? "சிறந்த தொழிலதிபர் மற்றும் குறிப்பிடத்தக்க சமூக சேவை" : "Outstanding Industrialist and Remarkable Social Service"
-      },
-      {
-        name: language === 'tamil' ? "டாக்டர் ஏ. முருகநாதன்" : "Dr. A. Muruganathan",
-        field: language === 'tamil' ? "சிறந்த மருத்துவர் மற்றும் குறிப்பிடத்தக்க சமூக சேவை" : "Outstanding Doctor and Remarkable Social Service"
-      },
-      {
-        name: language === 'tamil' ? "திரு. என்.கே.எம். நல்லசாமி" : "Mr. N.K.M. Nallasamy",
-        field: language === 'tamil' ? "குறிப்பிடத்தக்க சமூக சேவை" : "Remarkable Social Service"
-      },
-      {
-        name: language === 'tamil' ? "டாக்டர் ஜி. செங்கோட்டுவேலு" : "Dr. G. Sengottuvelu",
-        field: language === 'tamil' ? "சிறந்த மருத்துவர்" : "Outstanding Doctor"
-      },
-      {
-        name: language === 'tamil' ? "டாக்டர் வி. முருகன்" : "Dr. V. Murugan",
-        field: language === 'tamil' ? "சிறந்த பேராசிரியர்" : "Outstanding Professor"
-      },
-      {
-        name: language === 'tamil' ? "திரு. என்.எஸ். பெரியசாமி" : "Mr. N.S. Periasamy",
-        field: language === 'tamil' ? "சிறந்த அரசு ஊழியர்" : "Best Government Employee"
-      },
-      {
-        name: language === 'tamil' ? "டாக்டர் சி. சுவாமிநாதன்" : "Dr. C. Swaminathan",
-        field: language === 'tamil' ? "சிறந்த கல்வியாளர்" : "Outstanding Educationalist"
-      },
-      {
-        name: language === 'tamil' ? "டாக்டர் சி. கந்தசாமி" : "Dr. C. Kandasamy",
-        field: language === 'tamil' ? "சிறந்த தொழிலதிபர் மற்றும் குறிப்பிடத்தக்க சமூக சேவை" : "Outstanding Industrialist and Remarkable Social Service"
-      },
-      {
-        name: language === 'tamil' ? "திரு. கொங்கு கோவிந்தசாமி" : "Mr. Kongu Govindasamy",
-        field: language === 'tamil' ? "குறிப்பிடத்தக்க சமூக சேவை" : "Remarkable Social Service"
-      },
-      {
-        name: language === 'tamil' ? "திரு. ஆர்.கே. பாலகிருஷ்ணன்" : "Mr. R.K. Balakrishnan",
-        field: language === 'tamil' ? "குறிப்பிடத்தக்க சமூக சேவை" : "Remarkable Social Service"
-      },
-      {
-        name: language === 'tamil' ? "திருமதி டி.எம். தங்கமணி" : "Mrs. D.M. Thangamani",
-        field: language === 'tamil' ? "குறிப்பிடத்தக்க சமூக சேவை" : "Remarkable Social Service"
-      },
-      {
-        name: language === 'tamil' ? "திரு. பி. கோவிந்தசாமி" : "Mr. P. Govindasamy",
-        field: language === 'tamil' ? "குறிப்பிடத்தக்க சமூக சேவை" : "Remarkable Social Service"
-      },
-      {
-        name: language === 'tamil' ? "டாக்டர் ஏ. செல்வி" : "Dr. A. Selvi",
-        field: language === 'tamil' ? "சிறந்த விஞ்ஞானி" : "Outstanding Scientist"
-      },
-      {
-        name: language === 'tamil' ? "திரு. எர். பி. மோகன்" : "Mr. Er. B. Mohan",
-        field: language === 'tamil' ? "இளம் தொழிலதிபர்" : "Young Industrialist"
-      },
-      {
-        name: language === 'tamil' ? "செல்வி பி. அப்ரஜிதா" : "Selvi B. Aprajita",
-        field: language === 'tamil' ? "விளையாட்டு சாம்பியன்" : "Sports Champion"
-      }
-    ],
-    "2007": [
-      {
-        name: language === 'tamil' ? "திரு. கே. பாலசுப்பிரமணியன்" : "Mr. K. Balasubramanian",
-        field: language === 'tamil' ? "சிறந்த கல்வியாளர் மற்றும் குறிப்பிடத்தக்க சமூக சேவை" : "Outstanding Educationalist and Remarkable Social Service"
-      },
-      {
-        name: language === 'tamil' ? "திரு. ஆர். தமிழ்மணி" : "Mr. R. Tamilmani",
-        field: language === 'tamil' ? "சிறந்த கல்வியாளர்" : "Outstanding Educationalist"
-      },
-      {
-        name: language === 'tamil' ? "டாக்டர் விமலா ராமலிங்கம்" : "Dr. Vimala Ramalingam",
-        field: language === 'tamil' ? "சிறந்த மருத்துவர் மற்றும் குறிப்பிடத்தக்க சமூக சேவை" : "Outstanding Doctor and Remarkable Social Service"
-      },
-      {
-        name: language === 'tamil' ? "திரு. கே.கே. வேலுசாமி" : "Mr. K.K. Velusamy",
-        field: language === 'tamil' ? "சிறந்த தொழிலதிபர் மற்றும் குறிப்பிடத்தக்க முதியோர் சமூக சேவை" : "Outstanding Industrialist and Remarkable Oldage Social Service"
-      },
-      {
-        name: language === 'tamil' ? "திரு. எஸ்.டி. சந்திரசேகர்" : "Mr. S.D. Chandrasekar",
-        field: language === 'tamil' ? "சிறந்த கல்வியாளர்" : "Outstanding Educationalist"
-      },
-      {
-        name: language === 'tamil' ? "திரு. பி. முத்துசாமி" : "Mr. P. Muthusamy",
-        field: language === 'tamil' ? "சிறந்த தொழிலதிபர் மற்றும் குறிப்பிடத்தக்க சமூக சேவை" : "Outstanding Industrialist and Remarkable Social Service"
-      },
-      {
-        name: language === 'tamil' ? "திரு. எஸ். பெருமாள்" : "Mr. S. Perumal",
-        field: language === 'tamil' ? "சிறந்த பேராசிரியர்" : "Outstanding Professor"
-      },
-      {
-        name: language === 'tamil' ? "டாக்டர் கே.எஸ்.கே. வேலுமணி" : "Dr. K.S.K. Velumani",
-        field: language === 'tamil' ? "குறிப்பிடத்தக்க சமூக சேவை" : "Remarkable Social Service"
-      },
-      {
-        name: language === 'tamil' ? "டாக்டர் ஆர். நயனம்" : "Dr. R. Nayanam",
-        field: language === 'tamil' ? "சிறந்த விவசாய கல்வியாளர்" : "Outstanding Agricultural Educationalist"
-      },
-      {
-        name: language === 'tamil' ? "திரு. எம். சிவசண்முகம்" : "Mr. M. Sivashanmugam",
-        field: language === 'tamil' ? "குறிப்பிடத்தக்க நகர மேம்பாட்டு சேவைகள்" : "Remarkable City Uplifting Services"
-      },
-      {
-        name: language === 'tamil' ? "திரு. இ.டி. ராஜமாணிக்கம்" : "Mr. E.T. Rajamanikam",
-        field: language === 'tamil' ? "குறிப்பிடத்தக்க சமூக சேவை" : "Remarkable Social Service"
-      },
-      {
-        name: language === 'tamil' ? "திருமதி ருக்மணி மாரப்பன்" : "Mrs. Rukmani Marappan",
-        field: language === 'tamil' ? "சிறந்த கல்வியாளர் மற்றும் குறிப்பிடத்தக்க சமூக சேவை" : "Outstanding Educationalist and Remarkable Social Service"
-      },
-      {
-        name: language === 'tamil' ? "திரு. எம். குமார கவுண்டர்" : "Mr. M. Kumara Gounder",
-        field: language === 'tamil' ? "சிறந்த தொழிலதிபர் மற்றும் குறிப்பிடத்தக்க சமூக சேவை" : "Outstanding Industrialist and Remarkable Social Service"
-      },
-      {
-        name: language === 'tamil' ? "டாக்டர் சித்ரா தேவி ஜெகதீசன்" : "Dr. Chitra Devi Jagadeesan",
-        field: language === 'tamil' ? "சிறந்த மருத்துவர்" : "Outstanding Doctor"
-      },
-      {
-        name: language === 'tamil' ? "திரு. ஏ.கே.பி. சின்ராஜ்" : "Mr. A.K.P. Chinraj",
-        field: language === 'tamil' ? "சிறந்த தொழிலதிபர் மற்றும் குறிப்பிடத்தக்க சமூக சேவை" : "Outstanding Industrialist and Remarkable Social Service"
-      },
-      {
-        name: language === 'tamil' ? "திரு. விசா எம். சண்முகம்" : "Mr. Visa M. Shanmugam",
-        field: language === 'tamil' ? "குறிப்பிடத்தக்க சமூக சேவை" : "Remarkable Social Service"
-      }
-    ],
-    "2006": [
-      {
-        name: language === 'tamil' ? "முனைவர் கே. அரங்கசாமி" : "Munaivar K. Arangasamy",
-        field: language === 'tamil' ? "சிறந்த கல்வியாளர் மற்றும் குறிப்பிடத்தக்க சமூக சேவை" : "Outstanding Educationalist and Remarkable Social Service"
-      },
-      {
-        name: language === 'tamil' ? "திரு. சி. அருமுகம்" : "Mr. C. Arumugam",
-        field: language === 'tamil' ? "சிறந்த பொறியாளர் மற்றும் குறிப்பிடத்தக்க சமூக சேவை" : "Best Engineer and Remarkable Social Service"
-      },
-      {
-        name: language === 'tamil' ? "கே.கே.கே. சுகுமாரன்" : "K.K.K. Sugumaran",
-        field: language === 'tamil' ? "ஆன்மீக மற்றும் கலாச்சார சேவைகள்" : "Spiritual and Cultural Services"
-      },
-      {
-        name: language === 'tamil' ? "பி. கிருஷ்ணசாமி" : "P. Krishnasamy",
-        field: language === 'tamil' ? "சிறந்த கொங்கு எழுத்தாளர் (சாகித்ய அகாடமி விருது)" : "Best Kogu Writer (Sagatya Academy Award)"
-      },
-      {
-        name: language === 'tamil' ? "திரு. பி. கந்தசாமி" : "Mr. P. Kandhasamy",
-        field: language === 'tamil' ? "சுற்றுச்சூழல் மற்றும் விழிப்புணர்வு சேவைகள்" : "Environmental and Awareness Services"
-      },
-      {
-        name: language === 'tamil' ? "திரு. ஆர். ராமசாமி" : "Mr. R. Ramasamy",
-        field: language === 'tamil' ? "சுதந்திரப் போராட்ட வீரர்" : "Freedom Fighter"
-      },
-      {
-        name: language === 'tamil' ? "திரு. எஸ். ராஜேஷ்" : "Mr. S. Rajesh",
-        field: language === 'tamil' ? "மென்பொருள் பொறியாளர்" : "Software Engineer"
-      },
-      {
-        name: language === 'tamil' ? "பேராசிரியர் திரு. எஸ். குணசேகரன்" : "Professor Mr. S. Gunasekaran",
-        field: language === 'tamil' ? "சிறந்த கல்வியாளர் மற்றும் குறிப்பிடத்தக்க சமூக சேவை" : "Outstanding Educationalist and Remarkable Social Service"
-      },
-      {
-        name: language === 'tamil' ? "டாக்டர் வி. ஆனந்த்" : "Dr. V. Aanadh",
-        field: language === 'tamil' ? "சிறந்த மருத்துவர் (ENT)" : "Outstanding Doctor (ENT)"
-      },
-      {
-        name: language === 'tamil' ? "டாக்டர் ஏ.கே. ராமசாமி" : "Dr. A.K. Ramasamy",
-        field: language === 'tamil' ? "சிறந்த கல்வியாளர் மற்றும் குறிப்பிடத்தக்க சமூக சேவை" : "Outstanding Educationalist and Remarkable Social Service"
-      },
-      {
-        name: language === 'tamil' ? "திரு. ஆர். ராஜ்குமார்" : "Mr. R. Rajkumar",
-        field: language === 'tamil' ? "கின்னஸ் சாதனை" : "Guinness Record"
-      },
-      {
-        name: language === 'tamil' ? "திரு. எஸ். சுசிதேரன்" : "Mr. S. Susidheran",
-        field: language === 'tamil' ? "சிறந்த தொழிலதிபர் மற்றும் குறிப்பிடத்தக்க சமூக சேவை" : "Outstanding Industrialist and Remarkable Social Service"
-      },
-      {
-        name: language === 'tamil' ? "திரு. என்.பி. வேலு" : "Mr. N.P. Velu",
-        field: language === 'tamil' ? "குறிப்பிடத்தக்க சமூக சேவை" : "Remarkable Social Service"
-      }
-    ],
-    "2005": [
-      {
-        name: language === 'tamil' ? "திரு. கே. அம்மையப்பன்" : "Mr. K. Ammaiappan",
-        field: language === 'tamil' ? "குறிப்பிடத்தக்க சமூக சேவை, கரூர்" : "Remarkable Social Service, Karur"
-      },
-      {
-        name: language === 'tamil' ? "திரு. தேவத்தூர் என். நாச்சிமுத்து" : "Thiru. Devatthur N. Nachimuthu",
-        field: language === 'tamil' ? "முன்னாள் எம்.எல்.ஏ., சிறந்த சமூக சேவை" : "Former M.L.A., Outstanding Social Service"
-      },
-      {
-        name: language === 'tamil' ? "திரு. என்.கே. சின்னசாமி" : "Mr. N.K. Chinnasamy",
-        field: language === 'tamil' ? "சிறந்த கல்வியாளர், நாமக்கல்" : "Outstanding Educationalist, Namakkal"
-      },
-      {
-        name: language === 'tamil' ? "திரு. அரங்க துரைசாமி" : "Mr. Aranga Duraisamy",
-        field: language === 'tamil' ? "குறிப்பிடத்தக்க சமூக சேவை, கர்நாடகா" : "Remarkable Social Service, Karnataka"
-      },
-      {
-        name: language === 'tamil' ? "தலைவர் ஆர். நடேசன்" : "Chairman R. Natesan",
-        field: language === 'tamil' ? "குறிப்பிடத்தக்க சமூக சேவை, திருச்செங்கோடு" : "Remarkable Social Service, Thiruchengodu"
-      },
-      {
-        name: language === 'tamil' ? "திரு. டி.பி. சின்னசாமி" : "Mr. T.P. Chinnasamy",
-        field: language === 'tamil' ? "குறிப்பிடத்தக்க சமூக சேவை, சேலம்" : "Remarkable Social Service, Salem"
-      },
-      {
-        name: language === 'tamil' ? "டாக்டர் கே.எஸ். பழனிசாமி" : "Dr. K.S. Palanisamy",
-        field: language === 'tamil' ? "சிறந்த கல்வியாளர், ஈரோடு" : "Outstanding Educationalist, Erode"
-      },
-      {
-        name: language === 'tamil' ? "பேராசிரியர் பி. சின்னசாமி" : "Professor P. Chinnasamy",
-        field: language === 'tamil' ? "குறிப்பிடத்தக்க சமூக சேவை, ஈரோடு" : "Remarkable Social Service, Erode"
-      },
-      {
-        name: language === 'tamil' ? "சிந்தனை கவிஞர் கவிதாசன்" : "Sinthanai Kavigar Kavithasan",
-        field: language === 'tamil' ? "சிறந்த எழுத்தாளர், கோயம்புத்தூர்" : "Best Writer, Coimbatore"
-      },
-      {
-        name: language === 'tamil' ? "டாக்டர் பி. யேகநாதன்" : "Dr. P. Yeganathan",
-        field: language === 'tamil' ? "விஞ்ஞானி, ஈரோடு" : "Scientist, Erode"
-      },
-      {
-        name: language === 'tamil' ? "அஞ்சல் பி. முத்து" : "Post P. Muthu",
-        field: language === 'tamil' ? "குறிப்பிடத்தக்க சமூக சேவை, கரூர்" : "Remarkable Social Service, Karur"
-      },
-      {
-        name: language === 'tamil' ? "டாக்டர் ஆர். ராஜவேலு" : "Dr. R. Rajavelu",
-        field: language === 'tamil' ? "சிறந்த மருத்துவர், திருச்செங்கோடு" : "Outstanding Doctor, Thiruchengodu"
-      },
-      {
-        name: language === 'tamil' ? "திரு. பொன்னுசாமி கவுண்டர்" : "Mr. Ponnusamy Gounder",
-        field: language === 'tamil' ? "குறிப்பிடத்தக்க சமூக சேவை" : "Remarkable Social Service"
-      },
-      {
-        name: language === 'tamil' ? "திரு. இ. தங்கதுரை" : "Mr. E. Thangadurai",
-        field: language === 'tamil' ? "சிறந்த கல்வியாளர், கரூர்" : "Outstanding Educationalist, Karur"
-      },
-      {
-        name: language === 'tamil' ? "திரு. எஸ்.கே. சுப்பிரமணியம்" : "Mr. S.K. Subramanium",
-        field: language === 'tamil' ? "சிறந்த கல்வியாளர், கோயம்புத்தூர்" : "Outstanding Educationalist, Coimbatore"
-      },
-      {
-        name: language === 'tamil' ? "செல்வி ஒய். பிரபா" : "Selvi Y. Prabha",
-        field: language === 'tamil' ? "சதுரங்க சாம்பியன், ஈரோடு" : "Chess Champion, Erode"
-      }
-    ],
-    "2004": [
-  {
-    name: language === 'tamil' ? "டாக்டர் எம்.ஏ. வேலுசாமி" : "Dr. M.A. Velusamy",
-    field: language === 'tamil' ? "சிறந்த பொறியாளர் மற்றும் கொங்கு சமூக நலனுக்கு பெரும் பங்களிப்பாளர்" : "Outstanding Engineer and a Great Contributor to Kongu Society Welfare"
-  },
-  {
-    name: language === 'tamil' ? "திரு. தேவத்தூர் என். நாச்சிமுத்து" : "Thiru. Devatthur N. Nachimuthu",
-    field: language === 'tamil' ? "முன்னாள் எம்.எல்.ஏ., சிறந்த சமூக சேவை" : "Former M.L.A., Outstanding Social Service"
-  },
-  {
-    name: language === 'tamil' ? "திரு. வி. ஈஸ்வரமூர்த்தி" : "Thiru. V. Eswaramurthy",
-    field: language === 'tamil' ? "கல்வியாளர், தமிழ் அறிஞர் மற்றும் பல்வேறு தலைப்புகளில் நூல்களை எழுதியவர்" : "Educationalist, A Tamil Scholar and Authored Many Books on Various Topics"
-  },
-  {
-    name: language === 'tamil' ? "திரு. யு.ஆர். சின்னுசாமி கவுண்டர்" : "Thiru. U.R. Chinnusamy Gounder",
-    field: language === 'tamil' ? "சிறந்த தொழிலதிபர் மற்றும் கொங்கு சமூக சேவை" : "Outstanding Industrialist and Service to Kongu Society"
-  },
-  {
-    name: language === 'tamil' ? "திரு. எம். குமாரசாமி" : "Thiru. M. Kumarasamy",
-    field: language === 'tamil' ? "வாகன சொந்தக்காரர், கல்வியாளர்" : "Fleet Owner, Educationalist"
-  },
-  {
-    name: language === 'tamil' ? "திரு. டாக்டர் வி. செல்லப்பன்" : "Thiru. Dr. V. Chellappan",
-    field: language === 'tamil' ? "கொங்கு சமூக நலனுக்கு பெரும் பங்களிப்பாளர்" : "A Great Contributor to the Welfare of Kongu Society"
-  },
-  {
-    name: language === 'tamil' ? "திரு. டி.எஸ். பழனிவேலு" : "Thiru. T.S. Palanivelu",
-    field: language === 'tamil' ? "சிறந்த ஆசிரியர் மற்றும் கொங்கு சமூக நலனுக்கு பெரும் பங்களிப்பாளர்" : "An Outstanding Teacher and A Great Contributor to the Welfare of Kongu Society"
-  },
-  {
-    name: language === 'tamil' ? "திரு. டி.கே. சுப்பிரமணியன்" : "Thiru. T.K. Subramanian",
-    field: language === 'tamil' ? "சுயநலமற்ற மற்றும் அர்ப்பணிப்புடன் கொங்கு சமூக நலனுக்கு சேவை" : "Selfless and Dedicated Service to the Welfare of Kongu Society"
-  },
-  {
-    name: language === 'tamil' ? "திரு. எஸ்.பி. கோபாலகிருஷ்ணன்" : "Thiru. S.P. Gopalakrishnan",
-    field: language === 'tamil' ? "மனித குலத்திற்கு சுயநலமற்ற சேவை" : "Selfless Service to Mankind"
-  },
-  {
-    name: language === 'tamil' ? "திரு. ஏ. ராமசாமி" : "Thiru. A. Ramasamy",
-    field: language === 'tamil' ? "சிறந்த கல்வியாளர், எஸ்.ஆர்.வி. பள்ளி" : "Outstanding Educationalist, SRV School"
-  },
-  {
-    name: language === 'tamil' ? "திரு. கே.ஜி. பிரகதீஸ்குமார்" : "Thiru. K.G. Pragatheeskumar",
-    field: language === 'tamil' ? "சிறந்த விவசாயி" : "An Outstanding Agriculturist"
-  },
-  {
-    name: language === 'tamil' ? "டாக்டர் எஸ். தனபாக்கியம்" : "Dr. S. Dhanabakkiyam",
-    field: language === 'tamil' ? "மகப்பேறு துறையில் பல விருதுகளைப் பெற்றவர்" : "Recipient of Many Awards in the Field of Maternity"
-  },
-  {
-    name: language === 'tamil' ? "டாக்டர் எம்.என். பொன்னுசாமி" : "Dr. M.N. Ponnusamy",
-    field: language === 'tamil' ? "சிறந்த பேராசிரியர்" : "An Outstanding Professor"
-  },
-  {
-    name: language === 'tamil' ? "திரு. ஏ.பி. கந்தசாமி" : "Thiru. A.P. Kandasamy",
-    field: language === 'tamil' ? "தமிழ் அறிஞர், சிறந்த விவசாயி மற்றும் கொங்கு சமூக சேவை" : "A Tamil Scholar, An Outstanding Agriculturist and Service to Kongu Society"
-  },
-  {
-    name: language === 'tamil' ? "டாக்டர் சி. ராயப்பா" : "Dr. C. Rayappa",
-    field: language === 'tamil' ? "சிறந்த ENT நிபுணர் மற்றும் மனித குலத்திற்கு சேவை" : "An Outstanding ENT Specialist and Service to Mankind"
-  }
-],
-"2003": [
-  {
-    name: language === 'tamil' ? "திரு. நல்ல கோவிந்தசாமி" : "Thiru. Nalla Govindasamy",
-    field: language === 'tamil' ? "சமூகத்திற்கு சிறந்த சேவை" : "Outstanding Service to Society"
-  },
-  {
-    name: language === 'tamil' ? "திரு. கே. நல்லியப்பன்" : "Thiru. K. Nalliyappan",
-    field: language === 'tamil' ? "சிறந்த தொழிலதிபர்" : "Outstanding Industrialist"
-  },
-  {
-    name: language === 'tamil' ? "திரு. ஜே.பி. லியோ கணேஷ்" : "Thiru. J.P. Leo Ganesh",
-    field: language === 'tamil' ? "சமூகத்திற்கு சிறந்த சேவை" : "Outstanding Service to Society"
-  },
-  {
-    name: language === 'tamil' ? "திரு. \"தங்கமணி\" பி.எம். பழனிசாமி கவுண்டர்" : "Thiru. \"Thangamani\" P.M. Palanisamy Gounder",
-    field: language === 'tamil' ? "சிறந்த சமூக சேவை" : "Outstanding Social Service"
-  },
-  {
-    name: language === 'tamil' ? "டாக்டர் கே.வி. கலியப்பன்" : "Dr. K.V. Kaliyappan",
-    field: language === 'tamil' ? "சிறந்த பேராசிரியர்/ஆராய்ச்சி அறிஞர்" : "Outstanding Professor/Research Scholar"
-  },
-  {
-    name: language === 'tamil' ? "டாக்டர் ஆர். பாலசுப்பிரமணியன்" : "Dr. R. Balasubramanian",
-    field: language === 'tamil' ? "சிறந்த பேராசிரியர்" : "Outstanding Professor"
-  },
-  {
-    name: language === 'tamil' ? "டாக்டர் கே.ஆர். பழனிசாமி" : "Dr. K.R. Palanisamy",
-    field: language === 'tamil' ? "சிறந்த மருத்துவர்" : "Outstanding Doctor"
-  },
-  {
-    name: language === 'tamil' ? "திரு. எஸ். நல்லசாமி" : "Thiru. S. Nallasamy",
-    field: language === 'tamil' ? "சிறந்த விவசாயி" : "Outstanding Agriculturist"
-  },
-  {
-    name: language === 'tamil' ? "திரு. எம். சிவப்பிரகாசம்" : "Thiru. M. Sivapragasam",
-    field: language === 'tamil' ? "சிறந்த ஆசிரியருக்கான தேசிய விருது பெற்றவர்" : "Recipient of National Award for Outstanding Teacher"
-  },
-  {
-    name: language === 'tamil' ? "திரு. ஆர். சைநாதன்" : "Thiru. R. Sainathan",
-    field: language === 'tamil' ? "சிறந்த சமூக சேவை" : "Outstanding Social Service"
-  },
-  {
-    name: language === 'tamil' ? "திரு. எஸ். ஜெயவேலன்" : "Thiru. S. Jayavelan",
-    field: language === 'tamil' ? "சமூக நலனுக்கு சிறந்த சேவை" : "Outstanding Service for Society Welfare"
-  },
-  {
-    name: language === 'tamil' ? "திரு. கே. சிவலிங்கம்" : "Thiru. K. Sivalingam",
-    field: language === 'tamil' ? "சிறந்த கல்வி சேவை" : "Outstanding Educational Service"
-  },
-  {
-    name: language === 'tamil' ? "திரு. கே. சக்திவேல்" : "Thiru. K. Sakthivel",
-    field: language === 'tamil' ? "சிறந்த கல்வி சேவை" : "Outstanding Educational Service"
-  },
-  {
-    name: language === 'tamil' ? "திரு. கே. நடராஜன்" : "Thiru. K. Natarajan",
-    field: language === 'tamil' ? "சிறந்த கல்வி சேவை" : "Outstanding Educational Service"
-  },
-  {
-    name: language === 'tamil' ? "திரு. வி. அன்பழகன்" : "Thiru. V. Anbazhagan",
-    field: language === 'tamil' ? "சிறந்த தொழிலதிபர்" : "Outstanding Industrialist"
-  },
-  {
-    name: language === 'tamil' ? "திரு. வி. சுந்தரேசன்" : "Thiru. V. Sundaresan",
-    field: language === 'tamil' ? "சிறந்த தொழிலதிபர்" : "Outstanding Industrialist"
-  },
-  {
-    name: language === 'tamil' ? "திருமதி டாக்டர் உமா செல்வராஜ்" : "Tmt. Dr. Uma Selvaraj",
-    field: language === 'tamil' ? "சிறந்த சமூக சேவை" : "Outstanding Social Service"
-  },
-  {
-    name: language === 'tamil' ? "திருமதி டாக்டர் ஆர். சாந்தி" : "Tmt. Dr. R. Shanthi",
-    field: language === 'tamil' ? "சிறந்த புவியியலாளர் மற்றும் விவசாய விஞ்ஞானி" : "Outstanding Geologist and Agricultural Scientist"
-  }
-],
-"2002": [
-  {
-    name: language === 'tamil' ? "திருமதி பாரதி செங்கோட்டுவேல்" : "Tmt. Bharathi Sengottuvel",
-    field: language === 'tamil' ? "சிறந்த கட்டிடக்கலைஞர்" : "Outstanding Architect"
-  },
-  {
-    name: language === 'tamil' ? "திரு. கே. செல்லமுத்து" : "Thiru. K. Chellamuthu",
-    field: language === 'tamil' ? "விவசாயிகள் நலனில் குறிப்பிடத்தக்க சேவை" : "Remarkable Service in Agriculturists Welfare"
-  },
-  {
-    name: language === 'tamil' ? "அரிமா. திரு. கே. தனபாலன்" : "Arima. Thiru. K. Dhanabalan",
-    field: language === 'tamil' ? "சிறந்த சமூக சேவை" : "Outstanding Social Service"
-  },
-  {
-    name: language === 'tamil' ? "திரு. ஆர். கணேசன்" : "Thiru. R. Ganesan",
-    field: language === 'tamil' ? "சிறந்த இளம் தொழிலதிபர்" : "Outstanding Young Industrialist"
-  },
-  {
-    name: language === 'tamil' ? "திரு. கே. கிருஷ்ணமூர்த்தி" : "Thiru. K. Krishnamurthy",
-    field: language === 'tamil' ? "சிறந்த ஆசிரியர்" : "Outstanding Teacher"
-  },
-  {
-    name: language === 'tamil' ? "டாக்டர் எஸ். முத்து" : "Dr. S. Muthu",
-    field: language === 'tamil' ? "தொழில்நுட்ப கல்வித் துறையில் சேவை" : "Service in the Field of Technical Education"
-  },
-  {
-    name: language === 'tamil' ? "திரு. கே.பி. நடராஜன்" : "Thiru. K.P. Natarajan",
-    field: language === 'tamil' ? "போக்குவரத்து வணிகத்தில் சிறந்த சேவை" : "Outstanding Service in Transport Business"
-  },
-  {
-    name: language === 'tamil' ? "திரு. பி.சி. பழனிசாமி" : "Thiru. P.C. Palanisamy",
-    field: language === 'tamil' ? "சிறந்த வழக்கறிஞர்" : "Outstanding Advocate"
-  },
-  {
-    name: language === 'tamil' ? "திரு. எஸ். பிரேம்துரை" : "Thiru. S. Premdurai",
-    field: language === 'tamil' ? "சிறந்த ஏற்றுமதியாளர் மற்றும் தொழிலதிபர்" : "Outstanding Exporter and Industrialist"
-  },
-  {
-    name: language === 'tamil' ? "திரு. எம். ராமசாமி" : "Thiru. M. Ramasamy",
-    field: language === 'tamil' ? "விவசாயத் துறையில் சேவை" : "Service in Agricultural Field"
-  },
-  {
-    name: language === 'tamil' ? "டாக்டர் கே. சண்முக சுந்தரம்" : "Dr. K. Shanmuga Sundaram",
-    field: language === 'tamil' ? "மருத்துவத் துறையில் சேவை" : "Service in Medical Field"
-  },
-  {
-    name: language === 'tamil' ? "டாக்டர் ஆர். வடிவேலன்" : "Dr. R. Vadivelan",
-    field: language === 'tamil' ? "தமிழ் இலக்கிய வளர்ச்சிக்கு சேவை" : "Service to Tamil Literature Development"
-  },
-  {
-    name: language === 'tamil' ? "திரு. எஸ். வரதராஜன்" : "Thiru. S. Varadarajan",
-    field: language === 'tamil' ? "சிறந்த விஞ்ஞானி" : "Outstanding Scientist"
-  },
-  {
-    name: language === 'tamil' ? "திருமதி சி. விஜயலட்சுமி" : "Tmt. C. Vijayalakshmi",
-    field: language === 'tamil' ? "கல்வித் துறையில் சிறந்த சேவை" : "Outstanding Service in Educational Field"
-  }
-],
-"2001": [
-  {
-    name: language === 'tamil' ? "திரு. எஸ்.கே. செங்கோட கவுண்டர்" : "Thiru. S.K. Sengoda Gounder",
-    field: language === 'tamil' ? "சிறந்த தொழிலதிபர்" : "Outstanding Industrialist"
-  },
-  {
-    name: language === 'tamil' ? "திரு. கே. பொன்னுசாமி" : "Thiru. K. Ponnusamy",
-    field: language === 'tamil' ? "சிறந்த தொழிலதிபர்" : "Outstanding Industrialist"
-  },
-  {
-    name: language === 'tamil' ? "திரு. கே. அரங்கசாமி" : "Thiru. K. Arangasamy",
-    field: language === 'tamil' ? "சிறந்த ஆராய்ச்சி அறிஞர்" : "Outstanding Research Scholar"
-  },
-  {
-    name: language === 'tamil' ? "திரு. கே.ஆர். அப்பாவு" : "Thiru. K.R. Appavoo",
-    field: language === 'tamil' ? "சிறந்த தொழிலதிபர்" : "Outstanding Industrialist"
-  },
-  {
-    name: language === 'tamil' ? "டாக்டர் எஸ். அசோகன்" : "Dr. S. Ashokan",
-    field: language === 'tamil' ? "சிறந்த மருத்துவர்" : "Outstanding Doctor"
-  },
-  {
-    name: language === 'tamil' ? "டாக்டர் எம். கந்தசாமி" : "Dr. M. Kandasamy",
-    field: language === 'tamil' ? "சிறந்த கல்வியாளர்" : "Outstanding Educationalist"
-  },
-  {
-    name: language === 'tamil' ? "திரு. ஆர். செல்வராஜ்" : "Thiru. R. Selvaraj",
-    field: language === 'tamil' ? "சிறந்த இளம் தொழிலதிபர்" : "Outstanding Young Industrialist"
-  },
-  {
-    name: language === 'tamil' ? "திரு. ஆர். ராஜேந்திரன்" : "Thiru. R. Rajendran",
-    field: language === 'tamil' ? "குறிப்பிடத்தக்க சமூக சேவை" : "Remarkable Social Service"
-  },
-  {
-    name: language === 'tamil' ? "செல்வி. காஞ்சி கைலாசம்" : "Selvi. Kanchi Kailasam",
-    field: language === 'tamil' ? "இளம் நீச்சல் சாம்பியன்" : "Young Swimming Champion"
-  }
-],
-"2000": [
-  {
-    name: language === 'tamil' ? "திரு. சம்பத் குமார்" : "Thiru. Sampath Kumar",
-    field: language === 'tamil' ? "கிரிக்கெட் வீரர்" : "Cricket Player"
-  },
-  {
-    name: language === 'tamil' ? "திரு. எஸ். நாகல்சாமி" : "Thiru. S. Nagalsamy",
-    field: language === 'tamil' ? "ஐ.ஏ.எஸ். அதிகாரி" : "I.A.S. Officer"
-  },
-  {
-    name: language === 'tamil' ? "செல்வி. ஜெயந்தி" : "Selvi. Jayanthi",
-    field: language === 'tamil' ? "விவசாய பல்கலைக்கழகம்" : "Agricultural University"
-  },
-  {
-    name: language === 'tamil' ? "திரு. கண்ணையன்" : "Thiru. Kannaiyan",
-    field: language === 'tamil' ? "எச்.எச்.இ." : "H.H.E."
-  },
-  {
-    name: language === 'tamil' ? "டாக்டர் மணி" : "Dr. Mani",
-    field: language === 'tamil' ? "சிறந்த மருத்துவர்" : "Outstanding Doctor"
-  },
-  {
-    name: language === 'tamil' ? "திரு. கே. பழனிசாமி" : "Thiru. K. Palanisamy",
-    field: language === 'tamil' ? "சிறந்த தொழில் மேலாண்மை, கவின்கேர்" : "Outstanding Industrial Management, Kavincare"
-  },
-  {
-    name: language === 'tamil' ? "திரு. கருப்பன்" : "Thiru. Karuppan",
-    field: language === 'tamil' ? "சிறந்த ஆசிரியர்" : "Outstanding Teacher"
-  },
-  {
-    name: language === 'tamil' ? "திரு. கே.கே. சோமசுந்தரம்" : "Thiru. K.K. Somasundaram",
-    field: language === 'tamil' ? "ஐ.எஃப்.எஸ். அதிகாரி" : "I.F.S. Officer"
-  },
-  {
-    name: language === 'tamil' ? "திரு. கலியப்பன்" : "Thiru. Kaliappan",
-    field: language === 'tamil' ? "போக்குவரத்து வணிகத்தில் சாதனை - தென்பாண்டியன் போக்குவரத்து" : "Achievement in Transport Business - Thenpandian Transport"
-  },
-  {
-    name: language === 'tamil' ? "திரு. ஞானசேகரன்" : "Thiru. Gnanasekaran",
-    field: language === 'tamil' ? "எம்.எல்.ஏ." : "M.L.A."
-  },
-  {
-    name: language === 'tamil' ? "திரு. சண்முகம்" : "Thiru. Shanmugam",
-    field: language === 'tamil' ? "சாந்தி எலக்ட்ரிகல்ஸ்" : "Shanthi Electricals"
-  },
-  {
-    name: language === 'tamil' ? "திரு. காசி" : "Thiru. Kasi",
-    field: language === 'tamil' ? "இளம் தொழிலதிபர்" : "Young Industrialist"
-  },
-  {
-    name: language === 'tamil' ? "டாக்டர் பாலசுப்பிரமணியம்" : "Dr. Balasubramaniyam",
-    field: language === 'tamil' ? "உமா கிளினிக்" : "Uma Clinic"
-  },
-  {
-    name: language === 'tamil' ? "திரு. முத்துராஜா" : "Thiru. Muthuraja",
-    field: language === 'tamil' ? "ஜி.டி.பி. மார்பிள்ஸ்" : "G.T.P. Marbles"
-  },
-  {
-    name: language === 'tamil' ? "திரு. கோபால்" : "Thiru. Gopal",
-    field: language === 'tamil' ? "அவரது துறையில் சாதனை" : "Achievement in His Field"
-  }
-],
-"1999": [
-  {
-    name: language === 'tamil' ? "திரு. கே. கந்தசாமி" : "Thiru. K. Kandasamy",
-    field: language === 'tamil' ? "கல்வித் துறையில் முன்மாதிரி சேவை" : "Exemplary Service in Educational Field"
-  },
-  {
-    name: language === 'tamil' ? "டாக்டர் சி. நாமச்சிவாயம்" : "Dr. C. Namachivayam",
-    field: language === 'tamil' ? "கல்வித் துறையில் முன்மாதிரி சேவை" : "Exemplary Service in Educational Field"
-  },
-  {
-    name: language === 'tamil' ? "டாக்டர் ஏ.எம். சச்சிதானந்தம்" : "Dr. A.M. Sachithanandam",
-    field: language === 'tamil' ? "கல்வித் துறையில் முன்மாதிரி சேவை" : "Exemplary Service in Educational Field"
-  },
-  {
-    name: language === 'tamil' ? "டாக்டர் ஜி. குமரவேலு" : "Dr. G. Kumaravelu",
-    field: language === 'tamil' ? "தமிழ்நாடு அரசின் சிறந்த ஐ.எஃப்.எஸ். அதிகாரி" : "Outstanding I.F.S. Officer of Tamil Nadu Government"
-  },
-  {
-    name: language === 'tamil' ? "திரு. கே.ஆர். மணி" : "Thiru. K.R. Mani",
-    field: language === 'tamil' ? "சிறந்த ஏற்றுமதியாளர்" : "Outstanding Exporter"
-  },
-  {
-    name: language === 'tamil' ? "திரு. எஸ்.வி. குமரகுருபரசாமி" : "Thiru. S.V. Kumaraguruparasamy",
-    field: language === 'tamil' ? "சிறந்த ஏற்றுமதியாளர்" : "Outstanding Exporter"
-  },
-  {
-    name: language === 'tamil' ? "டாக்டர் ராஜ் கவுண்டர்" : "Dr. Raj Gounder",
-    field: language === 'tamil' ? "கணினி ஆராய்ச்சியில் நிபுணர்" : "Expert in Computer Research"
-  },
-  {
-    name: language === 'tamil' ? "திரு. பொன்வண்ணன்" : "Thiru. Ponvannan",
-    field: language === 'tamil' ? "திரைப்பட உலகிற்கு பங்களிப்பு" : "Contribution to Film World"
-  },
-  {
-    name: language === 'tamil' ? "திரு. சி. முத்துசாமி" : "Thiru. C. Muthusamy",
-    field: language === 'tamil' ? "சமூகத்திற்கு சிறந்த சேவை" : "Outstanding Service to Society"
-  },
-  {
-    name: language === 'tamil' ? "திரு. ஏ. ஈஸ்வரன்" : "Thiru. A. Eswaran",
-    field: language === 'tamil' ? "கல்வித் துறையில் முன்மாதிரி சேவை" : "Exemplary Service in Educational Field"
-  },
-  {
-    name: language === 'tamil' ? "டாக்டர் வி. ராமசாமி" : "Dr. V. Ramasamy",
-    field: language === 'tamil' ? "மருத்துவத் துறையில் மருத்துவராக சிறந்த சேவை" : "Outstanding Service as a Doctor in Medical Field"
-  },
-  {
-    name: language === 'tamil' ? "திரு. வி. பரமசிவம்" : "Thiru. V. Paramasivam",
-    field: language === 'tamil' ? "சிறந்த ஏற்றுமதியாளர்" : "Outstanding Exporter"
-  },
-  {
-    name: language === 'tamil' ? "திரு. ஏ.கே. வெங்கிடசாமி" : "Thiru. A.K. Venkitasamy",
-    field: language === 'tamil' ? "சிறந்த தொழிலதிபர்" : "Outstanding Industrialist"
-  },
-  {
-    name: language === 'tamil' ? "செல்வி. வினோதினி வாசுதேவன்" : "Selvi. Vinodhini Vasudevan",
-    field: language === 'tamil' ? "கல்வியில் சாதனை" : "Achievement in Education"
-  }
-]
-  }
-  
-  const originalData = {
-    "2006": [
-      {
-        name: "Munaivar K. Arangasamy",
-        field: "Outstanding Educationalist and Remarkable Social Service"
-      },
-      {
-        name: "Mr. C. Arumugam",
-        field: "Best Engineer and Remarkable Social Service"
-      },
-      // More entries
-    ],
-    "2005": [
-      {
-        name: "Mr. K. Ammaiappan",
-        field: "Remarkable Social Service, Karur"
-      },
-      // More entries
-    ],
-    "2004": [
-      {
-        name: "Dr. M.A. Velusamy",
-        field: "Outstanding Engineer and a Great Contributor to Kongu Society Welfare"
-      },
-      // More entries
-    ],
-    "2003": [
-      {
-        name: "Thiru. Nalla Govindasamy",
-        field: "Outstanding Service to Society"
-      },
-      // More entries
-    ],
-    "2002": [
-      {
-        name: "Tmt. Bharathi Sengottuvel",
-        field: "Outstanding Architect"
-      },
-      // More entries
-    ],
-    "2001": [
-      {
-        name: "Thiru. S.K. Sengoda Gounder",
-        field: "Outstanding Industrialist"
-      },
-      // More entries
-    ],
-    "2000": [
-      {
-        name: "Thiru. Sampath Kumar",
-        field: "Cricket Player"
-      },
-      // More entries
-    ],
-    "1999": [
-      {
-        name: "Thiru. K. Kandasamy",
-        field: "Exemplary Service in Educational Field"
-      },
-      // More entries
-    ],
+      decades[decade].push(magazine);
+    });
+    return Object.entries(decades).sort((a, b) => b[0] - a[0]);
   };
 
-  // Merge fully translated data with original data for years that aren't translated yet
-  for (const year in originalData) {
-    if (!achievementData[year]) {
-      achievementData[year] = originalData[year];
-    }
-  }
-
-  // Get background color based on year (cycling through colors)
-  const getColorClass = (year) => {
-    const colorOptions = [
-      'from-green-500 to-emerald-600',
-      'from-blue-500 to-indigo-600',
-      'from-teal-500 to-green-600',
-      'from-emerald-500 to-teal-600',
-      'from-cyan-500 to-blue-600',
-      'from-indigo-500 to-purple-600'
-    ];
-    
-    const index = years.indexOf(year) % colorOptions.length;
-    return colorOptions[index];
+  const handleYearClick = (link) => {
+    window.open(link, '_blank');
   };
+
+  const decades = groupByDecade();
 
   return (
-    <div className="w-full px-4 py-12 bg-gray-50 mt-44">
-      {/* Title Section with improved styling */}
-      <div className="text-center mb-10">
-        <div className="inline-flex items-center justify-center space-x-3 mb-4">
-          <div className="relative">
-            <div className="absolute -inset-3 rounded-full bg-green-100 animate-pulse opacity-75"></div>
-            <Trophy className="w-8 h-8 text-green-600 relative" />
-          </div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 relative">
-            {currentContent.title}
-          </h2>
-        </div>
-        <div className="h-1 w-32 bg-gradient-to-r from-green-400 to-green-600 mx-auto mb-6 rounded-full"></div>
-        <p className="text-gray-600 max-w-2xl mx-auto text-sm sm:text-base lg:text-lg font-light">
-          {currentContent.subtitle}
-        </p>
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-300 p-6">
+      <div className="max-w-7xl mx-auto px-4 py-24">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="relative text-center space-y-8"
+        >
+          <h1 className="text-4xl font-bold text-green-950 mb-6 tracking-tight">
+            {language === 'tamil' ? 'ஆண்டு தொகுப்புகள்' : 'Annual Collections'}
+          </h1>
+          <p className="text-lg text-green-700 max-w-2xl mx-auto font-semibold">
+            {language === 'tamil' ? 'எதிர்கால சந்ததியினருக்காக கவனமாகப் பாதுகாக்கப்பட்டு டிஜிட்டல் முறையில் காப்பகப்படுத்தப்பட்ட எங்கள் வருடாந்திர வெளியீடுகளின் தொகுப்பை ஆராயுங்கள்.' : 'Explore our curated collection of yearly publications, meticulously preserved and digitally archived for future generations.'}
+          </p>
+        </motion.div>
 
-      {/* Year Selection - Desktop Version (Animated tabs) */}
-      <div className="hidden md:block mb-12 overflow-x-auto py-2">
-        <div className="flex flex-wrap justify-center gap-2 md:gap-3 px-4">
-          {years.map((year, index) => (
-            <button
-              key={year}
-              onClick={() => setSelectedYear(year)}
-              className={`px-5 py-2.5 rounded-full text-sm md:text-base transition-all duration-300 transform ${
-                selectedYear === year
-                  ? 'bg-gradient-to-r from-green-500 to-green-600 text-white shadow-md scale-105'
-                  : 'bg-white text-gray-700 border border-gray-200 hover:bg-green-50 hover:border-green-200'
-              }`}
-            >
-              <div className="flex items-center">
-                {selectedYear === year ? (
-                  <Clock className="w-4 h-4 mr-2 text-white" />
-                ) : (
-                  <Calendar className="w-4 h-4 mr-2 text-green-600" />
+        {/* Main Content */}
+        <div className="grid lg:grid-cols-12 gap-8 mt-12">
+          {/* Decades Navigation */}
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="lg:col-span-3"
+          >
+            <div className="sticky top-8 bg-green-200 p-4 rounded-lg">
+              <h2 className="text-xl font-bold text-black mb-6 pl-4 w-full">
+                {language === 'tamil' ? 'பத்தாண்டுகளால் உலாவு' : 'Browse by Decade'}
+              </h2>
+              <div className="space-y-2">
+                {decades.map(([decade]) => (
+                  <motion.button
+                    key={decade}
+                    onClick={() => setSelectedDecade(selectedDecade === decade ? null : decade)}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className={`w-full flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-300 ${
+                      selectedDecade === decade
+                        ? 'bg-green-500 text-white shadow-lg shadow-green-900/10'
+                        : 'hover:bg-gradient-to-r from-green-50 to-green-200 text-green-800 hover:shadow-lg hover:shadow-green-400'
+                    }`}>
+                    <div className={`w-px h-8 transition-all duration-300 ${
+                      selectedDecade === decade ? 'bg-green-400' : 'bg-green-200 group-hover:bg-green-300'
+                    }`} />
+                    <span className="text-lg font-semibold ">{decade}s</span>
+                    <ArrowRight className={`w-4 h-4 ml-auto transition-transform duration-300 ${
+                      selectedDecade === decade ? 'rotate-90' : ''
+                    }`} />
+                  </motion.button>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Years Grid */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="lg:col-span-9"
+          >
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+              {decades
+                .filter(([decade]) => !selectedDecade || decade === selectedDecade)
+                .map(([_, magazines]) =>
+                  magazines.map((magazine) => (
+                    <motion.button
+                      key={magazine.year}
+                      onClick={() => handleYearClick(magazine.link)}
+                      onMouseEnter={() => setHoveredYear(magazine.year)}
+                      onMouseLeave={() => setHoveredYear(null)}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="group relative"
+                    >
+                      <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.4 }}
+                        className="absolute bg-green-200 inset-0 bg-gradient-to-br from-green-500/20 to-emerald-500/20 rounded-2xl opacity-0 group-hover:opacity-100 blur-xl transition-all duration-500"
+                      />
+                      
+                      <div className="relative bg-white/70 backdrop-blur-sm border border-green-100/50 rounded-2xl p-8 transition-all duration-500 group-hover:border-green-200 group-hover:shadow-xl group-hover:shadow-green-900/5">
+                        <div className="absolute inset-0 bg-gradient-to-br from-white/50 to-white/20 rounded-2xl" />
+                        
+                        <motion.div
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          transition={{ duration: 0.5, delay: 0.2 }}
+                          className="relative flex flex-col items-center gap-4"
+                        >
+                          <div className="text-3xl font-extralight text-green-950 tracking-tight">
+                            {language === 'tamil' ? tamilYears[magazine.year] : magazine.year}
+                          </div>
+                          
+                          <div className="w-8 h-px bg-gradient-to-r from-transparent via-green-300 to-transparent" />
+                          
+                          <div className="flex items-center gap-2 text-green-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <span className="text-sm font-light">
+                              {language === 'tamil' ? 'காப்பகத்தைக் காண்க' : 'View Archive'}
+                            </span>
+                            <ExternalLink className="w-4 h-4" />
+                          </div>
+                        </motion.div>
+                      </div>
+                    </motion.button>
+                  ))
                 )}
-                {year}
-              </div>
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Year Selection - Mobile Version (Dropdown with style) */}
-      <div className="md:hidden mb-10">
-        <div className="relative max-w-xs mx-auto">
-          <select
-            value={selectedYear}
-            onChange={(e) => setSelectedYear(e.target.value)}
-            className="appearance-none w-full p-4 pl-12 pr-10 rounded-lg border border-gray-200 bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent shadow-sm text-lg"
-          >
-            {years.map((year) => (
-              <option key={year} value={year}>
-                {year}
-              </option>
-            ))}
-          </select>
-          <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-            <div className="bg-green-100 rounded-full p-1.5">
-              <Calendar className="w-5 h-5 text-green-600" />
             </div>
-          </div>
-          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-            <ChevronDown className="w-5 h-5 text-gray-400" />
-          </div>
-        </div>
-      </div>
-
-      {/* Achievement Cards Grid - Improved visual design */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 lg:gap-8 max-w-7xl mx-auto">
-        {achievementData[selectedYear]?.map((achievement, index) => (
-          <div
-            key={index}
-            className="group bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300 hover:border-green-200 overflow-hidden transform hover:-translate-y-1"
-          >
-            {/* Card Header - Improved with gradients */}
-            <div className={`bg-gradient-to-r ${getColorClass(selectedYear)} p-4 border-b border-gray-100`}>
-              <div className="flex justify-between items-start">
-                <div className="flex-grow">
-                  <h3 className="text-base sm:text-lg font-semibold text-white line-clamp-2 tracking-wide">
-                    {achievement.name}
-                  </h3>
-                </div>
-                <div className="flex-shrink-0 ml-2">
-                  <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
-                    <Award className="w-5 h-5 text-white" />
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            {/* Card Body - Better spacing and icons */}
-            <div className="p-5">
-              <div className="flex items-start">
-                <Medal className="w-5 h-5 text-green-500 mt-0.5 mr-3 flex-shrink-0" />
-                <div>
-                  <p className="text-xs font-medium uppercase text-green-600 mb-1">{currentContent.fieldLabel}</p>
-                  <p className="text-sm text-gray-700 font-medium">
-                    {achievement.field}
-                  </p>
-                </div>
-              </div>
-            </div>
-            
-            {/* Card Footer - Improved footer */}
-            <div className="px-5 py-3 bg-gray-50 border-t border-gray-100">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <Users className="w-3.5 h-3.5 text-green-500 mr-1.5" />
-                  <span className="text-xs text-green-600 font-medium">{currentContent.awardRecipient}</span>
-                </div>
-                <span className="text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded-full font-medium">{selectedYear}</span>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Year Navigation Buttons - Mobile (Improved styling) */}
-      <div className="flex justify-center mt-10 md:hidden">
-        <div className="flex space-x-6">
-          <button
-            onClick={() => {
-              const currentIndex = years.indexOf(selectedYear);
-              if (currentIndex > 0) {
-                setSelectedYear(years[currentIndex - 1]);
-              }
-            }}
-            disabled={years.indexOf(selectedYear) === 0}
-            className={`px-5 py-2.5 rounded-full flex items-center transition-all ${
-              years.indexOf(selectedYear) === 0
-                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                : 'bg-white border border-green-200 text-green-700 hover:bg-green-50 shadow-sm'
-            }`}
-          >
-            <ChevronDown className="w-4 h-4 mr-2 transform rotate-90" />
-            {currentContent.previous}
-          </button>
-          <button
-            onClick={() => {
-              const currentIndex = years.indexOf(selectedYear);
-              if (currentIndex < years.length - 1) {
-                setSelectedYear(years[currentIndex + 1]);
-              }
-            }}
-            disabled={years.indexOf(selectedYear) === years.length - 1}
-            className={`px-5 py-2.5 rounded-full flex items-center transition-all ${
-              years.indexOf(selectedYear) === years.length - 1
-                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                : 'bg-white border border-green-200 text-green-700 hover:bg-green-50 shadow-sm'
-            }`}
-          >
-            {currentContent.next}
-            <ChevronDown className="w-4 h-4 ml-2 transform -rotate-90" />
-          </button>
+          </motion.div>
         </div>
       </div>
     </div>
   );
 };
 
-export default Sadhanayalargal;
+export default YearlyMagazineArchive;

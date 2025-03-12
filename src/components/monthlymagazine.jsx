@@ -1,7 +1,5 @@
-
 import React, { useState } from 'react';
-import { Calendar, ChevronDown, ExternalLink, Clock, ArrowRight } from 'lucide-react';
-import { motion } from "framer-motion";
+import { Calendar, ChevronDown, ExternalLink, Clock, ArrowRight, BookOpen, Archive } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 
 const MonthlyMagazineArchive = () => {
@@ -172,91 +170,152 @@ const MonthlyMagazineArchive = () => {
     magazineArchives: "மாதாந்திர இதழ்கள் காப்பகம்",
     browseCollection: "எங்கள் மாதாந்திர இதழ்களின் தொகுப்பை உலாவுங்கள்",
     selectYear: "ஆண்டைத் தேர்ந்தெடுக்கவும்",
-    issues: "பிரச்சினைகள்"
+    issues: "பிரச்சினைகள்",
+    noYearSelected: "இதழ்களைக் காண ஆண்டைத் தேர்ந்தெடுக்கவும்",
+    pdfFormat: "அனைத்து இதழ்களும் PDF வடிவத்தில் உள்ளன"
   };
+
+  const englishContent = {
+    magazineArchives: "Monthly Magazine Archives",
+    browseCollection: "Browse our collection of monthly magazines",
+    selectYear: "Select Year",
+    issues: "Issues",
+    noYearSelected: "Select a year to view available magazines",
+    pdfFormat: "All magazines are available in PDF format"
+  };
+
+  const contentText = language === 'tamil' ? tamilContent : englishContent;
 
   const handleMonthClick = (link) => {
     window.open(link, '_blank');
   };
 
   const years = Object.keys(monthlyArchives).sort((a, b) => b - a);
-  const months = selectedYear ? Object.keys(monthlyArchives[selectedYear]) : [];
+  const months = selectedYear && monthlyArchives[selectedYear] ? Object.keys(monthlyArchives[selectedYear]) : [];
+
+  // Get month-specific colors
+  const getMonthColor = (month) => {
+    const colorMap = {
+      January: 'from-emerald-400 to-teal-500',
+      February: 'from-cyan-400 to-sky-500',
+      March: 'from-sky-400 to-blue-500',
+      April: 'from-indigo-400 to-violet-500',
+      May: 'from-purple-400 to-pink-500',
+      June: 'from-pink-400 to-rose-500',
+      July: 'from-rose-400 to-red-500',
+      August: 'from-amber-400 to-orange-500',
+      September: 'from-orange-400 to-amber-500',
+      October: 'from-yellow-400 to-amber-500',
+      November: 'from-lime-400 to-green-500',
+      December: 'from-teal-400 to-cyan-500'
+    };
+    
+    return colorMap[month] || 'from-emerald-400 to-teal-500';
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-300 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-orange-100 py-16 px-4 sm:px-6">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-green-800 mb-4">
-            {language === 'tamil' ? tamilContent.magazineArchives : 'Magazine Archives'}
-          </h1>
-          <p className="text-lg text-green-600">
-            {language === 'tamil' ? tamilContent.browseCollection : 'Browse our collection of monthly magazines'}
+        {/* Header with elegant styling */}
+        <div className="text-center mb-16">
+          <div className="relative mb-6">
+            <div className="absolute inset-0 blur-3xl opacity-30 bg-gradient-to-r from-emerald-300 to-sky-300 rounded-full transform -translate-y-1/2"></div>
+            <div className="relative">
+              <div className="inline-flex items-center justify-center mb-4">
+                <div className="w-16 h-16 rounded-full bg-white shadow-xl flex items-center justify-center">
+                  <BookOpen className="w-8 h-8 text-emerald-500" />
+                </div>
+              </div>
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-sky-600 tracking-tight">
+                {contentText.magazineArchives}
+              </h1>
+            </div>
+          </div>
+          <p className="text-lg text-gray-700 max-w-3xl mx-auto">
+            {contentText.browseCollection}
           </p>
+          <div className="mt-6 h-1 w-32 bg-gradient-to-r from-emerald-400 to-sky-400 mx-auto rounded-full"></div>
         </div>
 
-        <div className="grid md:grid-cols-12 gap-6">
-          {/* Years Panel */}
-          <div className="md:col-span-4 lg:col-span-3 transition-all duration-500 ease-in-out transform scale-95 hover:scale-100">
-            <div className="bg-white rounded-2xl shadow-sm border border-green-100 overflow-hidden transition-all duration-500 hover:shadow-lg hover:border-green-300 hover:scale-105">
-              <div className="p-4 bg-green-50 border-b border-green-100 transition-colors duration-500 hover:bg-green-100">
-                <h2 className="text-lg font-semibold text-green-800 flex items-center gap-2 transition-all duration-500 hover:text-green-900 hover:tracking-wide">
-                  <Clock className="w-5 h-5 text-green-600 transition-transform duration-500 ease-in-out hover:rotate-12 hover:scale-110" />
-                  {language === 'tamil' ? tamilContent.selectYear : 'Select Year'}
+        <div className="grid md:grid-cols-12 gap-8">
+          {/* Years Panel - Elegant card design */}
+          <div className="md:col-span-4 lg:col-span-3">
+            <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl border border-emerald-100 overflow-hidden transition-all duration-500 hover:shadow-2xl transform hover:-translate-y-1">
+              <div className="p-5 bg-gradient-to-r from-emerald-500 to-teal-600 border-b border-emerald-400">
+                <h2 className="text-lg font-semibold text-white flex items-center gap-2">
+                  <Archive className="w-5 h-5 text-white" />
+                  {contentText.selectYear}
                 </h2>
               </div>
-              <div className="divide-y divide-green-100">
-                {years.map((year) => (
-                  <button
-                    key={year}
-                    onClick={() => {
-                      setSelectedYear(selectedYear === year ? null : year);
-                      setSelectedMonth(null);
-                    }}
-                    className={`w-full px-4 py-3 flex items-center justify-between transition-colors ${
-                      selectedYear === year 
-                        ? 'bg-green-50 text-green-800' 
-                        : 'hover:bg-green-50/50 text-gray-600'
-                    }`}
-                  >
-                    <span className="font-medium">{year}</span>
-                    <ArrowRight className={`w-4 h-4 transform transition-transform ${
-                      selectedYear === year ? 'rotate-90' : ''
-                    }`} />
-                  </button>
-                ))}
+              <div className="divide-y divide-emerald-100">
+                {years.length > 0 ? (
+                  years.map((year) => (
+                    <button
+                      key={year}
+                      onClick={() => {
+                        setSelectedYear(parseInt(year));
+                        setSelectedMonth(null);
+                      }}
+                      className={`w-full px-5 py-4 flex items-center justify-between transition-all duration-300 ${
+                        selectedYear === parseInt(year) 
+                          ? 'bg-emerald-50 text-emerald-800 font-medium' 
+                          : 'text-gray-700 hover:bg-emerald-50/70'
+                      }`}
+                    >
+                      <div className="flex items-center">
+                        <Clock className={`w-4 h-4 mr-3 ${
+                          selectedYear === parseInt(year) ? 'text-emerald-600' : 'text-emerald-400'
+                        }`} />
+                        <span>{year}</span>
+                      </div>
+                      <ArrowRight className={`w-4 h-4 transform transition-transform duration-300 ${
+                        selectedYear === parseInt(year) ? 'rotate-90 text-emerald-600' : 'text-emerald-300'
+                      }`} />
+                    </button>
+                  ))
+                ) : (
+                  // Empty state for years
+                  <div className="p-6 text-center text-gray-500">
+                    <Clock className="w-10 h-10 mx-auto mb-3 text-gray-300" />
+                    <p>No years available</p>
+                  </div>
+                )}
               </div>
             </div>
           </div>
 
-          {/* Months Grid */}
-          <div className="md:col-span-8 lg:col-span-9 transition-all duration-500 ease-in-out transform hover:scale-[1.02]">
-            {selectedYear ? (
-              <div className="bg-white rounded-2xl shadow-sm border border-green-100 overflow-hidden transition-all duration-500 ease-in-out hover:shadow-lg hover:scale-[1.03]">
-                <div className="p-4 bg-green-200 border-b border-green-100 transition-all duration-500 ease-in-out hover:bg-green-300">
-                  <h2 className="text-lg font-semibold text-green-800 flex items-center gap-2 transition-all duration-500 hover:text-green-900 hover:tracking-wide">
-                    <Calendar className="w-5 h-5 text-green-700 transition-transform duration-500 ease-in-out hover:rotate-6 hover:scale-110" />
-                    {selectedYear} {language === 'tamil' ? tamilContent.issues : 'Issues'}
+          {/* Months Grid - Premium design */}
+          <div className="md:col-span-8 lg:col-span-9">
+            {selectedYear && months.length > 0 ? (
+              <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl border border-emerald-100 overflow-hidden transition-all duration-500 hover:shadow-2xl">
+                <div className="p-5 bg-gradient-to-r from-sky-500 to-emerald-500 border-b border-emerald-200">
+                  <h2 className="text-lg font-semibold text-white flex items-center gap-2">
+                    <Calendar className="w-5 h-5 text-white" />
+                    {selectedYear} {contentText.issues}
                   </h2>
                 </div>
-                <div className="p-6">
-                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                <div className="p-8">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
                     {months.map((month) => (
                       <button
                         key={month}
                         onClick={() => handleMonthClick(monthlyArchives[selectedYear][month])}
                         className="group relative"
                       >
-                        <div className="absolute inset-0 bg-gradient-to-r from-green-400 to-emerald-400 rounded-xl opacity-0 group-hover:opacity-100 blur-lg transition-all duration-500 ease-in-out" />
-                        <div className="relative group">
-                          <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-green-300 to-emerald-400 opacity-0 transition-all duration-500 ease-in-out blur-lg group-hover:opacity-30 group-hover:scale-105" />
-                          <div className="relative bg-white p-4 rounded-xl border border-green-100 transition-all duration-500 ease-in-out transform group-hover:scale-105 group-hover:border-green-300 group-hover:shadow-xl">
-                            <div className="flex flex-col items-center space-y-2">
-                              <Calendar className="w-6 h-6 text-green-600 transition-all duration-500 ease-in-out group-hover:text-green-700 group-hover:rotate-6 group-hover:scale-110" />
-                              <span className="text-sm font-medium text-gray-800 transition-all duration-500 ease-in-out group-hover:text-green-800 group-hover:scale-110">
-                                {language === 'tamil' ? tamilMonths[month] : month}
-                              </span>
-                              <ExternalLink className="w-4 h-4 text-green-500 opacity-0 transition-all duration-500 ease-in-out transform group-hover:opacity-100 group-hover:-translate-y-1 group-hover:scale-110" />
+                        <div className={`absolute inset-0 bg-gradient-to-r ${getMonthColor(month)} rounded-xl opacity-0 group-hover:opacity-20 blur-lg transition-all duration-500 ease-in-out`} />
+                        <div className="relative overflow-hidden rounded-xl bg-white shadow-md border border-gray-100 transition-all duration-500 ease-in-out transform group-hover:scale-105 group-hover:shadow-xl group-hover:border-emerald-200">
+                          {/* Top highlight bar */}
+                          <div className={`h-1.5 w-full bg-gradient-to-r ${getMonthColor(month)}`}></div>
+                          
+                          <div className="p-6 flex flex-col items-center space-y-3">
+                            <div className="w-12 h-12 rounded-full bg-emerald-50 flex items-center justify-center transition-all duration-500 group-hover:bg-emerald-100">
+                              <Calendar className="w-6 h-6 text-emerald-600 transition-all duration-500 group-hover:scale-110 group-hover:text-emerald-700" />
+                            </div>
+                            <span className="text-base font-medium text-gray-800 transition-all duration-500 group-hover:text-emerald-800">
+                              {language === 'tamil' ? tamilMonths[month] : month}
+                            </span>
+                            <div className="w-full pt-2 mt-2 border-t border-gray-100 flex justify-center">
+                              <ExternalLink className="w-4 h-4 text-emerald-500 transition-all duration-500 ease-in-out transform group-hover:scale-125" />
                             </div>
                           </div>
                         </div>
@@ -266,16 +325,24 @@ const MonthlyMagazineArchive = () => {
                 </div>
               </div>
             ) : (
-              <div className="h-full flex items-center justify-center bg-white rounded-2xl shadow-sm border border-green-100 p-8">
-                <p className="text-lg text-gray-500">Select a year to view available magazines</p>
+              <div className="h-full bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl border border-emerald-100 flex flex-col items-center justify-center p-12 text-center transition-all duration-500 hover:shadow-2xl">
+                <div className="w-20 h-20 rounded-full bg-emerald-50 flex items-center justify-center mb-4">
+                  <Calendar className="w-10 h-10 text-emerald-400" />
+                </div>
+                <p className="text-lg text-gray-500 max-w-md">
+                  {contentText.noYearSelected}
+                </p>
               </div>
             )}
           </div>
         </div>
 
         {/* Footer */}
-        <div className="mt-8 text-center text-sm text-gray-500">
-          All magazines are available in PDF format
+        <div className="mt-12 text-center">
+          <div className="inline-flex items-center justify-center space-x-2 py-2 px-4 rounded-full bg-white/80 backdrop-blur-sm shadow-sm border border-emerald-100">
+            <ExternalLink className="w-4 h-4 text-emerald-500" />
+            <span className="text-sm text-gray-600">{contentText.pdfFormat}</span>
+          </div>
         </div>
       </div>
     </div>
