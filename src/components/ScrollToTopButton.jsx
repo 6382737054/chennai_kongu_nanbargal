@@ -35,7 +35,7 @@ function ScrollToTopButton() {
             position: 'fixed',
             bottom: '20px',
             right: '20px',
-            background: '#28a745', // Changed color to green
+            background: '#007bff',
             color: 'white',
             border: 'none',
             borderRadius: '50%',
