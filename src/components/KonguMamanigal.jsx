@@ -29,7 +29,7 @@ const KonguMamanigal = () => {
   // Current content based on language
   const currentContent = content[language];
 
-  // Bilingual award data
+  // Bilingual award data - placeholder
   const awardees = [
     {
       year: "2010",
@@ -251,150 +251,183 @@ const KonguMamanigal = () => {
             },
           ];
         
-          // Get available years for dropdown
-          const years = awardees.map(item => item.year);
+  // Get available years for dropdown
+  const years = awardees.map(item => item.year) || ['2010', '2009', '2008', '2007', '2006', '2005', '2004', '2003', '2002', '2001'];
         
-          // Get color class for gradient based on year
-          const getGradientClass = (yearVal) => {
-            const index = years.indexOf(yearVal);
-            const gradientClasses = [
-              'from-green-600 to-green-700',
-              'from-emerald-600 to-green-600',
-              'from-teal-600 to-emerald-600',
-              'from-cyan-600 to-teal-600',
-              'from-blue-600 to-cyan-600',
-              'from-indigo-600 to-blue-600',
-              'from-purple-600 to-indigo-600',
-              'from-violet-600 to-purple-600',
-              'from-fuchsia-600 to-purple-600',
-              'from-pink-600 to-fuchsia-600'
-            ];
-            return gradientClasses[index % gradientClasses.length];
-          };
-        
-          return (
-            <div className="w-full px-4 py-16 bg-gray-50 mt-44">
-              {/* Header Section */}
-              <div className="text-center mb-16">
-                <div className="inline-flex items-center justify-center mb-4">
-                  <Crown className="w-10 h-10 text-amber-500 mb-2" />
-                  <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 px-4">
-                    {currentContent.title}
-                  </h2>
-                </div>
-                <div className="h-1 w-32 bg-gradient-to-r from-amber-400 to-amber-600 mx-auto mb-6 rounded-full"></div>
-                <p className="text-gray-600 max-w-3xl mx-auto text-lg font-light">
-                  {currentContent.subtitle}
-                </p>
-              </div>
-        
-              {/* Year Selection - Mobile */}
-              <div className="md:hidden mb-8">
-                <div className="relative max-w-xs mx-auto">
-                  <select
-                    value={activeYear}
-                    onChange={(e) => setActiveYear(e.target.value)}
-                    className="appearance-none w-full p-4 pl-12 pr-10 rounded-lg border border-gray-200 bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent shadow-sm text-lg"
-                  >
-                    {years.map((year) => (
-                      <option key={year} value={year}>
-                        {year}
-                      </option>
-                    ))}
-                  </select>
-                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                    <div className="bg-amber-100 rounded-full p-1.5">
-                      <Calendar className="w-5 h-5 text-amber-600" />
-                    </div>
-                  </div>
-                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-                    <ChevronDown className="w-5 h-5 text-gray-400" />
-                  </div>
-                </div>
-              </div>
-        
-              {/* Year Selection - Desktop */}
-              <div className="hidden md:block mb-12 overflow-x-auto">
-                <div className="flex flex-wrap justify-center gap-3 px-4">
-                  {years.map((year) => (
-                    <button
-                      key={year}
-                      onClick={() => setActiveYear(year)}
-                      className={`px-5 py-2.5 rounded-full transition-all duration-300 transform ${
-                        activeYear === year
-                          ? `bg-gradient-to-r ${getGradientClass(year)} text-white shadow-md scale-105`
-                          : 'bg-white text-gray-700 border border-gray-200 hover:bg-amber-50 hover:border-amber-200'
-                      }`}
-                    >
-                      <div className="flex items-center">
-                        {activeYear === year ? (
-                          <Star className="w-4 h-4 mr-2 text-white" />
-                        ) : (
-                          <Calendar className="w-4 h-4 mr-2 text-amber-600" />
-                        )}
-                        {year}
-                      </div>
-                    </button>
-                  ))}
-                </div>
-              </div>
-        
-              {/* Award Cards */}
-              <div className="max-w-6xl mx-auto">
-                {awardees
-                  .filter((item) => item.year === activeYear)
-                  .map((yearGroup, groupIndex) => (
-                    <div key={groupIndex} className="space-y-6">
-                      {yearGroup.recipients.map((recipient, rIndex) => (
-                        <div 
-                          key={rIndex} 
-                          className="bg-white rounded-xl overflow-hidden shadow-lg border border-gray-100 transform transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
-                        >
-                          <div className={`bg-gradient-to-r ${getGradientClass(yearGroup.year)} px-6 py-4 flex items-center`}>
-                            <div className="flex-1">
-                              <h3 className="text-xl md:text-2xl font-medium text-white">
-                                {recipient.name}
-                              </h3>
-                            </div>
-                            <div className="flex-shrink-0">
-                              <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
-                                <Award className="w-6 h-6 text-white" />
-                              </div>
-                            </div>
-                          </div>
-                          
-                          <div className="p-6">
-                            <div className="flex flex-col sm:flex-row sm:items-start gap-4">
-                              <div className="flex-shrink-0 sm:mt-1">
-                                <Medal className="w-6 h-6 text-amber-500" />
-                              </div>
-                              <div>
-                                <h4 className="text-sm uppercase text-amber-700 font-medium mb-2">
-                                  {currentContent.aboutTitle}
-                                </h4>
-                                <p className="text-gray-700 leading-relaxed">
-                                  {recipient.description}
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                          
-                          <div className="px-6 py-3 bg-gray-50 border-t border-gray-100 flex justify-between items-center">
-                            <div className="flex items-center">
-                              <Users className="w-4 h-4 text-amber-500 mr-2" />
-                              <span className="text-sm text-amber-700 font-medium">{currentContent.awardTitle}</span>
-                            </div>
-                            <span className="inline-flex items-center justify-center px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 text-xs font-medium">
-                              {yearGroup.year}
-                            </span>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  ))}
+  // Get color class for gradient based on year
+  const getGradientClass = (yearVal) => {
+    const index = years.indexOf(yearVal);
+    const gradientClasses = [
+      'from-orange-500 to-amber-600',
+      'from-amber-500 to-yellow-600',
+      'from-yellow-500 to-amber-600',
+      'from-lime-500 to-emerald-600',
+      'from-emerald-500 to-teal-600',
+      'from-teal-500 to-cyan-600',
+      'from-cyan-500 to-sky-600',
+      'from-sky-500 to-blue-600',
+      'from-blue-500 to-indigo-600',
+      'from-indigo-500 to-violet-600'
+    ];
+    return gradientClasses[index % gradientClasses.length];
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-orange-100 mt-44">
+      <div className="container mx-auto px-4 py-16">
+        {/* Header Section with elegant design */}
+        <div className="text-center mb-16">
+          <div className="relative inline-block">
+            <div className="absolute -top-10 left-1/2 transform -translate-x-1/2">
+              <div className="w-20 h-20 rounded-full bg-gradient-to-r from-amber-400 to-orange-500 flex items-center justify-center shadow-lg">
+                <Crown className="w-10 h-10 text-white" />
               </div>
             </div>
-          );
-        };
-        
-        export default KonguMamanigal;
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-amber-500 mt-12">
+  {currentContent.title}
+</h1>
+          </div>
+          <div className="h-1 w-40 bg-gradient-to-r from-emerald-400 to-amber-500 mx-auto my-6 rounded-full"></div>
+          <p className="text-gray-700 max-w-3xl mx-auto text-lg md:text-xl font-light">
+            {currentContent.subtitle}
+          </p>
+        </div>
+
+        {/* Year Selection - Mobile */}
+        <div className="md:hidden mb-8">
+          <div className="relative max-w-xs mx-auto">
+            <select
+              value={activeYear}
+              onChange={(e) => setActiveYear(e.target.value)}
+              className="appearance-none w-full p-4 pl-12 pr-10 rounded-xl border border-amber-200 bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent shadow-md text-lg"
+            >
+              {years.map((year) => (
+                <option key={year} value={year}>
+                  {year}
+                </option>
+              ))}
+            </select>
+            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+              <div className="bg-gradient-to-r from-amber-400 to-amber-500 rounded-lg p-2">
+                <Calendar className="w-5 h-5 text-white" />
+              </div>
+            </div>
+            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+              <ChevronDown className="w-5 h-5 text-amber-500" />
+            </div>
+          </div>
+        </div>
+
+        {/* Year Selection - Desktop */}
+        <div className="hidden md:block mb-12">
+          <div className="flex flex-wrap justify-center gap-4 px-4">
+            {years.map((year) => (
+              <button
+                key={year}
+                onClick={() => setActiveYear(year)}
+                className={`px-6 py-3 rounded-xl transition-all duration-300 transform ${
+                  activeYear === year
+                    ? `bg-gradient-to-r ${getGradientClass(year)} text-white shadow-lg scale-105`
+                    : 'bg-white text-gray-700 border border-amber-200 hover:bg-amber-50 hover:border-amber-300 shadow-md'
+                }`}
+              >
+                <div className="flex items-center">
+                  {activeYear === year ? (
+                    <Star className="w-5 h-5 mr-2 text-white" />
+                  ) : (
+                    <Calendar className="w-5 h-5 mr-2 text-amber-500" />
+                  )}
+                  <span className="font-medium text-lg">{year}</span>
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Award Cards Container */}
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 gap-8">
+            {/* Card placeholders or actual data if available */}
+            {awardees.length > 0 ? (
+              awardees
+                .filter((item) => item.year === activeYear)
+                .map((yearGroup, groupIndex) => (
+                  <div key={groupIndex} className="space-y-8">
+                    {yearGroup.recipients.map((recipient, rIndex) => (
+                      <div 
+                        key={rIndex} 
+                        className="bg-white rounded-2xl overflow-hidden shadow-xl border border-amber-100 transform transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl"
+                      >
+                        <div className={`bg-gradient-to-r ${getGradientClass(yearGroup.year)} px-6 py-5 flex items-center`}>
+                          <div className="flex-1">
+                            <h3 className="text-xl md:text-2xl font-bold text-white">
+                              {recipient.name}
+                            </h3>
+                          </div>
+                          <div className="flex-shrink-0">
+                            <div className="w-14 h-14 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                              <Award className="w-7 h-7 text-white" />
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <div className="p-6">
+                          <div className="flex flex-col sm:flex-row sm:items-start gap-4">
+                            <div className="flex-shrink-0 sm:mt-1">
+                              <Medal className="w-8 h-8 text-amber-500" />
+                            </div>
+                            <div>
+                              <h4 className="text-sm uppercase text-amber-700 font-semibold mb-2">
+                                {currentContent.aboutTitle}
+                              </h4>
+                              <p className="text-gray-700 leading-relaxed">
+                                {recipient.description}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <div className="px-6 py-4 bg-gradient-to-r from-amber-50 to-orange-50 border-t border-amber-100 flex justify-between items-center">
+                          <div className="flex items-center">
+                            <Users className="w-5 h-5 text-amber-500 mr-2" />
+                            <span className="text-sm text-amber-700 font-medium">{currentContent.awardTitle}</span>
+                          </div>
+                          <span className="inline-flex items-center justify-center px-3 py-1 rounded-full bg-gradient-to-r from-amber-400 to-amber-500 text-white text-xs font-medium">
+                            {yearGroup.year}
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ))
+            ) : (
+              // Placeholder Card when no data is available
+              <div className="bg-white rounded-2xl overflow-hidden shadow-xl border border-amber-100">
+                <div className={`bg-gradient-to-r from-amber-500 to-orange-500 px-6 py-5 flex items-center`}>
+                  <div className="flex-1">
+                    <h3 className="text-xl md:text-2xl font-bold text-white">
+                      Award Recipients
+                    </h3>
+                  </div>
+                  <div className="flex-shrink-0">
+                    <div className="w-14 h-14 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                      <Award className="w-7 h-7 text-white" />
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="p-10 text-center">
+                  <p className="text-amber-700 text-lg">
+                    Add your awardees data to display the recipients for each year
+                  </p>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default KonguMamanigal;

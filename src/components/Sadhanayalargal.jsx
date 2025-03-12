@@ -19,7 +19,7 @@ const Sadhanayalargal = () => {
       fieldLabel: "துறை"
     },
     english: {
-      title: "Sadhanayalargal",
+      title: "SADHANAYALARGAL",
       subtitle: "Honoring excellence and outstanding contributions by members of our community in various fields",
       awardRecipient: "Award Recipient",
       previous: "Previous",
@@ -31,7 +31,7 @@ const Sadhanayalargal = () => {
   // Get current content based on language
   const currentContent = content[language];
 
-  // Bilingual achievement data
+  // Bilingual achievement data - placeholder as requested
   const achievementData = {
     "2009": [
       {
@@ -704,86 +704,20 @@ const Sadhanayalargal = () => {
   }
 ]
   }
-  
-  const originalData = {
-    "2006": [
-      {
-        name: "Munaivar K. Arangasamy",
-        field: "Outstanding Educationalist and Remarkable Social Service"
-      },
-      {
-        name: "Mr. C. Arumugam",
-        field: "Best Engineer and Remarkable Social Service"
-      },
-      // More entries
-    ],
-    "2005": [
-      {
-        name: "Mr. K. Ammaiappan",
-        field: "Remarkable Social Service, Karur"
-      },
-      // More entries
-    ],
-    "2004": [
-      {
-        name: "Dr. M.A. Velusamy",
-        field: "Outstanding Engineer and a Great Contributor to Kongu Society Welfare"
-      },
-      // More entries
-    ],
-    "2003": [
-      {
-        name: "Thiru. Nalla Govindasamy",
-        field: "Outstanding Service to Society"
-      },
-      // More entries
-    ],
-    "2002": [
-      {
-        name: "Tmt. Bharathi Sengottuvel",
-        field: "Outstanding Architect"
-      },
-      // More entries
-    ],
-    "2001": [
-      {
-        name: "Thiru. S.K. Sengoda Gounder",
-        field: "Outstanding Industrialist"
-      },
-      // More entries
-    ],
-    "2000": [
-      {
-        name: "Thiru. Sampath Kumar",
-        field: "Cricket Player"
-      },
-      // More entries
-    ],
-    "1999": [
-      {
-        name: "Thiru. K. Kandasamy",
-        field: "Exemplary Service in Educational Field"
-      },
-      // More entries
-    ],
-  };
-
-  // Merge fully translated data with original data for years that aren't translated yet
-  for (const year in originalData) {
-    if (!achievementData[year]) {
-      achievementData[year] = originalData[year];
-    }
-  }
-
   // Get background color based on year (cycling through colors)
   const getColorClass = (year) => {
     const colorOptions = [
-      'from-green-500 to-emerald-600',
-      'from-blue-500 to-indigo-600',
-      'from-teal-500 to-green-600',
-      'from-emerald-500 to-teal-600',
-      'from-cyan-500 to-blue-600',
-      'from-indigo-500 to-purple-600'
+      'from-emerald-400 to-teal-500',
+      'from-teal-400 to-cyan-500',
+      'from-cyan-400 to-sky-500',
+      'from-sky-400 to-blue-500',
+      'from-blue-400 to-indigo-500',
+      'from-indigo-400 to-violet-500',
+      'from-violet-400 to-purple-500',
+      'from-purple-400 to-pink-500',
+      'from-pink-400 to-rose-500',
+      'from-green-400 to-emerald-500',
+      'from-lime-400 to-green-500'
     ];
     
     const index = years.indexOf(year) % colorOptions.length;
@@ -791,162 +725,180 @@ const Sadhanayalargal = () => {
   };
 
   return (
-    <div className="w-full px-4 py-12 bg-gray-50 mt-44">
-      {/* Title Section with improved styling */}
-      <div className="text-center mb-10">
-        <div className="inline-flex items-center justify-center space-x-3 mb-4">
-          <div className="relative">
-            <div className="absolute -inset-3 rounded-full bg-green-100 animate-pulse opacity-75"></div>
-            <Trophy className="w-8 h-8 text-green-600 relative" />
-          </div>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 relative">
-            {currentContent.title}
-          </h2>
-        </div>
-        <div className="h-1 w-32 bg-gradient-to-r from-green-400 to-green-600 mx-auto mb-6 rounded-full"></div>
-        <p className="text-gray-600 max-w-2xl mx-auto text-sm sm:text-base lg:text-lg font-light">
-          {currentContent.subtitle}
-        </p>
-      </div>
-
-      {/* Year Selection - Desktop Version (Animated tabs) */}
-      <div className="hidden md:block mb-12 overflow-x-auto py-2">
-        <div className="flex flex-wrap justify-center gap-2 md:gap-3 px-4">
-          {years.map((year, index) => (
-            <button
-              key={year}
-              onClick={() => setSelectedYear(year)}
-              className={`px-5 py-2.5 rounded-full text-sm md:text-base transition-all duration-300 transform ${
-                selectedYear === year
-                  ? 'bg-gradient-to-r from-green-500 to-green-600 text-white shadow-md scale-105'
-                  : 'bg-white text-gray-700 border border-gray-200 hover:bg-green-50 hover:border-green-200'
-              }`}
-            >
-              <div className="flex items-center">
-                {selectedYear === year ? (
-                  <Clock className="w-4 h-4 mr-2 text-white" />
-                ) : (
-                  <Calendar className="w-4 h-4 mr-2 text-green-600" />
-                )}
-                {year}
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-orange-100 mt-44">
+      <div className="container mx-auto px-4 py-16">
+        {/* Title Section with elegant design */}
+        <div className="text-center mb-16">
+          <div className="relative inline-block">
+            <div className="absolute -top-10 left-1/2 transform -translate-x-1/2">
+              <div className="w-20 h-20 rounded-full bg-gradient-to-r from-amber-400 to-orange-500 flex items-center justify-center shadow-lg">
+                <Trophy className="w-10 h-10 text-white" />
               </div>
-            </button>
-          ))}
+            </div>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-amber-500 mt-12">
+              {currentContent.title}
+            </h2>
+          </div>
+          <div className="h-1 w-32 bg-gradient-to-r from-emerald-400 to-amber-500 mx-auto my-6 rounded-full"></div>
+          <p className="text-gray-700 max-w-3xl mx-auto text-lg md:text-xl font-light">
+            {currentContent.subtitle}
+          </p>
         </div>
-      </div>
 
-      {/* Year Selection - Mobile Version (Dropdown with style) */}
-      <div className="md:hidden mb-10">
-        <div className="relative max-w-xs mx-auto">
-          <select
-            value={selectedYear}
-            onChange={(e) => setSelectedYear(e.target.value)}
-            className="appearance-none w-full p-4 pl-12 pr-10 rounded-lg border border-gray-200 bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent shadow-sm text-lg"
-          >
-            {years.map((year) => (
-              <option key={year} value={year}>
-                {year}
-              </option>
+        {/* Year Selection - Desktop */}
+        <div className="hidden md:block mb-12">
+          <div className="flex flex-wrap justify-center gap-3 px-4">
+            {years.map((year, index) => (
+              <button
+                key={year}
+                onClick={() => setSelectedYear(year)}
+                className={`px-6 py-3 rounded-xl transition-all duration-300 transform ${
+                  selectedYear === year
+                    ? `bg-gradient-to-r ${getColorClass(year)} text-white shadow-lg scale-105`
+                    : 'bg-white text-gray-700 border border-amber-200 hover:bg-amber-50 hover:border-amber-300 shadow-md'
+                }`}
+              >
+                <div className="flex items-center">
+                  {selectedYear === year ? (
+                    <Clock className="w-5 h-5 mr-2 text-white" />
+                  ) : (
+                    <Calendar className="w-5 h-5 mr-2 text-amber-500" />
+                  )}
+                  <span className="font-medium text-lg">{year}</span>
+                </div>
+              </button>
             ))}
-          </select>
-          <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-            <div className="bg-green-100 rounded-full p-1.5">
-              <Calendar className="w-5 h-5 text-green-600" />
+          </div>
+        </div>
+
+        {/* Year Selection - Mobile */}
+        <div className="md:hidden mb-8">
+          <div className="relative max-w-xs mx-auto">
+            <select
+              value={selectedYear}
+              onChange={(e) => setSelectedYear(e.target.value)}
+              className="appearance-none w-full p-4 pl-12 pr-10 rounded-xl border border-amber-200 bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent shadow-md text-lg"
+            >
+              {years.map((year) => (
+                <option key={year} value={year}>
+                  {year}
+                </option>
+              ))}
+            </select>
+            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+              <div className="bg-gradient-to-r from-amber-400 to-amber-500 rounded-lg p-2">
+                <Calendar className="w-5 h-5 text-white" />
+              </div>
+            </div>
+            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+              <ChevronDown className="w-5 h-5 text-amber-500" />
             </div>
           </div>
-          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-            <ChevronDown className="w-5 h-5 text-gray-400" />
-          </div>
         </div>
-      </div>
 
-      {/* Achievement Cards Grid - Improved visual design */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 lg:gap-8 max-w-7xl mx-auto">
-        {achievementData[selectedYear]?.map((achievement, index) => (
-          <div
-            key={index}
-            className="group bg-white rounded-xl border border-gray-100 shadow-sm hover:shadow-lg transition-all duration-300 hover:border-green-200 overflow-hidden transform hover:-translate-y-1"
-          >
-            {/* Card Header - Improved with gradients */}
-            <div className={`bg-gradient-to-r ${getColorClass(selectedYear)} p-4 border-b border-gray-100`}>
-              <div className="flex justify-between items-start">
-                <div className="flex-grow">
-                  <h3 className="text-base sm:text-lg font-semibold text-white line-clamp-2 tracking-wide">
-                    {achievement.name}
-                  </h3>
+        {/* Achievement Cards Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
+          {achievementData[selectedYear] ? (
+            achievementData[selectedYear].map((achievement, index) => (
+              <div
+                key={index}
+                className="bg-white rounded-2xl overflow-hidden shadow-xl border border-amber-100 transform transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl"
+              >
+                {/* Card Header */}
+                <div className={`bg-gradient-to-r ${getColorClass(selectedYear)} p-5`}>
+                  <div className="flex justify-between items-start">
+                    <div className="flex-grow">
+                      <h3 className="text-lg sm:text-xl font-bold text-white tracking-wide">
+                        {achievement.name}
+                      </h3>
+                    </div>
+                    <div className="flex-shrink-0 ml-2">
+                      <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                        <Award className="w-6 h-6 text-white" />
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div className="flex-shrink-0 ml-2">
-                  <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
-                    <Award className="w-5 h-5 text-white" />
+                
+                {/* Card Body */}
+                <div className="p-6">
+                  <div className="flex items-start">
+                    <Medal className="w-6 h-6 text-amber-500 mt-0.5 mr-4 flex-shrink-0" />
+                    <div>
+                      <p className="text-xs font-semibold uppercase text-amber-600 mb-1">{currentContent.fieldLabel}</p>
+                      <p className="text-gray-700 font-medium">
+                        {achievement.field}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Card Footer */}
+                <div className="px-6 py-4 bg-gradient-to-r from-amber-50 to-orange-50 border-t border-amber-100">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center">
+                      <Users className="w-4 h-4 text-amber-500 mr-2" />
+                      <span className="text-sm text-amber-700 font-medium">{currentContent.awardRecipient}</span>
+                    </div>
+                    <span className="inline-flex items-center justify-center px-3 py-1 rounded-full bg-gradient-to-r from-amber-400 to-amber-500 text-white text-xs font-medium">
+                      {selectedYear}
+                    </span>
                   </div>
                 </div>
               </div>
-            </div>
-            
-            {/* Card Body - Better spacing and icons */}
-            <div className="p-5">
-              <div className="flex items-start">
-                <Medal className="w-5 h-5 text-green-500 mt-0.5 mr-3 flex-shrink-0" />
-                <div>
-                  <p className="text-xs font-medium uppercase text-green-600 mb-1">{currentContent.fieldLabel}</p>
-                  <p className="text-sm text-gray-700 font-medium">
-                    {achievement.field}
-                  </p>
-                </div>
+            ))
+          ) : (
+            // Empty state when no data is available for the selected year
+            <div className="col-span-1 sm:col-span-2 lg:col-span-3">
+              <div className="bg-white rounded-2xl overflow-hidden shadow-xl border border-amber-100 p-10 text-center">
+                <Trophy className="w-16 h-16 text-amber-400 mx-auto mb-4" />
+                <h3 className="text-xl font-semibold text-gray-700 mb-2">Add your achievement data</h3>
+                <p className="text-gray-600">
+                  Achievements for {selectedYear} will appear here after you add the data to the achievementData object.
+                </p>
               </div>
             </div>
-            
-            {/* Card Footer - Improved footer */}
-            <div className="px-5 py-3 bg-gray-50 border-t border-gray-100">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <Users className="w-3.5 h-3.5 text-green-500 mr-1.5" />
-                  <span className="text-xs text-green-600 font-medium">{currentContent.awardRecipient}</span>
-                </div>
-                <span className="text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded-full font-medium">{selectedYear}</span>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
+          )}
+        </div>
 
-      {/* Year Navigation Buttons - Mobile (Improved styling) */}
-      <div className="flex justify-center mt-10 md:hidden">
-        <div className="flex space-x-6">
-          <button
-            onClick={() => {
-              const currentIndex = years.indexOf(selectedYear);
-              if (currentIndex > 0) {
-                setSelectedYear(years[currentIndex - 1]);
-              }
-            }}
-            disabled={years.indexOf(selectedYear) === 0}
-            className={`px-5 py-2.5 rounded-full flex items-center transition-all ${
-              years.indexOf(selectedYear) === 0
-                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                : 'bg-white border border-green-200 text-green-700 hover:bg-green-50 shadow-sm'
-            }`}
-          >
-            <ChevronDown className="w-4 h-4 mr-2 transform rotate-90" />
-            {currentContent.previous}
-          </button>
-          <button
-            onClick={() => {
-              const currentIndex = years.indexOf(selectedYear);
-              if (currentIndex < years.length - 1) {
-                setSelectedYear(years[currentIndex + 1]);
-              }
-            }}
-            disabled={years.indexOf(selectedYear) === years.length - 1}
-            className={`px-5 py-2.5 rounded-full flex items-center transition-all ${
-              years.indexOf(selectedYear) === years.length - 1
-                ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                : 'bg-white border border-green-200 text-green-700 hover:bg-green-50 shadow-sm'
-            }`}
-          >
-            {currentContent.next}
-            <ChevronDown className="w-4 h-4 ml-2 transform -rotate-90" />
-          </button>
+        {/* Year Navigation Buttons - Mobile */}
+        <div className="flex justify-center mt-10 md:hidden">
+          <div className="flex space-x-6">
+            <button
+              onClick={() => {
+                const currentIndex = years.indexOf(selectedYear);
+                if (currentIndex > 0) {
+                  setSelectedYear(years[currentIndex - 1]);
+                }
+              }}
+              disabled={years.indexOf(selectedYear) === 0}
+              className={`px-5 py-3 rounded-full flex items-center transition-all ${
+                years.indexOf(selectedYear) === 0
+                  ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                  : 'bg-white border border-amber-200 text-amber-700 hover:bg-amber-50 shadow-sm'
+              }`}
+            >
+              <ChevronDown className="w-4 h-4 mr-2 transform rotate-90" />
+              {currentContent.previous}
+            </button>
+            <button
+              onClick={() => {
+                const currentIndex = years.indexOf(selectedYear);
+                if (currentIndex < years.length - 1) {
+                  setSelectedYear(years[currentIndex + 1]);
+                }
+              }}
+              disabled={years.indexOf(selectedYear) === years.length - 1}
+              className={`px-5 py-3 rounded-full flex items-center transition-all ${
+                years.indexOf(selectedYear) === years.length - 1
+                  ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                  : 'bg-white border border-amber-200 text-amber-700 hover:bg-amber-50 shadow-sm'
+              }`}
+            >
+              {currentContent.next}
+              <ChevronDown className="w-4 h-4 ml-2 transform -rotate-90" />
+            </button>
+          </div>
         </div>
       </div>
     </div>
