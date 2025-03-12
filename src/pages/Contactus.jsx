@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapPin, Phone, Mail, Navigation, Compass, Building, Home } from 'lucide-react';
+import { MapPin, Phone, Mail, Navigation, Compass, Building, Home, ExternalLink } from 'lucide-react';
 import PartnersShowcase from '../components/ad';
 import { useLanguage } from '../contexts/LanguageContext';
 
@@ -12,13 +12,19 @@ const ContactPage = () => {
       title: "எங்களை தொடர்பு கொள்ள",
       subtitle: "எங்கள் எந்த இடத்திலும் எங்களை தொடர்பு கொள்ளவும்",
       scanDirections: "திசைகளுக்கு ஸ்கேன் செய்யவும்",
-      openInMaps: "வரைபடங்களில் திறக்கவும்"
+      openInMaps: "வரைபடங்களில் திறக்கவும்",
+      address: "முகவரி",
+      phoneNumbers: "தொலைபேசி எண்கள்",
+      emailUs: "மின்னஞ்சல் முகவரிகள்"
     },
     english: {
       title: "Contact Us",
       subtitle: "Get in touch with us at any of our locations",
       scanDirections: "Scan for directions",
-      openInMaps: "Open in Maps"
+      openInMaps: "Open in Maps",
+      address: "Address",
+      phoneNumbers: "Phone Numbers",
+      emailUs: "Email Us"
     }
   };
 
@@ -65,122 +71,152 @@ const ContactPage = () => {
   // Get gradient class based on index
   const getBgGradient = (index) => {
     const gradients = [
-      'from-green-600 to-emerald-700',
-      'from-teal-600 to-green-700',
-      'from-cyan-600 to-teal-700',
+      'from-emerald-400 to-teal-500',
+      'from-teal-400 to-cyan-500',
+      'from-cyan-400 to-sky-500',
     ];
     return gradients[index % gradients.length];
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-green-50/30 mt-16">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-orange-100 mt-16">
       {/* Top padding that adjusts for different screen sizes */}
       <div className="pt-20 md:pt-28">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
-          {/* Page Title */}
-          <div className="text-center mb-12 sm:mb-16">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 mb-4">
-              {currentContent.title}
-            </h1>
-            <div className="h-1 w-24 sm:w-32 bg-gradient-to-r from-green-400 to-green-600 mx-auto mb-6 rounded-full"></div>
-            <p className="text-gray-600 max-w-2xl mx-auto text-lg">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
+          {/* Page Title with elegant styling */}
+          <div className="text-center mb-16">
+            <div className="relative mb-6">
+              <div className="absolute inset-0 blur-3xl opacity-30 bg-gradient-to-r from-emerald-300 to-teal-300 rounded-full transform -translate-y-1/2"></div>
+              <div className="relative">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-600 tracking-tight">
+                  {currentContent.title}
+                </h1>
+              </div>
+            </div>
+            <div className="h-1 w-32 bg-gradient-to-r from-emerald-400 to-teal-500 mx-auto mb-6 rounded-full"></div>
+            <p className="text-gray-700 max-w-2xl mx-auto text-lg">
               {currentContent.subtitle}
             </p>
           </div>
 
-          {/* Location Cards - Enhanced Design */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          {/* Location Cards - Premium Design */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {locations.map((location, index) => (
               <div 
                 key={index} 
-                className="bg-white rounded-xl shadow-md border border-gray-100 overflow-hidden hover:shadow-lg hover:border-green-200 transition-all duration-300 transform hover:-translate-y-1"
+                className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl border border-emerald-100 overflow-hidden transition-all duration-500 transform hover:-translate-y-2 hover:shadow-2xl hover:border-emerald-200"
               >
-                {/* Location Image with Improved Styling */}
-                <div className="relative h-56 sm:h-64 overflow-hidden bg-gray-50">
+                {/* Location Image with Premium Styling */}
+                <div className="relative h-64 overflow-hidden bg-gray-50">
                   <img 
                     src={location.image} 
                     alt={location.title} 
-                    className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-500"
+                    className="w-full h-full object-cover transition-transform duration-700 transform hover:scale-110"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                  <div className={`absolute inset-0 bg-gradient-to-t from-black/60 via-black/40 to-transparent opacity-80`} />
+                  <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${getBgGradient(index)}`}></div>
                   
-                  {/* Title with icon */}
-                  <div className="absolute bottom-0 left-0 right-0 p-5">
+                  {/* Title with elegant styling */}
+                  <div className="absolute bottom-0 left-0 right-0 p-6">
                     <div className="flex items-center">
-                      <div className="bg-white/20 backdrop-blur-sm p-2 rounded-full mr-3">
-                        {React.createElement(location.icon, { className: "w-5 h-5 text-white" })}
+                      <div className={`bg-gradient-to-r ${getBgGradient(index)} p-3 rounded-full mr-4 shadow-lg`}>
+                        {React.createElement(location.icon, { className: "w-6 h-6 text-white" })}
                       </div>
-                      <h3 className="text-white text-xl font-semibold line-clamp-2">
+                      <h3 className="text-white text-xl md:text-2xl font-semibold line-clamp-2 tracking-wide">
                         {location.title}
                       </h3>
                     </div>
                   </div>
                 </div>
 
-                {/* Location Details - Enhanced */}
-                <div className="p-5 sm:p-6">
-                  {/* Address */}
-                  <div className="flex space-x-3 mb-5">
-                    <MapPin className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
-                    <p className="text-gray-700">{location.address}</p>
+                {/* Location Details - Premium Design */}
+                <div className="p-6">
+                  {/* Address Section */}
+                  <div className="mb-6">
+                    <div className="flex items-center mb-3">
+                      <div className={`w-8 h-1 bg-gradient-to-r ${getBgGradient(index)} rounded-full mr-2`}></div>
+                      <h4 className="text-sm font-semibold uppercase text-emerald-800">
+                        {currentContent.address}
+                      </h4>
+                    </div>
+                    <div className="flex space-x-3">
+                      <MapPin className="w-5 h-5 text-emerald-500 mt-0.5 flex-shrink-0" />
+                      <p className="text-gray-700 leading-relaxed">{location.address}</p>
+                    </div>
                   </div>
                   
-                  {/* Contact Divider */}
-                  <div className="h-px w-full bg-gray-100 mb-5"></div>
-                  
-                  {/* Phone Numbers */}
-                  <div className="space-y-3 mb-5">
-                    {location.phones.map((phone, idx) => (
-                      <a 
-                        key={idx} 
-                        href={`tel:${phone.replace(/[^0-9]/g, '')}`} 
-                        className="flex items-center space-x-3 text-gray-600 hover:text-green-700 transition-colors group"
-                      >
-                        <div className="bg-gray-50 group-hover:bg-green-50 p-2 rounded-full transition-colors">
-                          <Phone className="w-4 h-4 text-green-600 flex-shrink-0" />
-                        </div>
-                        <span className="text-sm font-medium">{phone}</span>
-                      </a>
-                    ))}
-                  </div>
-
-                  {/* Email Addresses */}
-                  <div className="space-y-3">
-                    {location.emails.map((email, idx) => (
-                      <a 
-                        key={idx} 
-                        href={`mailto:${email}`} 
-                        className="flex items-center space-x-3 text-gray-600 hover:text-green-700 transition-colors group"
-                      >
-                        <div className="bg-gray-50 group-hover:bg-green-50 p-2 rounded-full transition-colors">
-                          <Mail className="w-4 h-4 text-green-600 flex-shrink-0" />
-                        </div>
-                        <span className="text-sm font-medium break-all">{email}</span>
-                      </a>
-                    ))}
-                  </div>
-
-                  {/* QR Code and Map Link - Improved Design */}
-                  {location.qrCode && (
-                    <div className="flex items-center justify-between mt-6 pt-5 border-t border-gray-100">
-                      <div>
-                        <p className="text-xs text-gray-500 mb-2">{currentContent.scanDirections}</p>
+                  {/* Phone Numbers Section */}
+                  <div className="mb-6">
+                    <div className="flex items-center mb-3">
+                      <div className={`w-8 h-1 bg-gradient-to-r ${getBgGradient(index)} rounded-full mr-2`}></div>
+                      <h4 className="text-sm font-semibold uppercase text-emerald-800">
+                        {currentContent.phoneNumbers}
+                      </h4>
+                    </div>
+                    <div className="space-y-2">
+                      {location.phones.map((phone, idx) => (
                         <a 
-                          href={`https://maps.google.com/?q=${encodeURIComponent(location.address)}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center text-green-600 text-sm hover:text-green-700 bg-green-50 hover:bg-green-100 px-3 py-1.5 rounded-full transition-colors"
+                          key={idx} 
+                          href={`tel:${phone.replace(/[^0-9]/g, '')}`} 
+                          className="flex items-center space-x-3 text-gray-700 hover:text-emerald-600 transition-colors group"
                         >
-                          <Navigation className="w-3.5 h-3.5 mr-1.5" />
-                          {currentContent.openInMaps}
+                          <div className="w-8 h-8 rounded-full bg-emerald-50 group-hover:bg-emerald-100 flex items-center justify-center transition-colors">
+                            <Phone className="w-4 h-4 text-emerald-500 group-hover:text-emerald-600" />
+                          </div>
+                          <span className="text-sm font-medium">{phone}</span>
                         </a>
-                      </div>
-                      <div className="bg-white p-1 rounded-lg shadow-sm border border-gray-100">
-                        <img 
-                          src={location.qrCode} 
-                          alt="Location QR" 
-                          className="w-24 h-24 object-contain"
-                        />
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Email Addresses Section */}
+                  <div className="mb-6">
+                    <div className="flex items-center mb-3">
+                      <div className={`w-8 h-1 bg-gradient-to-r ${getBgGradient(index)} rounded-full mr-2`}></div>
+                      <h4 className="text-sm font-semibold uppercase text-emerald-800">
+                        {currentContent.emailUs}
+                      </h4>
+                    </div>
+                    <div className="space-y-2">
+                      {location.emails.map((email, idx) => (
+                        <a 
+                          key={idx} 
+                          href={`mailto:${email}`} 
+                          className="flex items-center space-x-3 text-gray-700 hover:text-emerald-600 transition-colors group"
+                        >
+                          <div className="w-8 h-8 rounded-full bg-emerald-50 group-hover:bg-emerald-100 flex items-center justify-center transition-colors">
+                            <Mail className="w-4 h-4 text-emerald-500 group-hover:text-emerald-600" />
+                          </div>
+                          <span className="text-sm font-medium break-all">{email}</span>
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* QR Code and Map Link - Premium Design */}
+                  {location.qrCode && (
+                    <div className="mt-6 pt-6 border-t border-emerald-100">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="text-xs text-gray-500 mb-3">{currentContent.scanDirections}</p>
+                          <a 
+                            href={`https://maps.google.com/?q=${encodeURIComponent(location.address)}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center text-white text-sm font-medium bg-gradient-to-r from-emerald-500 to-teal-600 px-4 py-2 rounded-full transition-all duration-300 hover:shadow-md hover:from-emerald-600 hover:to-teal-700"
+                          >
+                            <Navigation className="w-4 h-4 mr-2" />
+                            {currentContent.openInMaps}
+                            <ExternalLink className="w-3.5 h-3.5 ml-1.5" />
+                          </a>
+                        </div>
+                        <div className="bg-white rounded-xl shadow-md border border-emerald-100 p-2 hover:shadow-lg transition-shadow">
+                          <img 
+                            src={location.qrCode} 
+                            alt="Location QR" 
+                            className="w-24 h-24 object-contain"
+                          />
+                        </div>
                       </div>
                     </div>
                   )}

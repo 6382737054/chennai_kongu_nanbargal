@@ -114,7 +114,7 @@ const YearlyMagazineArchive = () => {
                   <LibraryBig className="w-8 h-8 text-emerald-500" />
                 </div>
               </div>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-sky-600 tracking-tight">
+              <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-sky-600 tracking-tight">
                 {currentContent.title}
               </h1>
             </div>
